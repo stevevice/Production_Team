@@ -60,7 +60,7 @@ public class UnitMove : MonoBehaviour {
 
             if (rotate != 0 && speed != 0)      //if we have input and we are moving
             {
-                gameObject.transform.Rotate(new Vector3(0f, rotate * handling, 0f));    //Rotate
+                gameObject.transform.Rotate(new Vector3(0f, (rotate * handling) / 50, 0f));    //Rotate
             }
 
             MoveUnit();
