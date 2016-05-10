@@ -5,8 +5,7 @@ using System.Collections.Generic;
 public class UnitMove : MonoBehaviour {
     
     //General Unit Info
-    float health;               //How far away from being destroyed
-    float speed;                //How fast is the Unit moving
+    public float speed;         //How fast is the Unit moving
     public float maxSpeed;      //What is the fastes possible speed for a Unit to move at
     public float acceleration;  //How much speed is added when able to accelerate.
     public float handling;      //How fast can the Unit turn?
@@ -24,11 +23,16 @@ public class UnitMove : MonoBehaviour {
         speed = 0;                                              //Set speed
         forward = Vector3.forward / 200;                        //Scaling the forward. Vector3.forward was too much by itself
         goToPoint = points[0];
-        if (!gameObject.CompareTag("Player")){
-            nav = gameObject.GetComponent<NavMeshAgent>();
-            nav.SetDestination(goToPoint.position);
-            nav.angularSpeed = handling;
-        }       
+        nav = gameObject.GetComponent<NavMeshAgent>();       //Set Nav Agent
+        if (!gameObject.CompareTag("Player")){              //If not the player
+            nav.SetDestination(goToPoint.position);         //set Destination
+            nav.angularSpeed = handling;                    //set angular speed to handling son we do not have to touch the Nav Agent
+        }
+         
+        else       //If the player 
+        {
+            points = null;  //Points are empty
+        }
     }
 	
 	void FixedUpdate () {
@@ -63,37 +67,37 @@ public class UnitMove : MonoBehaviour {
                 gameObject.transform.Rotate(new Vector3(0f, (rotate * handling) / 50, 0f));    //Rotate
             }
 
-            MoveUnit();
+            MoveUnit();     //Move the Unit
             
         }
 
-        else     //Else if not the player
+        else if (!gameObject.CompareTag("Player"))    //Else if not the player
         {
-            if (speed < maxSpeed)
+            if (speed < maxSpeed)       //If we are not going at max speed
             {
-                speed += acceleration;
+                speed += acceleration;  //Increace speed
             }
 
-            else
+            else       //If speed is greater than max
             {
-                speed = maxSpeed;
+                speed = maxSpeed;   //speed is max
             }
 
-            MoveUnit();
+            MoveUnit();     //Move Unit
 
-            float dist = Vector3.Distance(gameObject.transform.position, goToPoint.position);
-            if (nav.remainingDistance != Mathf.Infinity && dist <= nav.stoppingDistance)
+            float dist = Vector3.Distance(gameObject.transform.position, goToPoint.position);   //How far away are we from the destination
+            if (nav.remainingDistance != Mathf.Infinity && dist <= nav.stoppingDistance)        //If within bounds of the acceptable area
             {
-                if (points.IndexOf(goToPoint) + 1 >= points.Count)
+                if (points.IndexOf(goToPoint) + 1 >= points.Count)  //if the last item in the list
                 {
-                    goToPoint = points[0];
-                    nav.destination = goToPoint.position;
+                    goToPoint = points[0];                  //Next point is the beginning
+                    nav.destination = goToPoint.position;   //switch destination
                 }
 
                 else
                 {
-                    goToPoint = points[points.IndexOf(goToPoint) + 1];
-                    nav.destination = goToPoint.position;
+                    goToPoint = points[points.IndexOf(goToPoint) + 1];  //Set next point
+                    nav.destination = goToPoint.position;               //Go to the next point
                 }
             }           
         }
@@ -101,6 +105,7 @@ public class UnitMove : MonoBehaviour {
 
     void MoveUnit() //Locgic that determines how fast a Unit goes
     {
+        //Debug.Log(nav.velocity + "Dot Product: " + nav.velocity.magnitude);       ///Key to changing velocity
         if (speed >= maxSpeed)  //If going faster than max speed
         {
             unitTransform.Translate(forward * maxSpeed, Space.Self);    //move at max speed
