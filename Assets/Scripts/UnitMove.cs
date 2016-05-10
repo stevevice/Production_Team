@@ -15,18 +15,20 @@ public class UnitMove : MonoBehaviour {
     Vector3 forward;    //This Vector will referance the forward of an object.
 
     //AI Controlled Unit Variables
-    public float closness; 
     public List<Transform> points;
-    [SerializeField]
     Transform goToPoint;
-    Vector3 min;
-    Vector3 max;
+    NavMeshAgent nav;
 
     void Start () {
         unitTransform = gameObject.GetComponent<Transform>();   //Get transform
         speed = 0;                                              //Set speed
         forward = Vector3.forward / 200;                        //Scaling the forward. Vector3.forward was too much by itself
         goToPoint = points[0];
+        if (!gameObject.CompareTag("Player")){
+            nav = gameObject.GetComponent<NavMeshAgent>();
+            nav.SetDestination(goToPoint.position);
+            nav.angularSpeed = handling;
+        }       
     }
 	
 	void FixedUpdate () {
@@ -67,39 +69,34 @@ public class UnitMove : MonoBehaviour {
 
         else     //Else if not the player
         {
-            if (speed < maxSpeed)    //If the Unit Isn't going at max speed
+            if (speed < maxSpeed)
             {
-                speed += acceleration;  //add speed
+                speed += acceleration;
             }
 
-            Vector3 dist = (goToPoint.position - gameObject.transform.position).normalized;
-            float dotProd = Vector3.Dot(dist, gameObject.transform.forward);
-
-            if(dotProd < .999f)
+            else
             {
-                gameObject.transform.Rotate(new Vector3(0f, handling, 0f));    //Rotate
+                speed = maxSpeed;
             }
 
-            min = goToPoint.transform.position - new Vector3(closness, 0, closness);
-            max = goToPoint.transform.position + new Vector3(closness, 0, closness);
+            MoveUnit();
 
-            if(IsClosToTarget(min, max))
+            float dist = Vector3.Distance(gameObject.transform.position, goToPoint.position);
+            if (nav.remainingDistance != Mathf.Infinity && dist <= nav.stoppingDistance)
             {
-                
-                if(points.IndexOf(goToPoint) + 1 == points.Count)
+                if (points.IndexOf(goToPoint) + 1 >= points.Count)
                 {
                     goToPoint = points[0];
+                    nav.destination = goToPoint.position;
                 }
 
                 else
                 {
                     goToPoint = points[points.IndexOf(goToPoint) + 1];
+                    nav.destination = goToPoint.position;
                 }
-            }
-
-            MoveUnit();
+            }           
         }
-        
 	}
 
     void MoveUnit() //Locgic that determines how fast a Unit goes
@@ -113,20 +110,6 @@ public class UnitMove : MonoBehaviour {
         {
             unitTransform.Translate(forward * speed, Space.Self);   //move at speed
         }
-    }
-
-    bool IsClosToTarget(Vector3 min, Vector3 max)
-    {
-        if(min.x <= gameObject.transform.position.x && gameObject.transform.position.x <= max.x)
-        {
-            if (min.z <= gameObject.transform.position.z && gameObject.transform.position.z <= max.z)
-            {
-                Debug.Log("Close");
-                return true;
-            }
-        }
-
-        return false;
     }
 
     void OnCollisionEnter(Collision other)  //If collides with another collider
