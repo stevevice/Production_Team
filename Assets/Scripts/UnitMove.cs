@@ -105,7 +105,7 @@ public class UnitMove : MonoBehaviour {
                 nav.speed = speed * .125f;
             }
 
-            else
+            else     //Else return normal speed
             {
                 nav.speed = .1f;
             }
