@@ -23,10 +23,10 @@ public class UnitMove : MonoBehaviour {
         speed = 0;                                              //Set speed
         forward = Vector3.forward / 200;                        //Scaling the forward. Vector3.forward was too much by itself
         goToPoint = points[0];
-        nav = gameObject.GetComponent<NavMeshAgent>();       //Set Nav Agent
+        nav = gameObject.GetComponent<NavMeshAgent>();      //Set Nav Agent
         if (!gameObject.CompareTag("Player")){              //If not the player
             nav.SetDestination(goToPoint.position);         //set Destination
-            nav.angularSpeed = handling;                    //set angular speed to handling son we do not have to touch the Nav Agent
+            nav.angularSpeed = handling;            //set angular speed to handling son we do not have to touch the Nav Agent
         }
          
         else       //If the player 
@@ -64,7 +64,7 @@ public class UnitMove : MonoBehaviour {
 
             if (rotate != 0 && speed != 0)      //if we have input and we are moving
             {
-                gameObject.transform.Rotate(new Vector3(0f, (rotate * handling) / 50, 0f));    //Rotate
+                gameObject.transform.Rotate(new Vector3(0f, (rotate * handling / speed) / 50, 0f));    //Rotate
             }
 
             MoveUnit();     //Move the Unit
@@ -73,6 +73,7 @@ public class UnitMove : MonoBehaviour {
 
         else if (!gameObject.CompareTag("Player"))    //Else if not the player
         {
+            
             if (speed < maxSpeed)       //If we are not going at max speed
             {
                 speed += acceleration;  //Increace speed
@@ -82,6 +83,9 @@ public class UnitMove : MonoBehaviour {
             {
                 speed = maxSpeed;   //speed is max
             }
+
+            if(speed > 0)
+                nav.angularSpeed = handling / (speed / maxSpeed);
 
             MoveUnit();     //Move Unit
 
