@@ -5,71 +5,119 @@ using System.Collections.Generic;
 public class UnitMove : MonoBehaviour {
     
     //General Unit Info
-    float health;
-    float speed;
-    public float maxSpeed;
-    public float acceleration;
-    public float handling;
-    Transform unitTransform;
+    public float speed;         //How fast is the Unit moving
+    public float maxSpeed;      //What is the fastes possible speed for a Unit to move at
+    public float acceleration;  //How much speed is added when able to accelerate.
+    public float handling;      //How fast can the Unit turn?
+    Transform unitTransform;    //The Transform of the Unit.
 
+    Vector3 forward;    //This Vector will referance the forward of an object.
 
-	void Start () {
-        unitTransform = gameObject.GetComponent<Transform>();
-        speed = 0;
-	}
+    //AI Controlled Unit Variables
+    public List<Transform> points;
+    Transform goToPoint;
+    NavMeshAgent nav;
+
+    void Start () {
+        unitTransform = gameObject.GetComponent<Transform>();   //Get transform
+        speed = 0;                                              //Set speed
+        forward = Vector3.forward / 200;                        //Scaling the forward. Vector3.forward was too much by itself
+        goToPoint = points[0];
+        nav = gameObject.GetComponent<NavMeshAgent>();       //Set Nav Agent
+        if (!gameObject.CompareTag("Player")){              //If not the player
+            nav.SetDestination(goToPoint.position);         //set Destination
+            nav.angularSpeed = handling;                    //set angular speed to handling son we do not have to touch the Nav Agent
+        }
+         
+        else       //If the player 
+        {
+            points = null;  //Points are empty
+        }
+    }
 	
-	void Update () {
+	void FixedUpdate () {
         
         if(gameObject.tag == "Player")  //If tyhe Unit is the player
         {
             float rotate = Input.GetAxis("Horizontal");             //Will get Unit's forward
             
-            if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+            if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))    //If player pushes down the "gas"
             {
-                if(speed >= maxSpeed)
+                if(speed < maxSpeed)    //If the Unit Isn't going at max speed
                 {
-                    unitTransform.Translate(Vector3.forward , Space.Self);
-                }
-
-                else
-                {
-                    unitTransform.Translate(Vector3.forward , Space.Self);
-                    speed += acceleration;
-                }
+                    speed += acceleration;  //add speed
+                }         
             }         
 
-            else   //
+            else    //else if no input
             {
-                if(speed > 0)
+                if(speed > 0)   //speed is greater than 0
                 {
-                    speed -= .3f;
+                    speed -= .3f;   //decreace speed
                 }
 
-                else
+                else      //else set speed to 0.
                 {
                     speed = 0;
                 }
             }
 
-            if (rotate != 0 && speed != 0)                        //rotate the Unit.
+            if (rotate != 0 && speed != 0)      //if we have input and we are moving
             {
-                gameObject.transform.Rotate(new Vector3(0f, rotate * handling, 0f));
+                gameObject.transform.Rotate(new Vector3(0f, (rotate * handling) / 50, 0f));    //Rotate
             }
+
+            MoveUnit();     //Move the Unit
+            
         }
 
-        else
+        else if (!gameObject.CompareTag("Player"))    //Else if not the player
         {
+            if (speed < maxSpeed)       //If we are not going at max speed
+            {
+                speed += acceleration;  //Increace speed
+            }
 
+            else       //If speed is greater than max
+            {
+                speed = maxSpeed;   //speed is max
+            }
+
+            MoveUnit();     //Move Unit
+
+            float dist = Vector3.Distance(gameObject.transform.position, goToPoint.position);   //How far away are we from the destination
+            if (nav.remainingDistance != Mathf.Infinity && dist <= nav.stoppingDistance)        //If within bounds of the acceptable area
+            {
+                if (points.IndexOf(goToPoint) + 1 >= points.Count)  //if the last item in the list
+                {
+                    goToPoint = points[0];                  //Next point is the beginning
+                    nav.destination = goToPoint.position;   //switch destination
+                }
+
+                else
+                {
+                    goToPoint = points[points.IndexOf(goToPoint) + 1];  //Set next point
+                    nav.destination = goToPoint.position;               //Go to the next point
+                }
+            }           
         }
-        
 	}
 
-    void Lerp(Vector3 speed)    //This function will deal with moving the Unit. Just pass in the vector by how much you would like it to move by.
+    void MoveUnit() //Locgic that determines how fast a Unit goes
     {
-        gameObject.transform.position = new Vector3(gameObject.transform.position.x + speed.x, gameObject.transform.position.y + speed.y, gameObject.transform.position.z + speed.z);
+        //Debug.Log(nav.velocity + "Dot Product: " + nav.velocity.magnitude);       ///Key to changing velocity
+        if (speed >= maxSpeed)  //If going faster than max speed
+        {
+            unitTransform.Translate(forward * maxSpeed, Space.Self);    //move at max speed
+        }
+
+        else       //else if not going at max speed
+        {
+            unitTransform.Translate(forward * speed, Space.Self);   //move at speed
+        }
     }
 
-    void OnCollisionEnter(Collision other)
+    void OnCollisionEnter(Collision other)  //If collides with another collider
     {
 
     }
