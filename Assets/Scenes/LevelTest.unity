@@ -84,7 +84,7 @@ NavMeshSettings:
     minRegionArea: 2
     cellSize: 0.16666667
     manualCellSize: 0
-  m_NavMeshData: {fileID: 23800000, guid: 9f215909a80864840914d69e3be8782d, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: ec56641ec433c754cba465347ac113ac, type: 2}
 --- !u!4 &217894209 stripped
 Transform:
   m_PrefabParentObject: {fileID: 401902, guid: ae8364a09a882b04ba43404115a3fc58, type: 2}
@@ -1265,11 +1265,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 426766, guid: 1e1a374dd18cd2a4c8b9721bc4df85f4, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 1.32
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 426766, guid: 1e1a374dd18cd2a4c8b9721bc4df85f4, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 3.22
+      value: 3.66
       objectReference: {fileID: 0}
     - target: {fileID: 426766, guid: 1e1a374dd18cd2a4c8b9721bc4df85f4, type: 2}
       propertyPath: m_LocalRotation.x
