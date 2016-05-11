@@ -12,25 +12,15 @@ public class Shield : MonoBehaviour, Weapons
     public int damage
     {
         get { return m_damage; }
-        set { m_damage = 0; }
     }
+
     public bool shield = true;
-    public bool collision = false;
-    
     
     void Update ()
     {
         if (health == 0)
         {
             shield = false;
-        }
-        else
-            shield = true;
-
-        if (collision == true)
-        {
-            GetComponent<Shield>().health = GetComponent<Weapons>().damage;
-            health -= damage;
         }
 	}
 }

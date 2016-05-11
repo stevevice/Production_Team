@@ -5,8 +5,8 @@ using System.Text;
 
 namespace Assets.Scripts
 {
-    interface Weapons
+    public interface Weapons
     {
-       int damage { get; set; }
+        int damage { get; }
     }
 }
