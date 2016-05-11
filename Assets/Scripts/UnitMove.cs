@@ -10,6 +10,7 @@ public class UnitMove : MonoBehaviour {
     public float acceleration;  //How much speed is added when able to accelerate.
     public float handling;      //How fast can the Unit turn?
     Transform unitTransform;    //The Transform of the Unit.
+    float rotate;
 
     Vector3 forward;    //This Vector will referance the forward of an object.
 
@@ -39,17 +40,17 @@ public class UnitMove : MonoBehaviour {
         
         if(gameObject.tag == "Player")  //If tyhe Unit is the player
         {
-            float rotate = Input.GetAxis("Horizontal");             //Will get Unit's forward
-            
-            if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))    //If player pushes down the "gas"
-            {
-                if(speed < maxSpeed)    //If the Unit Isn't going at max speed
+            if(speed > 0)
+                rotate = Input.GetAxis("Horizontal");             //Will get Unit's forward     
+            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))    //If player pushes down the "gas"
+            {               
+                if (speed < maxSpeed)    //If the Unit Isn't going at max speed
                 {
                     speed += acceleration;  //add speed
                 }         
             }         
 
-            else    //else if no input
+            else    //else if no gas
             {
                 if(speed > 0)   //speed is greater than 0
                 {
@@ -64,7 +65,10 @@ public class UnitMove : MonoBehaviour {
 
             if (rotate != 0 && speed != 0)      //if we have input and we are moving
             {
-                gameObject.transform.Rotate(new Vector3(0f, (rotate * handling / speed) / 50, 0f));    //Rotate
+                if(speed / maxSpeed < .5f)  //Prevents player from spinning out at low speeds
+                    gameObject.transform.Rotate(new Vector3(0f, rotate * (handling + (handling * .5f))  / 50, 0f));    //Rotate
+                else
+                    gameObject.transform.Rotate(new Vector3(0f, rotate * (handling / (speed / maxSpeed)) / 50, 0f));    //Rotate    
             }
 
             MoveUnit();     //Move the Unit
@@ -84,10 +88,27 @@ public class UnitMove : MonoBehaviour {
                 speed = maxSpeed;   //speed is max
             }
 
-            if(speed > 0)
+            if(speed > 0)   //Handiling control for the AI
+            {
                 nav.angularSpeed = handling / (speed / maxSpeed);
+                if(nav.angularSpeed > handling * .5f)
+                {
+                    nav.angularSpeed = handling * .5f;
+                }
+            }
+                
 
             MoveUnit();     //Move Unit
+
+            if (nav.currentOffMeshLinkData.activated)   //if Link hit, give speed to navigate
+            {
+                nav.speed = speed * .125f;
+            }
+
+            else
+            {
+                nav.speed = .1f;
+            }
 
             float dist = Vector3.Distance(gameObject.transform.position, goToPoint.position);   //How far away are we from the destination
             if (nav.remainingDistance != Mathf.Infinity && dist <= nav.stoppingDistance)        //If within bounds of the acceptable area
