@@ -4,8 +4,10 @@ using Assets.Scripts;
 
 public class UnitAttributes : MonoBehaviour {
 
-    float health;
-    public List<Weapons> weaponsList;
+    [SerializeField]
+    float health;                           //How far away is the Unit from being Destroyed
+    public List<GameObject> weaponsList;    //List of all the Wepaons
+    public GameObject currentWeapon;        //Weapon Currently Using
 
     //To caculate speed
     float preTime;
@@ -14,12 +16,53 @@ public class UnitAttributes : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        preTime = 0;
+        health = 100f;      //Set Unit's Health
+        preTime = 0;        
         preVector = gameObject.transform.position;
+
+        int childCount = gameObject.transform.childCount;   //Get Number of children
+        for(int i = 0; i < childCount; i++)
+        {
+            if(transform.GetChild(i).gameObject.tag == "Weapon")    //If a weapon
+            {
+                transform.GetChild(i).gameObject.SetActive(false);
+                weaponsList.Add(transform.GetChild(i).gameObject);
+            }
+        }
+
+        if (childCount > 0)
+        {
+            currentWeapon = weaponsList[0];
+            currentWeapon.SetActive(true);
+        }
+        
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.E) && gameObject.CompareTag("Player"))
+        {
+            currentWeapon.SetActive(false);
+            if(weaponsList.IndexOf(currentWeapon) + 1 >= weaponsList.Count)
+            {
+                currentWeapon = weaponsList[0];
+            }
+
+            else
+            {
+                currentWeapon = weaponsList[weaponsList.IndexOf(currentWeapon) + 1];
+            }
+            currentWeapon.SetActive(true);
+        }
+    }
+
+    void FixedUpdate () {
+        if(health <= 0f)
+        {
+            Destroy(gameObject);
+        }
+
         float timeInt = Time.time - preTime;
         Vector3 dist = gameObject.transform.position - preVector;
 
@@ -30,13 +73,14 @@ public class UnitAttributes : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.CompareTag("Weapon"))
+        if (other.gameObject.CompareTag("Weapon"))
         {
-            float dam = other.gameObject.GetComponent<Weapons>().damage;
-            Debug.Log(dam);
-            //other.gameObject.GetComponentInParent<>();
-            
-            //health -= dam + ;
+            if (other.gameObject.transform.parent != null) {
+                float dam = other.gameObject.GetComponent<Weapons>().damage;
+                float otherForce = other.gameObject.GetComponentInParent<UnitAttributes>().force;
+
+                health -= dam * otherForce;
+            }
         }
     }
 }
