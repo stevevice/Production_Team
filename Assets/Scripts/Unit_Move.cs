@@ -8,7 +8,7 @@ public class Unit_Move : MonoBehaviour
     public float acceleration;  //How much speed is added when able to accelerate.
     public float handling;      //How fast can the Unit turn?
     float rotate;               //Number telling which way to rotate
-    Rigidbody uRB;
+    Transform unitTransform;
 
     Vector3 forward;    //This Vector will referance the forward of an object.
 
@@ -19,7 +19,7 @@ public class Unit_Move : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        uRB = gameObject.GetComponent<Rigidbody>();
+        unitTransform = gameObject.GetComponent<Transform>();
         speed = 0;                                              //Set speed
         forward = Vector3.forward / 100;                        //Scaling the forward. Vector3.forward was too much by itself
         //goToPoint = points[0];
@@ -61,16 +61,21 @@ public class Unit_Move : MonoBehaviour
                     gameObject.transform.Rotate(new Vector3(0f, rotate * (handling / (speed / maxSpeed)) / 50, 0f));    //Rotate    
             }
 
-            //MoveUnit();
+            MoveUnit();
 
         }
     }
 
     void MoveUnit()
     {
-        if(speed >= maxSpeed)
+        if (speed >= maxSpeed)  //If going faster than max speed
         {
+            unitTransform.Translate(forward * maxSpeed, Space.Self);    //move at max speed
+        }
 
+        else       //else if not going at max speed
+        {
+            unitTransform.Translate(forward * speed, Space.Self);   //move at speed
         }
     }
 }

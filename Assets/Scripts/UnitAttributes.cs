@@ -4,19 +4,17 @@ using Assets.Scripts;
 
 public class UnitAttributes : MonoBehaviour {
 
-    [SerializeField]
-    float health;                           //How far away is the Unit from being Destroyed
+    public float health;                           //How far away is the Unit from being Destroyed
     public List<GameObject> weaponsList;    //List of all the Wepaons
     public GameObject currentWeapon;        //Weapon Currently Using
 
     //To caculate speed
-    float preTime;
+    float preTime;      //Previous time
     Vector3 preVector;
     float force;
 
 	// Use this for initialization
 	void Start () {
-        health = 100f;      //Set Unit's Health
         preTime = 0;        
         preVector = gameObject.transform.position;
 
@@ -73,14 +71,13 @@ public class UnitAttributes : MonoBehaviour {
 
     void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.tag == ("Weapon"))
+        if(other.gameObject.tag == "Weapon")
         {
-            Debug.Log("Hit");
             if (other.gameObject.transform.parent != null) {
                 float dam = other.gameObject.GetComponent<Weapons>().damage;
                 float otherForce = other.gameObject.GetComponentInParent<UnitAttributes>().force;
 
-                health -= dam * otherForce;
+                health -= dam + otherForce;
             }
         }
     }
