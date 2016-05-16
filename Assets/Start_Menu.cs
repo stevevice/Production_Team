@@ -9,10 +9,7 @@ public class Start_Menu: MonoBehaviour
         if (Input.GetButton("Vehicles"))
          SceneManager.LoadScene("Vehicles");
 
-        if (Input.GetButton("Controls"))
+        if (Input.GetButton("HowToPlay"))
             SceneManager.LoadScene("Controls");
-
-        if (Input.GetButton("Back"))
-            SceneManager.LoadScene("Start_Menu");
     }
 }

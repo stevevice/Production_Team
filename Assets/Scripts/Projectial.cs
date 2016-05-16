@@ -17,6 +17,8 @@ public class Projectial : MonoBehaviour, Weapons
 
     void Update ()
     {
+        m_damage = 3;
+
         if (Input.GetButtonDown("Fire1"))
         {
             shoot = true;
