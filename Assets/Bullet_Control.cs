@@ -7,8 +7,9 @@ public class Bullet_Control : MonoBehaviour
     public float speed;
     float pretime;
     float force;
+    float timea; // when were alive.
+    float timed; // when we die.
     Vector3 preVector;
-    Transform bulletTrans;
     Rigidbody rb;
 
     Vector3 Force;
@@ -18,9 +19,10 @@ public class Bullet_Control : MonoBehaviour
         pretime = 0;
         force = 0;
         preVector = gameObject.transform.position;
-        bulletTrans = gameObject.GetComponent<Transform>();
         speed = 0;
         rb = GetComponent<Rigidbody>();
+        timed = Time.time;
+
 	}
 	
 	void Update ()
@@ -28,6 +30,8 @@ public class Bullet_Control : MonoBehaviour
         float timeint = Time.time - pretime;
         Vector3 Dis = gameObject.transform.position - preVector;
         force = Dis.sqrMagnitude / timeint;
+        if (Time.time >= timed + timea)
+            Destroy(gameObject);
 
         //bulletTrans.Translate(Vector3.forward * speed);
         rb.AddForce(Force * 50);

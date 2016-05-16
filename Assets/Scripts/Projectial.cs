@@ -23,8 +23,6 @@ public class Projectial : MonoBehaviour, Weapons
         get { return m_damage; }
     }
     
-    private bool shoot = false;
-
     void Update ()
     {
         if (Input.GetKeyDown(KeyCode.Space) && Time.time >= nextfire)
