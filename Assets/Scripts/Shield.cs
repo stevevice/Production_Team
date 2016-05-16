@@ -5,7 +5,7 @@ using System;
 
 public class Shield : MonoBehaviour, Weapons
 {
-    private int m_damage;
+    private int m_damage = 0;
 
     public int health = 5;
 
