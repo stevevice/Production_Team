@@ -7,7 +7,7 @@ public class Bullet_Control : MonoBehaviour
     public float speed;
     float pretime;
     float force;
-    float timea; // when were alive.
+    public float timea; // when were alive.
     float timed; // when we die.
     Vector3 preVector;
     Rigidbody rb;
