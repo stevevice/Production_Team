@@ -93,6 +93,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 3
   speed: 0
+  timea: 5
 --- !u!135 &13512414
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -115,6 +116,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_UseGravity
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: timea
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
