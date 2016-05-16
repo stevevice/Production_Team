@@ -71,10 +71,11 @@ public class UnitAttributes : MonoBehaviour {
         preVector = gameObject.transform.position;
 	}
 
-    void OnTriggerEnter(Collider other)
+    void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("Weapon"))
+        if (other.gameObject.tag == ("Weapon"))
         {
+            Debug.Log("Hit");
             if (other.gameObject.transform.parent != null) {
                 float dam = other.gameObject.GetComponent<Weapons>().damage;
                 float otherForce = other.gameObject.GetComponentInParent<UnitAttributes>().force;
