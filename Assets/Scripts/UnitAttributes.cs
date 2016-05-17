@@ -70,22 +70,37 @@ public class UnitAttributes : MonoBehaviour {
 	}
 
     void OnCollisionEnter(Collision other)
-    {
+    {   //Do i collide with a weapon
         if(other.gameObject.tag == "Weapon")
         {
             if (other.gameObject.transform.parent != null) {
                 float dam = other.gameObject.GetComponent<Weapons>().damage;
                 float otherForce = other.gameObject.GetComponentInParent<UnitAttributes>().force;
 
-                health -= dam * otherForce;
+                if (Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward) <= .25f && Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward) >= -.25f)     
+                    health -= dam * otherForce;
+
+                else if (Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward) > .25f)
+                    health -= (dam * otherForce) - (force / Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward)); //Number will be positive, so take a little force off.
+
+                else if(Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward) < -.25f)
+                    health -= (dam * otherForce) - (force / Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward)); //Minus because of the negative dot product, minus a negative to add
             }
         }
-
+        //Is the object a bullet and is it not my bullet
         else if (other.gameObject.CompareTag("Bullet") && other.gameObject.GetComponent<Bullet_Control>().unitFired != gameObject)
         {
-            Debug.Log("Hit");
             Bullet_Control otherScript = other.gameObject.GetComponent<Bullet_Control>();
-            health -= otherScript.damage * otherScript.force;
+
+            if (Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward) <= .25f && Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward) >= -.25f)
+                health -= otherScript.damage * otherScript.force;
+
+            else if (Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward) > .25f)
+                health -= (otherScript.damage * otherScript.force) - (force / Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward)); //Number will be positive, so take a little force off.
+
+            else if (Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward) < -.25f)
+                health -= (otherScript.damage * otherScript.force) - (force / Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward)); //Minus because of the negative dot product, minus a negative to add
+            Destroy(other.gameObject);
         }
     }
 }

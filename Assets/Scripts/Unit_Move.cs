@@ -13,16 +13,17 @@ public class Unit_Move : MonoBehaviour
     Vector3 forward;    //This Vector will referance the forward of an object.
 
     //AI Controlled Unit Variables
-    //public List<Transform> points;
-    //Transform goToPoint;
+    public List<Transform> points;
+    Transform goToPoint;
+    NavMeshPath navPath;
 
     // Use this for initialization
     void Start()
     {
+        navPath = new NavMeshPath();
         unitTransform = gameObject.GetComponent<Transform>();
         speed = 0;                                              //Set speed
-        forward = Vector3.forward / 100;                        //Scaling the forward. Vector3.forward was too much by itself
-        //goToPoint = points[0];
+        forward = Vector3.forward / 100;                        //Scaling the forward. Vector3.forward was too much by itself    
     }
 
     // Update is called once per frame
@@ -61,8 +62,16 @@ public class Unit_Move : MonoBehaviour
                     gameObject.transform.Rotate(new Vector3(0f, rotate * (handling / (speed / maxSpeed)) / 50, 0f));    //Rotate    
             }
 
-            MoveUnit();
+            MoveUnit(); //Function that actually moves the Unit
+        }
 
+        else  //If this Unit is Not the player,
+        {
+            for (int i = 0; i < navPath.corners.Length - 1; i++)
+            {
+                NavMesh.CalculatePath(points[i].position, points[i + 1].position, NavMesh.AllAreas, navPath);
+                Debug.DrawLine(navPath.corners[i], navPath.corners[i + 1], Color.red);
+            }             
         }
     }
 

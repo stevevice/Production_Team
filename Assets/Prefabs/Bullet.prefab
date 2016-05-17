@@ -92,6 +92,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 3
+  unitFired: {fileID: 0}
+  force: 0
   timea: 0.5
 --- !u!135 &13512414
 SphereCollider:

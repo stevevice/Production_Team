@@ -16,7 +16,7 @@ GameObject:
   - 114: {fileID: 11490538}
   m_Layer: 0
   m_Name: Unit
-  m_TagString: Player
+  m_TagString: Unit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -75,37 +75,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &194006
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 408198}
-  - 20: {fileID: 2024940}
-  - 124: {fileID: 12416334}
-  - 92: {fileID: 9282790}
-  - 81: {fileID: 8149328}
-  m_Layer: 0
-  m_Name: Camera
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &408198
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 194006}
-  m_LocalRotation: {x: 0.13052621, y: 0, z: 0, w: 0.9914449}
-  m_LocalPosition: {x: 0, y: 2.52, z: -3.79}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 485230}
-  m_RootOrder: 0
 --- !u!4 &432468
 Transform:
   m_ObjectHideFlags: 1
@@ -125,10 +94,9 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 128886}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 26.38, y: 2.77, z: -10.93}
+  m_LocalPosition: {x: 63.84, y: 2.37, z: -23.972}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 408198}
   - {fileID: 487780}
   - {fileID: 493978}
   m_Father: {fileID: 0}
@@ -139,12 +107,12 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 175864}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071067}
-  m_LocalPosition: {x: 0.98, y: 0, z: 4.17}
-  m_LocalScale: {x: 10, y: 0.5, z: 0.5}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.98, y: 0, z: 4.56}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 10}
   m_Children: []
   m_Father: {fileID: 485230}
-  m_RootOrder: 1
+  m_RootOrder: 0
 --- !u!4 &493978
 Transform:
   m_ObjectHideFlags: 1
@@ -153,45 +121,11 @@ Transform:
   m_GameObject: {fileID: 153450}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.88, y: 0, z: 0.6800003}
-  m_LocalScale: {x: 0.5, y: 0.49999994, z: 2}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 2}
   m_Children:
   - {fileID: 432468}
   m_Father: {fileID: 485230}
-  m_RootOrder: 2
---- !u!20 &2024940
-Camera:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 194006}
-  m_Enabled: 1
-  serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0.019607844}
-  m_NormalizedViewPortRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
-  field of view: 60
-  orthographic: 0
-  orthographic size: 5
-  m_Depth: 0
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_RenderingPath: -1
-  m_TargetTexture: {fileID: 0}
-  m_TargetDisplay: 0
-  m_TargetEye: 3
-  m_HDR: 0
-  m_OcclusionCulling: 1
-  m_StereoConvergence: 10
-  m_StereoSeparation: 0.022
-  m_StereoMirrorMode: 0
+  m_RootOrder: 1
 --- !u!23 &2308896
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -357,20 +291,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!81 &8149328
-AudioListener:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 194006}
-  m_Enabled: 1
---- !u!92 &9282790
-Behaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 194006}
-  m_Enabled: 1
 --- !u!114 &11429352
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -385,7 +305,7 @@ MonoBehaviour:
   m_damage: 0
   bullet: {fileID: 198672, guid: 2de3e07a66013b74096d3e516ea2182d, type: 2}
   bulletspawn: {fileID: 432468}
-  firerate: 0.01
+  firerate: 1
 --- !u!114 &11440520
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -427,13 +347,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_damage: 3
---- !u!124 &12416334
-Behaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 194006}
-  m_Enabled: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
