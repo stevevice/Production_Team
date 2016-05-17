@@ -39,34 +39,34 @@ public class UnitAttributes : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && gameObject.CompareTag("Player"))
+        if (Input.GetKeyDown(KeyCode.E) && gameObject.CompareTag("Player")) //If the Player
         {
-            currentWeapon.SetActive(false);
-            if(weaponsList.IndexOf(currentWeapon) + 1 >= weaponsList.Count)
+            currentWeapon.SetActive(false);     //Set Current to false
+            if(weaponsList.IndexOf(currentWeapon) + 1 >= weaponsList.Count) //if last weapon
             {
-                currentWeapon = weaponsList[0];
+                currentWeapon = weaponsList[0]; //Change to first
             }
 
             else
             {
-                currentWeapon = weaponsList[weaponsList.IndexOf(currentWeapon) + 1];
+                currentWeapon = weaponsList[weaponsList.IndexOf(currentWeapon) + 1];    //Change to next
             }
-            currentWeapon.SetActive(true);
+            currentWeapon.SetActive(true);  //Set new current weapon's active to true
         }
     }
 
     void FixedUpdate () {
-        if(health <= 0f)
+        if(health <= 0f)    //if has no health
         {
-            Destroy(gameObject);
+            Destroy(gameObject);    //Destroy Game Object
         }
 
-        float timeInt = Time.time - preTime;
-        Vector3 dist = gameObject.transform.position - preVector;
+        float timeInt = Time.time - preTime;                        //Interval of Time
+        Vector3 dist = gameObject.transform.position - preVector;   //Change in position
 
-        force = dist.sqrMagnitude / timeInt;
-        preTime = Time.time;
-        preVector = gameObject.transform.position;
+        force = dist.sqrMagnitude / timeInt;    //How hard the Unit will hit
+        preTime = Time.time;                    //set pretime to current time
+        preVector = gameObject.transform.position;  //Set preVector to current Vector
 	}
 
     void OnCollisionEnter(Collision other)
@@ -74,11 +74,11 @@ public class UnitAttributes : MonoBehaviour {
         if(other.gameObject.tag == "Weapon")
         {
             if (other.gameObject.transform.parent != null) {
-                float dam = other.gameObject.GetComponent<Weapons>().damage;
-                float otherForce = other.gameObject.GetComponentInParent<UnitAttributes>().force;
+                float dam = other.gameObject.GetComponent<Weapons>().damage;                        //Get Damage of Weapon
+                float otherForce = other.gameObject.GetComponentInParent<UnitAttributes>().force;   //Get force it is moving at
 
-                if (Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward) <= .25f && Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward) >= -.25f)     
-                    health -= dam * otherForce;
+                if (Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward) <= .25f && Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward) >= -.25f)     //if other is facing the side of the Unit
+                    health -= dam * otherForce;     //Apply normal dammage
 
                 else if (Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward) > .25f)
                     health -= (dam * otherForce) - (force / Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward)); //Number will be positive, so take a little force off.
@@ -92,15 +92,16 @@ public class UnitAttributes : MonoBehaviour {
         {
             Bullet_Control otherScript = other.gameObject.GetComponent<Bullet_Control>();
 
-            if (Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward) <= .25f && Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward) >= -.25f)
-                health -= otherScript.damage * otherScript.force;
+            if (Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward) <= .25f && Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward) >= -.25f)    //if other is facing the side of the Unit
+                health -= otherScript.damage * otherScript.force;   //Apply normal dammage
 
             else if (Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward) > .25f)
                 health -= (otherScript.damage * otherScript.force) - (force / Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward)); //Number will be positive, so take a little force off.
 
             else if (Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward) < -.25f)
                 health -= (otherScript.damage * otherScript.force) - (force / Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward)); //Minus because of the negative dot product, minus a negative to add
-            Destroy(other.gameObject);
+
+            Destroy(other.gameObject);  //Destroy the bullet
         }
     }
 }
