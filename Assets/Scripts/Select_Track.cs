@@ -3,16 +3,21 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class Select_Track : MonoBehaviour
-{	
-	void Update ()
+{
+    public void LevelTest(string name)
     {
-        if (Input.GetMouseButton(0))
-            SceneManager.LoadScene("Track 1");
-
-        if (Input.GetMouseButton(1))
-            SceneManager.LoadScene("Track 2");
-
-        if (Input.GetMouseButton(2))
-            SceneManager.LoadScene("Track 3");
+        SceneManager.LoadScene(name);
     }
+
+    public void TwistyTrack(string name)
+    {
+        SceneManager.LoadScene(name);
+    }
+
+    public void Track2(string name)
+    {
+        SceneManager.LoadScene(name);
+    }
+
+
 }
