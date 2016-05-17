@@ -13,17 +13,28 @@ public class Unit_Move : MonoBehaviour
     Vector3 forward;    //This Vector will referance the forward of an object.
 
     //AI Controlled Unit Variables
-    public List<Transform> points;
-    Transform goToPoint;
+    public List<Checkpoint> points;
+    Checkpoint goToPoint;
     NavMeshPath navPath;
+    float dot;
 
     // Use this for initialization
     void Start()
     {
+        points = new List<Checkpoint>();
         navPath = new NavMeshPath();
         unitTransform = gameObject.GetComponent<Transform>();
         speed = 0;                                              //Set speed
         forward = Vector3.forward / 100;                        //Scaling the forward. Vector3.forward was too much by itself    
+
+        if(gameObject.tag != "Player")
+        {
+            for(int i = 0; i < points.Count - 1; i++)
+            {
+                NavMesh.CalculatePath(points[i].transform.position, points[i + 1].transform.position, NavMesh.AllAreas, navPath);          
+            }
+        }
+        goToPoint = points[0];  
     }
 
     // Update is called once per frame
@@ -80,11 +91,19 @@ public class Unit_Move : MonoBehaviour
 
         else  //If this Unit is Not the player,
         {
-            for (int i = 0; i < navPath.corners.Length - 1; i++)
+            if (goToPoint.CheckPosition(gameObject))
             {
-                NavMesh.CalculatePath(points[i].position, points[i + 1].position, NavMesh.AllAreas, navPath);
-                Debug.DrawLine(navPath.corners[i], navPath.corners[i + 1], Color.red);
-            }             
+                if (points.IndexOf(goToPoint) + 1 >= points.Count)
+                    goToPoint = points[0];
+                else
+                    goToPoint = points[points.IndexOf(goToPoint) + 1];
+            }
+
+            dot = Vector3.Dot(transform.forward, (goToPoint.transform.position - transform.position).normalized);
+            if(dot < .85f)
+            {
+                transform.Rotate(Vector3.up * Time.deltaTime, Space.Self);
+            }
         }
     }
 
