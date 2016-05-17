@@ -1,9 +1,22 @@
 ﻿using UnityEngine;
 using Assets.Scripts;
+using UnityEngine.Events;
 using System.Collections;
 
 public class Projectial : MonoBehaviour, Weapons
 {
+    public class CannonEvent : UnityEvent
+    {
+
+    }
+    public static CannonEvent CannonFireEvent;
+  
+    void Awake()
+    {
+        if (CannonFireEvent == null)
+            CannonFireEvent = new CannonEvent();
+    }
+
     public int m_damage;
     public GameObject bullet;
     public Transform bulletspawn;
@@ -30,6 +43,7 @@ public class Projectial : MonoBehaviour, Weapons
             GameObject temp;
             Unit_Move unitMove = gameObject.transform.GetComponentInParent<Unit_Move>();
             temp = Instantiate(bullet, bulletspawn.transform.position, new Quaternion()) as GameObject;
+            CannonFireEvent.Invoke();
             temp.GetComponent<Bullet_Control>().unitFired = gameObject.transform.parent.gameObject;
             temp.GetComponent<Rigidbody>().velocity = unitMove.maxSpeed * 1.5f * transform.forward;
             temp.GetComponent<Bullet_Control>().SetForce(transform.forward * unitMove.speed);
