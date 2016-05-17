@@ -4,7 +4,6 @@ using System.Collections;
 public class Bullet_Control : MonoBehaviour
 {
     public float damage;
-    public float speed;
     float pretime;
     float force;
     public float timea; // when were alive.
@@ -19,7 +18,6 @@ public class Bullet_Control : MonoBehaviour
         pretime = 0;
         force = 0;
         preVector = gameObject.transform.position;
-        speed = 0;
         rb = GetComponent<Rigidbody>();
         timed = Time.time;
 
@@ -33,8 +31,7 @@ public class Bullet_Control : MonoBehaviour
         if (Time.time >= timed + timea)
             Destroy(gameObject);
 
-        //bulletTrans.Translate(Vector3.forward * speed);
-        rb.AddForce(Force * 50);
+        rb.AddForce(Force * 10);
 	}
 
     public void SetForce(Vector3 f)
