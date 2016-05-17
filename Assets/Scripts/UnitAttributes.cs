@@ -4,34 +4,34 @@ using Assets.Scripts;
 
 public class UnitAttributes : MonoBehaviour {
 
-    public float health;                           //How far away is the Unit from being Destroyed
+    public float health;                    //How far away is the Unit from being Destroyed
     public List<GameObject> weaponsList;    //List of all the Wepaons
     public GameObject currentWeapon;        //Weapon Currently Using
 
     //To caculate speed
     float preTime;      //Previous time
-    Vector3 preVector;
-    float force;
+    Vector3 preVector;  //previous Vector
+    float force;        //How much force is that object carring
 
 	// Use this for initialization
 	void Start () {
-        preTime = 0;        
-        preVector = gameObject.transform.position;
+        preTime = 0;     //Set Pretime   
+        preVector = gameObject.transform.position;  //Set Prevector
 
         int childCount = gameObject.transform.childCount;   //Get Number of children
         for(int i = 0; i < childCount; i++)
         {
             if(transform.GetChild(i).gameObject.tag == "Weapon")    //If a weapon
             {
-                transform.GetChild(i).gameObject.SetActive(false);
-                weaponsList.Add(transform.GetChild(i).gameObject);
+                transform.GetChild(i).gameObject.SetActive(false);  //Set acticve to false
+                weaponsList.Add(transform.GetChild(i).gameObject);  //Add weapon
             }
         }
 
-        if (childCount > 0)
+        if (childCount > 0) //if we have Weapons
         {
-            currentWeapon = weaponsList[0];
-            currentWeapon.SetActive(true);
+            currentWeapon = weaponsList[0]; //Current weapon is the first one
+            currentWeapon.SetActive(true);  //Turn on that object
         }
         
 	}
@@ -77,8 +77,15 @@ public class UnitAttributes : MonoBehaviour {
                 float dam = other.gameObject.GetComponent<Weapons>().damage;
                 float otherForce = other.gameObject.GetComponentInParent<UnitAttributes>().force;
 
-                health -= dam + otherForce;
+                health -= dam * otherForce;
             }
+        }
+
+        else if (other.gameObject.CompareTag("Bullet") && other.gameObject.GetComponent<Bullet_Control>().unitFired != gameObject)
+        {
+            Debug.Log("Hit");
+            Bullet_Control otherScript = other.gameObject.GetComponent<Bullet_Control>();
+            health -= otherScript.damage * otherScript.force;
         }
     }
 }

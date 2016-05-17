@@ -4,8 +4,9 @@ using System.Collections;
 public class Bullet_Control : MonoBehaviour
 {
     public float damage;
+    public GameObject unitFired;
     float pretime;
-    float force;
+    public float force;
     public float timea; // when were alive.
     float timed; // when we die.
     Vector3 preVector;
@@ -31,7 +32,7 @@ public class Bullet_Control : MonoBehaviour
         if (Time.time >= timed + timea)
             Destroy(gameObject);
 
-        rb.AddForce(Force * 10);
+        rb.AddForce(Force * 25);
 	}
 
     public void SetForce(Vector3 f)
