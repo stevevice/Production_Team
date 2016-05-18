@@ -7,11 +7,11 @@ public class Checkpoint : MonoBehaviour
     public float AreaHit;       //How close the Unit must hit
     public List<GameObject> Racers; //list that will not be edited in this script but in the RaceManager
 
-    static public bool CheckPosition(GameObject Unit, float AreaHit, GameObject CheckP)
+    public bool CheckPosition(GameObject CurrentPoint)
     {
-        if ((CheckP.transform.position.x - AreaHit) <= Unit.transform.position.x && Unit.transform.position.x <= (CheckP.transform.position.x + AreaHit))
+        if ((gameObject.transform.position.x - AreaHit) <= CurrentPoint.transform.position.x && CurrentPoint.transform.position.x <= (gameObject.transform.position.x + AreaHit))
         {
-            if ((CheckP.transform.position.z - AreaHit) <= Unit.transform.position.z && Unit.transform.position.z <= (CheckP.transform.position.z + AreaHit))
+            if ((gameObject.transform.position.z - AreaHit) <= CurrentPoint.transform.position.z && CurrentPoint.transform.position.z <= (gameObject.transform.position.z + AreaHit))
             {
                 return true;
             }
