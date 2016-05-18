@@ -1,15 +1,41 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEditor;
 using System.Collections;
 
-public class Music : MonoBehaviour {
+public class Music : MonoBehaviour
+{
+    private static Music _play;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    public void OnLevelWasLoaded(int level)
+    {
+        if (level >= 4)
+        {
+            GameObject.FindObjectOfType<Music>();
+            Destroy(_play.gameObject);
+        }
+    }
+
+    public static Music play
+    {
+        get
+        {
+            if (_play == null)
+            {
+                _play = GameObject.FindObjectOfType<Music>();
+                DontDestroyOnLoad(_play.gameObject);
+            }
+            return _play;
+        }
+    }
+
+    void Awake()
+    {
+        if (_play == null)
+        {
+            _play = this;
+            DontDestroyOnLoad(this);
+        }
+    }
+
 }
