@@ -40,4 +40,3 @@ public class Bullet_Control : MonoBehaviour
         Force = f;
     }
 }
-
