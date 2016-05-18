@@ -41,16 +41,29 @@ public class Unit_Move : MonoBehaviour
                 }
             }
 
+            else if(Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+            {
+                if (speed > -maxSpeed / 4)    //If the Unit Isn't going at max speed
+                {
+                    speed -= acceleration;  //add speed
+                }
+            }
+
             else    //else if no gas
             {
-                if (speed > 0)   //speed is greater than 0
+                if(speed < 0)
                 {
-                    speed -= .3f;   //decreace speed
+                    speed += .3f;
                 }
 
-                else      //else set speed to 0.
+                else if(speed > 0)
                 {
-                    speed = 0;
+                    speed -= .3f;
+                }
+
+                if(speed <= .15f && speed >= -.15f)
+                {
+                    speed = 0f;
                 }
             }
 
