@@ -20,8 +20,6 @@ public class Projectial : MonoBehaviour, Weapons
     public int m_damage;
     public GameObject bullet;
     public Transform bulletspawn;
-    float speed;
-   
 
     float nextfire;
     public float firerate;
