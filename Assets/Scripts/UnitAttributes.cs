@@ -24,9 +24,12 @@ public class UnitAttributes : MonoBehaviour {
     //Race Manager Variables
     public int lap;
     public int checkPoints;
+    public Checkpoint nextPoint;
+    public List<Checkpoint> checkPointsList;
 
 	// Use this for initialization
 	void Start () {
+        nextPoint = checkPointsList[0];
         preTime = 0;     //Set Pretime   
         preVector = gameObject.transform.position;  //Set Prevector
 
@@ -64,6 +67,19 @@ public class UnitAttributes : MonoBehaviour {
                 currentWeapon = weaponsList[weaponsList.IndexOf(currentWeapon) + 1];    //Change to next
             }
             currentWeapon.SetActive(true);  //Set new current weapon's active to true
+        }
+
+        if (nextPoint.CheckPosition(gameObject))
+        {
+            if(checkPointsList.IndexOf(nextPoint) + 1 >= checkPointsList.Count)
+            {
+                nextPoint = checkPointsList[0];
+            }
+
+            else
+            {
+                nextPoint = checkPointsList[checkPointsList.IndexOf(nextPoint) + 1];
+            }
         }
     }
 
