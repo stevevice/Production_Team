@@ -12,7 +12,6 @@ public class RaceManager : MonoBehaviour
     //public Checkpoint[NumCheckpoints] CPArray = new Checkpoint[];
     List<Checkpoint> Checkpoints = new List<Checkpoint>();
     public int LapsNeed;
-    int Laps = 1;
     public float TimeGameEnd;
 
     void CheckLap()
@@ -21,16 +20,29 @@ public class RaceManager : MonoBehaviour
         {
             foreach(GameObject j in UnitList)
             {
-                if (i.CheckPosition(j) == true)
+                if (i.CheckPosition(j) /*&&  j.nextPoint == i */)
                 {
-                    j.GetComponent<UnitAttributes>().checkPoints++;
-                    if (j.GetComponent<UnitAttributes>().checkPoints == CheckpointAmt)
+                    UnitAttributes UA = j.GetComponent<UnitAttributes>();
+                    UA.checkPoints++;
+                    if (UA.checkPoints == CheckpointAmt)
                     {
-                        j.GetComponent<UnitAttributes>().lap++;
-                        j.GetComponent<UnitAttributes>().checkPoints = 0;
+                        UA.lap++;
+                        UA.checkPoints = 0;
                     }
                 }
             }
+        }
+    }
+
+    void CheckPosition()
+    {
+        List<GameObject> SortUnitList = UnitList;
+        
+        foreach(GameObject i in UnitList)
+        {
+            if ()
+
+                playerList.Sort((p1, p2) => p1.score.CompareTo(p2.score));
         }
     }
 
@@ -38,8 +50,7 @@ public class RaceManager : MonoBehaviour
     {
         foreach(GameObject i in UnitList)
         {
-            int AmtPlayer = 0;
-            AmtPlayer++;
+            int AmtPlayer = 1;
 
             if (i.GetComponent<UnitAttributes>().lap >= LapsNeed)
             {
@@ -52,11 +63,16 @@ public class RaceManager : MonoBehaviour
     {
         foreach(GameObject i in UnitList)
         {
-            if(i.GetComponent<UnitAttributes>().health == 0)
+            if(i.GetComponent<UnitAttributes>().health <= 0)
             {
                 UnitList.Remove(i);
             }
         }
+    }
+
+    void CheckPlacement()
+    {
+
     }
 
 	// Use this for initialization
