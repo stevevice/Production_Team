@@ -41,12 +41,12 @@ public class Projectial : MonoBehaviour, Weapons
         if (Input.GetKeyDown(KeyCode.Space) && Time.time >= nextfire)
         {
             GameObject temp;
-            Unit_Move unitMove = gameObject.transform.GetComponentInParent<Unit_Move>();
+            Player_Move playerMove = gameObject.transform.GetComponentInParent<Player_Move>();
             temp = Instantiate(bullet, bulletspawn.transform.position, new Quaternion()) as GameObject;
             CannonFireEvent.Invoke();
             temp.GetComponent<Bullet_Control>().unitFired = gameObject.transform.parent.gameObject;
-            temp.GetComponent<Rigidbody>().velocity = unitMove.maxSpeed * 1.5f * transform.forward;
-            temp.GetComponent<Bullet_Control>().SetForce(transform.forward * unitMove.speed);
+            temp.GetComponent<Rigidbody>().velocity = playerMove.maxSpeed * 1.5f * transform.forward;
+            temp.GetComponent<Bullet_Control>().SetForce(transform.forward * playerMove.speed);
 
             nextfire = Time.time + firerate;
         }    

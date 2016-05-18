@@ -1,8 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using Assets.Scripts;
+using UnityEngine.Events;
 
 public class UnitAttributes : MonoBehaviour {
+
+    public class PlayerEvent : UnityEvent
+    {
+
+    }
+
+    public static PlayerEvent playerDeath;
 
     public float health;                    //How far away is the Unit from being Destroyed
     public List<GameObject> weaponsList;    //List of all the Wepaons
@@ -12,6 +20,10 @@ public class UnitAttributes : MonoBehaviour {
     float preTime;      //Previous time
     Vector3 preVector;  //previous Vector
     float force;        //How much force is that object carring
+
+    //Race Manager Variables
+    public int lap;
+    public int checkPoints;
 
 	// Use this for initialization
 	void Start () {
@@ -58,7 +70,7 @@ public class UnitAttributes : MonoBehaviour {
     void FixedUpdate () {
         if(health <= 0f)    //if has no health
         {
-            Destroy(gameObject);    //Destroy Game Object
+            gameObject.SetActive(false);    //Destroy Game Object
         }
 
         float timeInt = Time.time - preTime;                        //Interval of Time
