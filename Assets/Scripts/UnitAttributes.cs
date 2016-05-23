@@ -27,6 +27,7 @@ public class UnitAttributes : MonoBehaviour {
     public int checkPoints;
     public Checkpoint nextPoint;
     public WaypointCircuit.WaypointList checkPointsList;
+    public int placeValue;
 
 	// Use this for initialization
 	void Start () {
