@@ -1,33 +1,45 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 using System.Collections;
 
 public class HealthBar : MonoBehaviour
 {
-    public class ShowHealth : UnityEvent
-    {
+    public float hp = 100;
+    public float currentHP;
+    public Slider healthbar;
 
-    }
-
-    public int Health;
-    public static ShowHealth fall;
+    private Player_Move playermove;
+    private UnitAttributes health;
+    private bool dead;
+    private bool damaged = false;
 
     void Awake()
     {
-        if (fall == null)
-            fall = new ShowHealth();
+        playermove = GetComponent<Player_Move>();
+        health = GetComponent<UnitAttributes>();
     }
 
-    public int takedam;
-    public GameObject healthBar;
-
-    void Start()
+    public void takedamage(float amount)
     {
-        Health = 100;
+        damaged = true;
+        currentHP -= amount;
+        healthbar.value = currentHP;
+        if (currentHP == 0 && !dead)
+        {
+            died();
+        }
     }
-    
-    void Update()
-    {             
 
+    public void died()
+    {
+        dead = true;
+        playermove.unitTransform.enabled = false;
+    }
+
+    void Update()
+    {
+        if(CompareTag("UI"))
+           takedamage(currentHP);
     }
 }
