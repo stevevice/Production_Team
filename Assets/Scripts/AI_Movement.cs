@@ -13,8 +13,8 @@ public class AI_Movement : MonoBehaviour {
 
     public float maxSpeed;                   //The speed the Unit can not go past
     [SerializeField] private float speed;    //Current speed of the Unit
-    public float acceleration;  //How much speed is added when able to accelerate.
-    public float handling;      //How fast can the Unit turn?
+    [SerializeField] private float acceleration;  //How much speed is added when able to accelerate.
+    [SerializeField] private float handling;      //How fast can the Unit turn?
     [SerializeField] private Behavior unitBehavior;
 
     WayPointProgressTracker proTracker;
@@ -38,6 +38,15 @@ public class AI_Movement : MonoBehaviour {
                 dist = target.transform.position - gameObject.transform.position;
                 gameObject.transform.forward = dist.normalized * .9f;
 
+                if (speed < maxSpeed * .9f)    //If the Unit Isn't going at max speed
+                {
+                    speed += acceleration;  //add speed
+                }
+
+                else
+                {
+                    speed = maxSpeed * .9f;
+                }
 
                 break;
 

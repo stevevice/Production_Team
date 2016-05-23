@@ -26,12 +26,10 @@ public class UnitAttributes : MonoBehaviour {
     public int lap;
     public int checkPoints;
     public Checkpoint nextPoint;
-    public WayPointCircuit.WaypointList checkPointsList;
     public int placeValue;
 
 	// Use this for initialization
 	void Start () {
-        checkPointsList = GameObject.Find("CheckPoints").GetComponent<WayPointCircuit>().waypointList;
         placeValue = 0;
         //nextPoint = checkPointsList.items[0];
         preTime = 0;     //Set Pretime   
@@ -72,19 +70,6 @@ public class UnitAttributes : MonoBehaviour {
             }
             currentWeapon.SetActive(true);  //Set new current weapon's active to true
         }
-
-        //if (nextPoint.CheckPosition(gameObject))
-        //{
-            //if(System.Array.IndexOf(checkPointsList.items, nextPoint) + 1 >= checkPointsList.items.Length)
-            //{
-            //    nextPoint = checkPointsList.items[0];
-            //}
-
-            //else
-            //{
-            //    nextPoint = checkPointsList.items[System.Array.IndexOf(checkPointsList.items, nextPoint) + 1];
-            //}
-        //}
     }
 
     void FixedUpdate () {
