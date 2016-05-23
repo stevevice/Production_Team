@@ -34,7 +34,6 @@ public class HealthBar : MonoBehaviour
     public void died()
     {
         dead = true;
-        playermove.unitTransform.enabled = false;
     }
 
     void Update()
