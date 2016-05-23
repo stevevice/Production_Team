@@ -8,7 +8,7 @@ public class RaceManager : MonoBehaviour
     List<GameObject> UnitList;
     GameObject[] UnitWin;
     public int CheckpointAmt;
-    List<Checkpoint> Checkpoints;
+    public List<Checkpoint> Checkpoints;
     public int LapsNeed;
     //public float TimeGameEnd;
 
@@ -27,6 +27,19 @@ public class RaceManager : MonoBehaviour
                         UA.lap++;
                         UA.checkPoints = 0;
                     }
+
+                    //if (nextPoint.CheckPosition(gameObject))
+                    //{
+                    //if(System.Array.IndexOf(checkPointsList.items, nextPoint) + 1 >= checkPointsList.items.Length)
+                    //{
+                    //    nextPoint = checkPointsList.items[0];
+                    //}
+                    //else
+                    //{
+                    //    nextPoint = checkPointsList.items[System.Array.IndexOf(checkPointsList.items, nextPoint) + 1];
+                    //}
+                    //}
+
                 }
             }
         }
@@ -36,31 +49,31 @@ public class RaceManager : MonoBehaviour
     {
         List<GameObject> SortUnitList = UnitList;
         
-        foreach(GameObject i in UnitList)
+        foreach(GameObject i in SortUnitList)
         {
-            foreach (GameObject j in UnitList)
+            foreach (GameObject j in SortUnitList)
             {
                 UnitAttributes A = i.GetComponent<UnitAttributes>();
-                UnitAttributes B = i.GetComponent<UnitAttributes>();
+                UnitAttributes B = j.GetComponent<UnitAttributes>();
                 if (i != j) // && i and j havent checked /*ADD integer for points so i can sort*/
                 {
                     if (A.lap > B.lap)
                     {
-                        A.placeValue;
+                        A.placeValue++;
                     }
                     else if (A.lap < B.lap)
                     {
-                        B.placeValue;
+                        B.placeValue++;
                     }
                     else
                     {
                         if(A.checkPoints > B.checkPoints)
                         {
-                            A.placeValue;
+                            A.placeValue++;
                         }
                         else if (A.checkPoints < B.checkPoints)
                         {
-                            B.placeValue; 
+                            B.placeValue++; 
                         }
                         else
                         {
@@ -69,17 +82,23 @@ public class RaceManager : MonoBehaviour
 
                             if (ADis > BDis)
                             {
-                                A.placeValue;
+                                A.placeValue++;
                             }
                             else if (ADis < BDis)
                             {
-                                B.placeValue;
+                                B.placeValue++;
                             }
                         }
                     }
-                    //add comparison to a list saying we went through these comparisons
+                    SortUnitList.Remove(i); //add comparison to a list saying we went through these comparisons
                 }
+                UnitList.Sort((p1, p2) => A.placeValue.CompareTo(B.placeValue));
             }
+        }
+        foreach (GameObject i in UnitList)
+        {
+            UnitAttributes Unit = i.GetComponent<UnitAttributes>();
+            Unit.placeValue = 0;
         }
     }
 
@@ -107,16 +126,10 @@ public class RaceManager : MonoBehaviour
         }
     }
 
-    void CheckPlacement()
-    {
-
-    }
-
 	// Use this for initialization
 	void Start ()
     {
         UnitList = new List<GameObject>();
-        Checkpoints = new List<Checkpoint>();
 
         GameObject[] Units = GameObject.FindGameObjectsWithTag("Unit");
         GameObject[] Player = GameObject.FindGameObjectsWithTag("Player");
@@ -137,6 +150,7 @@ public class RaceManager : MonoBehaviour
         CheckLap();
         CheckGoal();
         CheckPlayersAlive();
+        CheckPosition();
     }
 
     
