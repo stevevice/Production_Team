@@ -10,7 +10,7 @@ public class Player_Move : MonoBehaviour
     float rotate;               //Number telling which way to rotate
     Transform unitTransform;
 
-    Vector3 forward;    //This Vectoaaaaaaaaar will referance the forward of an object.
+    Vector3 forward;    //This Vector will referance the forward of an object.
 
     // Use this for initialization
     void Start()
