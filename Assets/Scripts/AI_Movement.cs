@@ -17,7 +17,7 @@ public class AI_Movement : MonoBehaviour {
     [SerializeField] private float handling;      //How fast can the Unit turn?
     [SerializeField] private Behavior unitBehavior;
 
-    WayPointProgressTracker proTracker;
+    WaypointProgressTracker proTracker;
     Transform target;                   //Target for the Unit.
     Transform unitTransform;
     Vector3 fwd;                        //Variable for Pushing the Object towards its Z axis
@@ -25,7 +25,7 @@ public class AI_Movement : MonoBehaviour {
 
     void Start () {
         unitTransform = gameObject.transform;
-        proTracker = gameObject.GetComponent<WayPointProgressTracker>();
+        proTracker = gameObject.GetComponent<WaypointProgressTracker>();
         target = proTracker.target;
         fwd = transform.forward / 100;
 	}
