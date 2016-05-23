@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityStandardAssets.Utility;
 
 public class RaceManager : MonoBehaviour
 {
@@ -39,6 +40,17 @@ public class RaceManager : MonoBehaviour
                     //    nextPoint = checkPointsList.items[System.Array.IndexOf(checkPointsList.items, nextPoint) + 1];
                     //}
                     //}
+
+                    if (Checkpoints.IndexOf(UA.nextPoint) + 1 >= Checkpoints.Count)
+                    {
+                        UA.nextPoint = Checkpoints[0];
+                    }
+
+                    else
+                    {
+                        UA.nextPoint = Checkpoints[Checkpoints.IndexOf(UA.nextPoint) + 1];
+                    }
+
 
                 }
             }
@@ -130,6 +142,13 @@ public class RaceManager : MonoBehaviour
 	void Start ()
     {
         UnitList = new List<GameObject>();
+        Checkpoints = new List<Checkpoint>();
+
+        foreach(Transform t in GameObject.Find("CheckPoints").GetComponent<WaypointCircuit>().waypointList.items)
+        {
+            Checkpoints.Add(t.gameObject.GetComponent<Checkpoint>());
+        }
+
 
         GameObject[] Units = GameObject.FindGameObjectsWithTag("Unit");
         GameObject[] Player = GameObject.FindGameObjectsWithTag("Player");
