@@ -9,19 +9,16 @@ public class HealthBar : MonoBehaviour
     public float currentHP;
     public Slider healthbar;
 
-    private UnitAttributes health;
     private bool dead;
     private bool damaged = false;
 
-    void Awake()
-    {
-        health = GetComponent<UnitAttributes>();
-    }
+    public UnitAttributes Player;
 
     public void takedamage(float amount)
     {
         damaged = true;
         currentHP -= amount;
+        currentHP = Player.health;
         healthbar.value = currentHP;
         if (currentHP == 0 && !dead)
         {
@@ -36,6 +33,6 @@ public class HealthBar : MonoBehaviour
 
     void Update()
     {
-
+        healthbar.value = Player.health;
     }
 }
