@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Assets.Scripts;
 using UnityEngine.Events;
+using UnityStandardAssets.Utility;
 
 public class UnitAttributes : MonoBehaviour {
 
@@ -25,11 +26,13 @@ public class UnitAttributes : MonoBehaviour {
     public int lap;
     public int checkPoints;
     public Checkpoint nextPoint;
-    public List<Checkpoint> checkPointsList;
+    public WaypointCircuit.WaypointList checkPointsList;
 
 	// Use this for initialization
 	void Start () {
-        nextPoint = checkPointsList[0];
+        checkPointsList = GameObject.Find("CheckPoints").GetComponent<WaypointCircuit>().waypointList;
+        
+        //nextPoint = checkPointsList.items[0];
         preTime = 0;     //Set Pretime   
         preVector = gameObject.transform.position;  //Set Prevector
 
@@ -69,18 +72,18 @@ public class UnitAttributes : MonoBehaviour {
             currentWeapon.SetActive(true);  //Set new current weapon's active to true
         }
 
-        if (nextPoint.CheckPosition(gameObject))
-        {
-            if(checkPointsList.IndexOf(nextPoint) + 1 >= checkPointsList.Count)
-            {
-                nextPoint = checkPointsList[0];
-            }
+        //if (nextPoint.CheckPosition(gameObject))
+        //{
+            //if(System.Array.IndexOf(checkPointsList.items, nextPoint) + 1 >= checkPointsList.items.Length)
+            //{
+            //    nextPoint = checkPointsList.items[0];
+            //}
 
-            else
-            {
-                nextPoint = checkPointsList[checkPointsList.IndexOf(nextPoint) + 1];
-            }
-        }
+            //else
+            //{
+            //    nextPoint = checkPointsList.items[System.Array.IndexOf(checkPointsList.items, nextPoint) + 1];
+            //}
+        //}
     }
 
     void FixedUpdate () {
