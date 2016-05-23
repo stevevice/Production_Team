@@ -5,14 +5,12 @@ using System.Collections.Generic;
 public class RaceManager : MonoBehaviour
 {
 
-    List<GameObject> UnitList = new List<GameObject>();
+    List<GameObject> UnitList;
     GameObject[] UnitWin;
     public int CheckpointAmt;
-    //public int NumCheckpoints;
-    //public Checkpoint[NumCheckpoints] CPArray = new Checkpoint[];
-    List<Checkpoint> Checkpoints = new List<Checkpoint>();
+    List<Checkpoint> Checkpoints;
     public int LapsNeed;
-    public float TimeGameEnd;
+    //public float TimeGameEnd;
 
     void CheckLap()
     {
@@ -20,9 +18,9 @@ public class RaceManager : MonoBehaviour
         {
             foreach(GameObject j in UnitList)
             {
-                if (i.CheckPosition(j) /*&&  j.nextPoint == i */)
+                UnitAttributes UA = j.GetComponent<UnitAttributes>();
+                if (i.CheckPosition(j) &&  UA.nextPoint == i )
                 {
-                    UnitAttributes UA = j.GetComponent<UnitAttributes>();
                     UA.checkPoints++;
                     if (UA.checkPoints == CheckpointAmt)
                     {
@@ -40,9 +38,48 @@ public class RaceManager : MonoBehaviour
         
         foreach(GameObject i in UnitList)
         {
-            if ()
+            foreach (GameObject j in UnitList)
+            {
+                UnitAttributes A = i.GetComponent<UnitAttributes>();
+                UnitAttributes B = i.GetComponent<UnitAttributes>();
+                if (i != j) // && i and j havent checked /*ADD integer for points so i can sort*/
+                {
+                    if (A.lap > B.lap)
+                    {
+                        A.placeValue;
+                    }
+                    else if (A.lap < B.lap)
+                    {
+                        B.placeValue;
+                    }
+                    else
+                    {
+                        if(A.checkPoints > B.checkPoints)
+                        {
+                            A.placeValue;
+                        }
+                        else if (A.checkPoints < B.checkPoints)
+                        {
+                            B.placeValue; 
+                        }
+                        else
+                        {
+                            float ADis = (i.transform.position - A.nextPoint.transform.position).sqrMagnitude;
+                            float BDis = (j.transform.position - B.nextPoint.transform.position).sqrMagnitude;
 
-                playerList.Sort((p1, p2) => p1.score.CompareTo(p2.score));
+                            if (ADis > BDis)
+                            {
+                                A.placeValue;
+                            }
+                            else if (ADis < BDis)
+                            {
+                                B.placeValue;
+                            }
+                        }
+                    }
+                    //add comparison to a list saying we went through these comparisons
+                }
+            }
         }
     }
 
@@ -78,6 +115,9 @@ public class RaceManager : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
+        UnitList = new List<GameObject>();
+        Checkpoints = new List<Checkpoint>();
+
         GameObject[] Units = GameObject.FindGameObjectsWithTag("Unit");
         GameObject[] Player = GameObject.FindGameObjectsWithTag("Player");
 
