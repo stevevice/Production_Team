@@ -1,19 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityStandardAssets.Utility;
 
 public class RaceManager : MonoBehaviour
 {
 
-    List<GameObject> UnitList = new List<GameObject>();
+    List<GameObject> UnitList;
     GameObject[] UnitWin;
     public int CheckpointAmt;
-    //public int NumCheckpoints;
-    //public Checkpoint[NumCheckpoints] CPArray = new Checkpoint[];
-    List<Checkpoint> Checkpoints = new List<Checkpoint>();
+    public List<Checkpoint> Checkpoints;
     public int LapsNeed;
-    int Laps = 1;
-    public float TimeGameEnd;
+    //public float TimeGameEnd;
 
     void CheckLap()
     {
@@ -21,16 +19,98 @@ public class RaceManager : MonoBehaviour
         {
             foreach(GameObject j in UnitList)
             {
-                if (i.CheckPosition(j) == true)
+                UnitAttributes UA = j.GetComponent<UnitAttributes>();
+                if (i.CheckPosition(j) &&  UA.nextPoint == i )
                 {
-                    j.GetComponent<UnitAttributes>().checkPoints++;
-                    if (j.GetComponent<UnitAttributes>().checkPoints == CheckpointAmt)
+                    UA.checkPoints++;
+                    if (UA.checkPoints == CheckpointAmt)
                     {
-                        j.GetComponent<UnitAttributes>().lap++;
-                        j.GetComponent<UnitAttributes>().checkPoints = 0;
+                        UA.lap++;
+                        UA.checkPoints = 0;
                     }
+
+                    //if (nextPoint.CheckPosition(gameObject))
+                    //{
+                    //if(System.Array.IndexOf(checkPointsList.items, nextPoint) + 1 >= checkPointsList.items.Length)
+                    //{
+                    //    nextPoint = checkPointsList.items[0];
+                    //}
+                    //else
+                    //{
+                    //    nextPoint = checkPointsList.items[System.Array.IndexOf(checkPointsList.items, nextPoint) + 1];
+                    //}
+                    //}
+
+                    if (Checkpoints.IndexOf(UA.nextPoint) + 1 >= Checkpoints.Count)
+                    {
+                        UA.nextPoint = Checkpoints[0];
+                    }
+
+                    else
+                    {
+                        UA.nextPoint = Checkpoints[Checkpoints.IndexOf(UA.nextPoint) + 1];
+                    }
+
+
                 }
             }
+        }
+    }
+
+    void CheckPosition()
+    {
+        List<GameObject> SortUnitList = UnitList;
+        
+        foreach(GameObject i in SortUnitList)
+        {
+            foreach (GameObject j in SortUnitList)
+            {
+                UnitAttributes A = i.GetComponent<UnitAttributes>();
+                UnitAttributes B = j.GetComponent<UnitAttributes>();
+                if (i != j) // && i and j havent checked /*ADD integer for points so i can sort*/
+                {
+                    if (A.lap > B.lap)
+                    {
+                        A.placeValue++;
+                    }
+                    else if (A.lap < B.lap)
+                    {
+                        B.placeValue++;
+                    }
+                    else
+                    {
+                        if(A.checkPoints > B.checkPoints)
+                        {
+                            A.placeValue++;
+                        }
+                        else if (A.checkPoints < B.checkPoints)
+                        {
+                            B.placeValue++; 
+                        }
+                        else
+                        {
+                            float ADis = (i.transform.position - A.nextPoint.transform.position).sqrMagnitude;
+                            float BDis = (j.transform.position - B.nextPoint.transform.position).sqrMagnitude;
+
+                            if (ADis > BDis)
+                            {
+                                A.placeValue++;
+                            }
+                            else if (ADis < BDis)
+                            {
+                                B.placeValue++;
+                            }
+                        }
+                    }
+                    SortUnitList.Remove(i); //add comparison to a list saying we went through these comparisons
+                }
+                UnitList.Sort((p1, p2) => A.placeValue.CompareTo(B.placeValue));
+            }
+        }
+        foreach (GameObject i in UnitList)
+        {
+            UnitAttributes Unit = i.GetComponent<UnitAttributes>();
+            Unit.placeValue = 0;
         }
     }
 
@@ -38,8 +118,7 @@ public class RaceManager : MonoBehaviour
     {
         foreach(GameObject i in UnitList)
         {
-            int AmtPlayer = 0;
-            AmtPlayer++;
+            int AmtPlayer = 1;
 
             if (i.GetComponent<UnitAttributes>().lap >= LapsNeed)
             {
@@ -52,7 +131,7 @@ public class RaceManager : MonoBehaviour
     {
         foreach(GameObject i in UnitList)
         {
-            if(i.GetComponent<UnitAttributes>().health == 0)
+            if(i.GetComponent<UnitAttributes>().health <= 0)
             {
                 UnitList.Remove(i);
             }
@@ -62,6 +141,15 @@ public class RaceManager : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
+        UnitList = new List<GameObject>();
+        Checkpoints = new List<Checkpoint>();
+
+        foreach(Transform t in GameObject.Find("CheckPoints").GetComponent<WaypointCircuit>().waypointList.items)
+        {
+            Checkpoints.Add(t.gameObject.GetComponent<Checkpoint>());
+        }
+
+
         GameObject[] Units = GameObject.FindGameObjectsWithTag("Unit");
         GameObject[] Player = GameObject.FindGameObjectsWithTag("Player");
 
@@ -81,6 +169,7 @@ public class RaceManager : MonoBehaviour
         CheckLap();
         CheckGoal();
         CheckPlayersAlive();
+        CheckPosition();
     }
 
     
