@@ -132,7 +132,7 @@ public class RaceManager : MonoBehaviour
         UnitList = new List<GameObject>();
         Checkpoints = new List<Checkpoint>();
 
-        foreach(Transform t in GameObject.Find("CheckPoints").GetComponent<WayPointCircuit>().waypointList.items)
+        foreach(Transform t in GameObject.Find("CheckPoints").GetComponent<WaypointCircuit>().waypointList.items)
         {
             Checkpoints.Add(t.gameObject.GetComponent<Checkpoint>());
         }
