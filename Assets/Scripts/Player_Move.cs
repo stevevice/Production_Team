@@ -60,7 +60,7 @@ public class Player_Move : MonoBehaviour
             }
         }
 
-        if (rotate != 0 && speed != 0)      //if we have input and we are moving
+        if (rotate != 0 && (speed > 0 || speed < 0))      //if we have input and we are moving
         {
             if (speed / maxSpeed < .5f)  //Prevents player from spinning out at low speeds
                 gameObject.transform.Rotate(new Vector3(0f, rotate * (handling + (handling * .5f)) / 50, 0f));    //Rotate

@@ -48,7 +48,7 @@ public class AI_Movement : MonoBehaviour {
                     speed = maxSpeed * .9f;
                 }
 
-                break;
+                break; //anthony likes big butts and he cannot lie
 
             case Behavior.Cautious:
                 dist = target.transform.position - gameObject.transform.position;
