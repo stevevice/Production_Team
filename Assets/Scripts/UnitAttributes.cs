@@ -26,13 +26,13 @@ public class UnitAttributes : MonoBehaviour {
     public int lap;
     public int checkPoints;
     public Checkpoint nextPoint;
-    public WaypointCircuit.WaypointList checkPointsList;
+    public WayPointCircuit.WaypointList checkPointsList;
     public int placeValue;
 
 	// Use this for initialization
 	void Start () {
-        checkPointsList = GameObject.Find("CheckPoints").GetComponent<WaypointCircuit>().waypointList;
-        
+        checkPointsList = GameObject.Find("CheckPoints").GetComponent<WayPointCircuit>().waypointList;
+        placeValue = 0;
         //nextPoint = checkPointsList.items[0];
         preTime = 0;     //Set Pretime   
         preVector = gameObject.transform.position;  //Set Prevector
