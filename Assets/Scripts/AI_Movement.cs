@@ -13,38 +13,51 @@ public class AI_Movement : MonoBehaviour {
 
     public float maxSpeed;                   //The speed the Unit can not go past
     [SerializeField] private float speed;    //Current speed of the Unit
+    [SerializeField] private float acceleration;  //How much speed is added when able to accelerate.
+    [SerializeField] private float handling;      //How fast can the Unit turn?
     [SerializeField] private Behavior unitBehavior;
-    Rigidbody unitRB;
 
-    WaypointProgressTracker proTracker;
+    WayPointProgressTracker proTracker;
     Transform target;                   //Target for the Unit.
     Transform unitTransform;
-    Vector3 fwd;
+    Vector3 fwd;                        //Variable for Pushing the Object towards its Z axis
+    Vector3 dist;
 
     void Start () {
-        unitRB = gameObject.GetComponent<Rigidbody>();
         unitTransform = gameObject.transform;
-        proTracker = gameObject.GetComponent<WaypointProgressTracker>();
+        proTracker = gameObject.GetComponent<WayPointProgressTracker>();
         target = proTracker.target;
         fwd = transform.forward / 100;
 	}
 	
 	void Update () {
-        Vector3 dist = target.transform.position - gameObject.transform.position;
-        gameObject.transform.forward = dist.normalized;
-
+        
         switch (unitBehavior)
         {
             case Behavior.Regular:
+                dist = target.transform.position - gameObject.transform.position;
+                gameObject.transform.forward = dist.normalized * .9f;
+
+                if (speed < maxSpeed * .9f)    //If the Unit Isn't going at max speed
+                {
+                    speed += acceleration;  //add speed
+                }
+
+                else
+                {
+                    speed = maxSpeed * .9f;
+                }
 
                 break;
 
             case Behavior.Cautious:
-
+                dist = target.transform.position - gameObject.transform.position;
+                gameObject.transform.forward = dist.normalized;
                 break;
 
             case Behavior.Reckless:
-
+                dist = target.transform.position - gameObject.transform.position;
+                gameObject.transform.forward = dist.normalized * .8f;
                 break;
         }
 
