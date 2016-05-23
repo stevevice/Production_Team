@@ -31,7 +31,6 @@ public class UnitAttributes : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        checkPointsList = GameObject.Find("CheckPoints").GetComponent<WayPointCircuit>().waypointList;
         placeValue = 0;
         //nextPoint = checkPointsList.items[0];
         preTime = 0;     //Set Pretime   
