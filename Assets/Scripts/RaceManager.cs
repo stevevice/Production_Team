@@ -29,18 +29,6 @@ public class RaceManager : MonoBehaviour
                         UA.checkPoints = 0;
                     }
 
-                    //if (nextPoint.CheckPosition(gameObject))
-                    //{
-                    //if(System.Array.IndexOf(checkPointsList.items, nextPoint) + 1 >= checkPointsList.items.Length)
-                    //{
-                    //    nextPoint = checkPointsList.items[0];
-                    //}
-                    //else
-                    //{
-                    //    nextPoint = checkPointsList.items[System.Array.IndexOf(checkPointsList.items, nextPoint) + 1];
-                    //}
-                    //}
-
                     if (Checkpoints.IndexOf(UA.nextPoint) + 1 >= Checkpoints.Count)
                     {
                         UA.nextPoint = Checkpoints[0];
