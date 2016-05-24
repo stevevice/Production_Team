@@ -127,6 +127,9 @@ public class UnitAttributes : MonoBehaviour {
             else if (Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward) < -.25f)
                 health -= Mathf.Abs((otherScript.damage * otherScript.force) - (force / Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward))); //Minus because of the negative dot product, minus a negative to add
 
+            if (tag == "Player")
+                
+
             Destroy(other.gameObject);  //Destroy the bullet
         }
     }
