@@ -1,31 +1,35 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
+using UnityStandardAssets.Utility;
 
 public class CheckPointHighlight : MonoBehaviour {
 
-    GameObject currentParticles;
-    RaceManager RM;         //Referance to the Game Manager
-    UnitAttributes unitAt;  //The Attributes of this Unit.
+    public Checkpoint unitAt;
     public GameObject particles;
-    Quaternion parRotation;
+    public List<GameObject> checkList;
+
+    public GameObject circet;
 
 	void Start () {
-        RM = FindObjectOfType(typeof(RaceManager)) as RaceManager;
-        unitAt = gameObject.GetComponent<UnitAttributes>();
-        unitAt.nextPoint = RM.Checkpoints[0];
-        parRotation = particles.transform.rotation;
-
-        currentParticles = (GameObject)Instantiate(particles, new Vector3(unitAt.nextPoint.transform.position.x, unitAt.nextPoint.transform.position.y - 1, unitAt.nextPoint.transform.position.z), parRotation);
+        checkList = new List<GameObject>();
+        foreach(Transform t in circet.GetComponent<WaypointCircuit>().waypointList.items)
+        {
+            checkList.Add(t.gameObject);
+        }
+        unitAt = checkList[0].GetComponent<Checkpoint>();
+        particles.transform.position = unitAt.transform.position;
     }
 	
 	void LateUpdate () {
 
-        if (unitAt.nextPoint.CheckPosition(gameObject))
-        {
-            if (currentParticles != null)
-                Destroy(currentParticles);
+        if (unitAt.CheckPosition(gameObject))
+        {           
+            if (checkList.IndexOf(unitAt.gameObject) + 1 >= checkList.Count)
+                unitAt = checkList[0].GetComponent<Checkpoint>();
+            else
+                unitAt = checkList[checkList.IndexOf(unitAt.gameObject) + 1].GetComponent<Checkpoint>();
 
-            currentParticles = (GameObject)Instantiate(particles, new Vector3(unitAt.nextPoint.transform.position.x, unitAt.nextPoint.transform.position.y - 1, unitAt.nextPoint.transform.position.z), parRotation);
+            particles.transform.position = unitAt.transform.position;
         }
     }
 }

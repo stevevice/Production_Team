@@ -573,13 +573,9 @@ MonoBehaviour:
 
     Weapon:
 
-    num 1 = select Spear
+    e = switch weapons
 
-    num 2 = select Shield
-
-    num 3 = select Projectial
-
-    e = Use Pickup'
+    spacebar = fire cannon weapon'
 --- !u!222 &1100594937
 CanvasRenderer:
   m_ObjectHideFlags: 0

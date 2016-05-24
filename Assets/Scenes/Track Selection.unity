@@ -375,7 +375,6 @@ GameObject:
   - 224: {fileID: 897122664}
   - 222: {fileID: 897122667}
   - 114: {fileID: 897122666}
-  - 114: {fileID: 897122668}
   - 114: {fileID: 897122665}
   m_Layer: 5
   m_Name: Track 3
@@ -442,7 +441,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1376500299}
-        m_MethodName: Track2
+        m_MethodName: loadScene
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -487,17 +486,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 897122663}
---- !u!114 &897122668
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 897122663}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8e8c700214973e40b96b581433cd641, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1012840223
 GameObject:
   m_ObjectHideFlags: 0
@@ -508,7 +496,6 @@ GameObject:
   - 224: {fileID: 1012840224}
   - 222: {fileID: 1012840227}
   - 114: {fileID: 1012840226}
-  - 114: {fileID: 1012840228}
   - 114: {fileID: 1012840225}
   m_Layer: 5
   m_Name: Track 2
@@ -575,7 +562,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1376500299}
-        m_MethodName: TwistyTrack
+        m_MethodName: loadScene
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -620,17 +607,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1012840223}
---- !u!114 &1012840228
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1012840223}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8e8c700214973e40b96b581433cd641, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1240074324
 GameObject:
   m_ObjectHideFlags: 0
@@ -875,7 +851,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1376500298}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8e8c700214973e40b96b581433cd641, type: 3}
+  m_Script: {fileID: 11500000, guid: b3c5d8abc76d9b3478dfb60dc31db12b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &1376500300
@@ -994,7 +970,6 @@ GameObject:
   - 224: {fileID: 1763024292}
   - 222: {fileID: 1763024295}
   - 114: {fileID: 1763024294}
-  - 114: {fileID: 1763024296}
   - 114: {fileID: 1763024293}
   m_Layer: 5
   m_Name: Track 1
@@ -1061,7 +1036,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1376500299}
-        m_MethodName: LevelTest
+        m_MethodName: loadScene
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1106,14 +1081,3 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1763024291}
---- !u!114 &1763024296
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1763024291}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8e8c700214973e40b96b581433cd641, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

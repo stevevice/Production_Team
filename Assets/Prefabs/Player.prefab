@@ -14,6 +14,7 @@ GameObject:
   - 54: {fileID: 5494804}
   - 114: {fileID: 11440520}
   - 114: {fileID: 11490538}
+  - 114: {fileID: 11411762}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -125,7 +126,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 128886}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 60.35, y: 2.146011, z: -45.55}
+  m_LocalPosition: {x: -0.6810298, y: 1, z: -11.249481}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 487780}
@@ -202,7 +203,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 2100000, guid: f68411d466018a7409f962f37b2c93eb, type: 2}
+  - {fileID: 2100000, guid: b8b900fc2d5967e499aeeb06618a378a, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -228,7 +229,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 2243063961991014fb73f64952cc980a, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -371,6 +372,18 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 168774}
   m_Enabled: 1
+--- !u!114 &11411762
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 128886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08b663d1bb6fce04b9b223b1e9056c6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particles: {fileID: 154914, guid: 267d8fb288be01e4183413298730b233, type: 2}
 --- !u!114 &11429352
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -417,6 +430,8 @@ MonoBehaviour:
   currentWeapon: {fileID: 0}
   lap: 0
   checkPoints: 0
+  nextPoint: {fileID: 0}
+  placeValue: 0
 --- !u!114 &11496990
 MonoBehaviour:
   m_ObjectHideFlags: 1
