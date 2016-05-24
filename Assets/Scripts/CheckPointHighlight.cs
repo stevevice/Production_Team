@@ -1,35 +1,31 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
-using UnityStandardAssets.Utility;
+using System.Collections;
 
 public class CheckPointHighlight : MonoBehaviour {
 
-    public Checkpoint unitAt;
+    GameObject currentParticles;
+    RaceManager RM;         //Referance to the Game Manager
+    UnitAttributes unitAt;  //The Attributes of this Unit.
     public GameObject particles;
-    public List<GameObject> checkList;
-
-    public GameObject circet;
+    Quaternion parRotation;
 
 	void Start () {
-        checkList = new List<GameObject>();
-        foreach(Transform t in circet.GetComponent<WaypointCircuit>().waypointList.items)
-        {
-            checkList.Add(t.gameObject);
-        }
-        unitAt = checkList[0].GetComponent<Checkpoint>();
-        particles.transform.position = unitAt.transform.position;
+        RM = FindObjectOfType(typeof(RaceManager)) as RaceManager;
+        unitAt = gameObject.GetComponent<UnitAttributes>();
+        unitAt.nextPoint = RM.Checkpoints[0];
+        parRotation = particles.transform.rotation;
+
+        currentParticles = (GameObject)Instantiate(particles, new Vector3(unitAt.nextPoint.transform.position.x, unitAt.nextPoint.transform.position.y - 1, unitAt.nextPoint.transform.position.z), parRotation);
     }
 	
 	void LateUpdate () {
 
-        if (unitAt.CheckPosition(gameObject))
-        {           
-            if (checkList.IndexOf(unitAt.gameObject) + 1 >= checkList.Count)
-                unitAt = checkList[0].GetComponent<Checkpoint>();
-            else
-                unitAt = checkList[checkList.IndexOf(unitAt.gameObject) + 1].GetComponent<Checkpoint>();
+        if (unitAt.nextPoint.CheckPosition(gameObject))
+        {
+            if (currentParticles != null)
+                Destroy(currentParticles);
 
-            particles.transform.position = unitAt.transform.position;
+            currentParticles = (GameObject)Instantiate(particles, new Vector3(unitAt.nextPoint.transform.position.x, unitAt.nextPoint.transform.position.y - 1, unitAt.nextPoint.transform.position.z), parRotation);
         }
     }
 }

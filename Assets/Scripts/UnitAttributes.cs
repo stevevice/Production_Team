@@ -80,19 +80,11 @@ public class UnitAttributes : MonoBehaviour {
 
         if(gameObject.transform.position.y < 0)
         {
-            CheckPointHighlight cpH = gameObject.GetComponent<CheckPointHighlight>();
-            if(cpH.checkList.IndexOf(cpH.unitAt.gameObject) - 1 >= 0)
-                transform.position = cpH.checkList[cpH.checkList.IndexOf(cpH.unitAt.gameObject) - 1].transform.position;
+            RaceManager RM = FindObjectOfType(typeof(RaceManager)) as RaceManager;
+            if(RM.Checkpoints.IndexOf(nextPoint) - 1 > 0)
+                gameObject.transform.position = RM.Checkpoints[RM.Checkpoints.IndexOf(nextPoint) - 1].gameObject.transform.position;
             else
-                transform.position = cpH.checkList[0].transform.position;
-
-            gameObject.GetComponent<Player_Move>().speed = 0;
-            //When the race Manager Works
-            //RaceManager RM = FindObjectOfType(typeof(RaceManager)) as RaceManager;
-            //if(RM.Checkpoints.IndexOf(nextPoint) - 1 > 0)
-            //    gameObject.transform.position = RM.Checkpoints[RM.Checkpoints.IndexOf(nextPoint) - 1].gameObject.transform.position;
-            //else
-            //    gameObject.transform.position = RM.Checkpoints[0].gameObject.transform.position;
+                gameObject.transform.position = RM.Checkpoints[0].gameObject.transform.position;
         }
 
         float timeInt = Time.time - preTime;                        //Interval of Time
