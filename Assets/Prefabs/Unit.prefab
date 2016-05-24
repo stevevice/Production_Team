@@ -34,6 +34,7 @@ GameObject:
   - 54: {fileID: 5462586}
   - 114: {fileID: 11468696}
   - 114: {fileID: 11413794}
+  - 114: {fileID: 11452146}
   m_Layer: 0
   m_Name: Unit
   m_TagString: Unit
@@ -56,6 +57,21 @@ GameObject:
   m_Layer: 0
   m_Name: Cannon
   m_TagString: Weapon
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &169474
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 460860}
+  m_Layer: 0
+  m_Name: WaypointTracer
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -112,6 +128,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 427760}
   m_RootOrder: 0
+--- !u!4 &460860
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 169474}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 479868}
+  m_RootOrder: 2
 --- !u!4 &479868
 Transform:
   m_ObjectHideFlags: 1
@@ -119,11 +147,12 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 145128}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 67.507744, y: 1.5460129, z: -29.33}
+  m_LocalPosition: {x: 67.07255, y: 1, z: -43.323486}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 422058}
   - {fileID: 427760}
+  - {fileID: 460860}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!23 &2311564
@@ -302,11 +331,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b82b5358b57528e4cb3cbdf2d6468571, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 0
+  maxSpeed: 50
   speed: 0
-  wayPoints:
-  - {fileID: 0}
-  - {fileID: 0}
+  acceleration: 0.2
+  handling: 0
+  unitBehavior: 2
+  otherUnits: []
+  avoidanceDist: 2
 --- !u!114 &11425694
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -319,6 +350,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_damage: 3
+--- !u!114 &11452146
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 145128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a9dc01eff6557443814cd1540409452, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  circuit: {fileID: 0}
+  lookAheadForTargetOffset: 5
+  lookAheadForTargetFactor: 0.1
+  lookAheadForSpeedOffset: 10
+  lookAheadForSpeedFactor: 0.2
+  progressStyle: 0
+  pointToPointThreshold: 4
+  target: {fileID: 460860}
 --- !u!114 &11468696
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -336,7 +386,7 @@ MonoBehaviour:
   lap: 0
   checkPoints: 0
   nextPoint: {fileID: 0}
-  checkPointsList: []
+  placeValue: 0
 --- !u!114 &11499084
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -358,7 +408,11 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: avoidanceDist
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 145128}

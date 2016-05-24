@@ -14,8 +14,8 @@ public class UnitAttributes : MonoBehaviour {
     public static PlayerEvent playerDeath;
 
     public float health;                    //How far away is the Unit from being Destroyed
-    public List<GameObject> weaponsList;    //List of all the Wepaons
-    public GameObject currentWeapon;        //Weapon Currently Using
+    [HideInInspector] public List<GameObject> weaponsList;    //List of all the Wepaons
+    [HideInInspector] public GameObject currentWeapon;        //Weapon Currently Using
 
     //To caculate speed
     float preTime;      //Previous time
@@ -23,9 +23,9 @@ public class UnitAttributes : MonoBehaviour {
     float force;        //How much force is that object carring
 
     //Race Manager Variables
-    public int lap;
-    public int checkPoints;
-    public Checkpoint nextPoint;
+    [HideInInspector] public int lap;
+    [HideInInspector] public int checkPoints;
+    [HideInInspector] public Checkpoint nextPoint;
     public int placeValue;
 
 	// Use this for initialization
@@ -78,6 +78,15 @@ public class UnitAttributes : MonoBehaviour {
             gameObject.SetActive(false);    //Destroy Game Object
         }
 
+        if(gameObject.transform.position.y < 0)
+        {
+            RaceManager RM = FindObjectOfType(typeof(RaceManager)) as RaceManager;
+            if(RM.Checkpoints.IndexOf(nextPoint) - 1 > 0)
+                gameObject.transform.position = RM.Checkpoints[RM.Checkpoints.IndexOf(nextPoint) - 1].gameObject.transform.position;
+            else
+                gameObject.transform.position = RM.Checkpoints[0].gameObject.transform.position;
+        }
+
         float timeInt = Time.time - preTime;                        //Interval of Time
         Vector3 dist = gameObject.transform.position - preVector;   //Change in position
 
@@ -98,10 +107,10 @@ public class UnitAttributes : MonoBehaviour {
                     health -= dam * otherForce;     //Apply normal dammage
 
                 else if (Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward) > .25f)
-                    health -= (dam * otherForce) - (force / Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward)); //Number will be positive, so take a little force off.
+                    health -= Mathf.Abs((dam * otherForce) - (force / Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward))); //Number will be positive, so take a little force off.
 
                 else if(Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward) < -.25f)
-                    health -= (dam * otherForce) - (force / Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward)); //Minus because of the negative dot product, minus a negative to add
+                    health -= Mathf.Abs((dam * otherForce) - (force / Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward))); //Minus because of the negative dot product, minus a negative to add
             }
         }
         //Is the object a bullet and is it not my bullet
@@ -110,13 +119,13 @@ public class UnitAttributes : MonoBehaviour {
             Bullet_Control otherScript = other.gameObject.GetComponent<Bullet_Control>();
 
             if (Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward) <= .25f && Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward) >= -.25f)    //if other is facing the side of the Unit
-                health -= otherScript.damage * otherScript.force;   //Apply normal dammage
+                health -= Mathf.Abs(otherScript.damage * otherScript.force);   //Apply normal dammage
 
             else if (Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward) > .25f)
-                health -= (otherScript.damage * otherScript.force) - (force / Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward)); //Number will be positive, so take a little force off.
+                health -= Mathf.Abs((otherScript.damage * otherScript.force) - (force / Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward))); //Number will be positive, so take a little force off.
 
             else if (Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward) < -.25f)
-                health -= (otherScript.damage * otherScript.force) - (force / Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward)); //Minus because of the negative dot product, minus a negative to add
+                health -= Mathf.Abs((otherScript.damage * otherScript.force) - (force / Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward))); //Minus because of the negative dot product, minus a negative to add
 
             if (tag == "Player")
                 

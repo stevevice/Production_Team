@@ -8,7 +8,7 @@ public class RaceManager : MonoBehaviour
 
     List<GameObject> UnitList;
     GameObject[] UnitWin;
-    public int CheckpointAmt;
+    protected int CheckpointAmt;
     public List<Checkpoint> Checkpoints;
     public int LapsNeed;
     //public float TimeGameEnd;
@@ -45,17 +45,32 @@ public class RaceManager : MonoBehaviour
         }
     }
 
+    class UnitPair
+    {
+        public GameObject i;
+        public GameObject j;
+
+        public UnitPair(GameObject I, GameObject J)
+        {
+            i = I;
+            j = J;
+        }
+    }
+
     void CheckPosition()
     {
-        List<GameObject> SortUnitList = UnitList;
         
-        foreach(GameObject i in SortUnitList)
+
+        List<UnitPair> CheckedList = new List<UnitPair>();
+        
+        foreach(GameObject i in UnitList)
         {
-            foreach (GameObject j in SortUnitList)
+            foreach (GameObject j in UnitList)
             {
+                UnitPair IJ = new UnitPair(i, j);
                 UnitAttributes A = i.GetComponent<UnitAttributes>();
                 UnitAttributes B = j.GetComponent<UnitAttributes>();
-                if (i != j) // && i and j havent checked /*ADD integer for points so i can sort*/
+                if ((i != j) && ((IJ.i == i && IJ.j !=j) || (IJ.i != i && IJ.j != j))) // && i and j havent checked /*ADD integer for points so i can sort*/
                 {
                     if (A.lap > B.lap)
                     {
@@ -90,7 +105,7 @@ public class RaceManager : MonoBehaviour
                             }
                         }
                     }
-                    SortUnitList.Remove(i); //add comparison to a list saying we went through these comparisons
+                    CheckedList.Add(IJ);//add comparison to a list saying we went through these comparisons
                 }
                 UnitList.Sort((p1, p2) => A.placeValue.CompareTo(B.placeValue));
             }
@@ -131,10 +146,12 @@ public class RaceManager : MonoBehaviour
     {
         UnitList = new List<GameObject>();
         Checkpoints = new List<Checkpoint>();
+        CheckpointAmt = 0;
 
         foreach(Transform t in GameObject.Find("CheckPoints").GetComponent<WaypointCircuit>().waypointList.items)
         {
             Checkpoints.Add(t.gameObject.GetComponent<Checkpoint>());
+            CheckpointAmt++;
         }
 
 
@@ -148,6 +165,11 @@ public class RaceManager : MonoBehaviour
         foreach (GameObject j in Player)
         {
             UnitList.Add(j);
+        }
+
+        foreach(GameObject i in UnitList)
+        {
+            i.GetComponent<UnitAttributes>().nextPoint = Checkpoints [0];
         }
     }
 	
