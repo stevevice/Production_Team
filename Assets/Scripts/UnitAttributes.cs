@@ -14,8 +14,8 @@ public class UnitAttributes : MonoBehaviour {
     public static PlayerEvent playerDeath;
 
     public float health;                    //How far away is the Unit from being Destroyed
-    public List<GameObject> weaponsList;    //List of all the Wepaons
-    public GameObject currentWeapon;        //Weapon Currently Using
+    [HideInInspector] public List<GameObject> weaponsList;    //List of all the Wepaons
+    [HideInInspector] public GameObject currentWeapon;        //Weapon Currently Using
 
     //To caculate speed
     float preTime;      //Previous time
@@ -23,9 +23,9 @@ public class UnitAttributes : MonoBehaviour {
     float force;        //How much force is that object carring
 
     //Race Manager Variables
-    public int lap;
-    public int checkPoints;
-    public Checkpoint nextPoint;
+    [HideInInspector] public int lap;
+    [HideInInspector] public int checkPoints;
+    [HideInInspector] public Checkpoint nextPoint;
     public int placeValue;
 
 	// Use this for initialization

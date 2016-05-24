@@ -6,24 +6,37 @@ public class AI_Movement : MonoBehaviour {
 
     enum Behavior
     {
-        Cautious,
-        Reckless,
-        Regular,
+        Cautious = 0,
+        Reckless = 1,
+        Regular = 2,
     }
+        
+    public float maxSpeed;                          //The speed the Unit can not go past
+    [SerializeField] private float speed;           //Current speed of the Unit
+    [SerializeField] private float acceleration;    //How much speed is added when able to accelerate.
+    [SerializeField] private float handling;        //How fast can the Unit turn?
+    [SerializeField] private Behavior unitBehavior; //How will this Unit act
 
-    public float maxSpeed;                   //The speed the Unit can not go past
-    [SerializeField] private float speed;    //Current speed of the Unit
-    [SerializeField] private float acceleration;  //How much speed is added when able to accelerate.
-    [SerializeField] private float handling;      //How fast can the Unit turn?
-    [SerializeField] private Behavior unitBehavior;
-
-    WaypointProgressTracker proTracker;
+    WaypointProgressTracker proTracker; //To get the tracker that follows the track
     Transform target;                   //Target for the Unit.
-    Transform unitTransform;
+    Transform unitTransform;            //Transform of the Unit
     Vector3 fwd;                        //Variable for Pushing the Object towards its Z axis
-    Vector3 dist;
+    Vector3 dist;                       //Distance Between self and target.
+
+    //Behavior Variables
+    [HideInInspector] public List<GameObject> otherUnits;        //All the other Units. SELF IS NOT INCLUDED IN THIS
+    public float avoidanceDist;
 
     void Start () {
+        
+        foreach(UnitAttributes u in GameObject.FindObjectsOfType(typeof(UnitAttributes)))
+        {
+            if(u.gameObject != gameObject)
+            {
+                otherUnits.Add(u.gameObject);
+            }
+        }
+
         unitTransform = gameObject.transform;
         proTracker = gameObject.GetComponent<WaypointProgressTracker>();
         target = proTracker.target;
@@ -48,11 +61,26 @@ public class AI_Movement : MonoBehaviour {
                     speed = maxSpeed * .9f;
                 }
 
-                break; //anthony likes big butts and he cannot lie
+                AvoidOthers();
+
+                break;
 
             case Behavior.Cautious:
                 dist = target.transform.position - gameObject.transform.position;
                 gameObject.transform.forward = dist.normalized;
+
+                if (speed < maxSpeed * .75f)    //If the Unit Isn't going at max speed
+                {
+                    speed += acceleration;  //add speed
+                }
+
+                else
+                {
+                    speed = maxSpeed * .75f;
+                }
+
+                AvoidOthers();
+
                 break;
 
             case Behavior.Reckless:
@@ -74,6 +102,39 @@ public class AI_Movement : MonoBehaviour {
         else       //else if not going at max speed
         {
             unitTransform.Translate(fwd * speed, Space.Self);   //move at speed
+        }
+    }
+
+    void AvoidOthers()
+    {
+        foreach(GameObject u in otherUnits)
+        {
+            if(u.activeSelf == false)
+            {
+                otherUnits.Remove(u);
+            }
+        }
+
+        Transform closeUnit = null;
+        Vector3 minDis = new Vector3(Mathf.Infinity, Mathf.Infinity, Mathf.Infinity);
+        Vector3 dist = new Vector3();
+
+        foreach (GameObject u in otherUnits)
+        {
+            dist = u.transform.position - gameObject.transform.position;
+            if(dist.sqrMagnitude < minDis.sqrMagnitude)
+            {
+                minDis = dist;
+                closeUnit = u.transform;
+            }
+        }
+
+        if(closeUnit != null && (closeUnit.position - gameObject.transform.position).magnitude <= avoidanceDist)
+        {
+            Vector3 dis = (closeUnit.position - gameObject.transform.position).normalized;
+
+            if (Vector3.Dot(dis, unitTransform.forward) > 0)    //Who is ahead
+                speed -= acceleration + .15f;
         }
     }
 }
