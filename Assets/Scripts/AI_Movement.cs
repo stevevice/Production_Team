@@ -51,36 +51,36 @@ public class AI_Movement : MonoBehaviour {
                 dist = target.transform.position - gameObject.transform.position;
                 gameObject.transform.forward = dist.normalized * .9f;
 
-                if (speed < maxSpeed * .9f)    //If the Unit Isn't going at max speed
+                if (!AvoidOthers() && !TakeTurnsSlow())
                 {
-                    speed += acceleration;  //add speed
+                    if (speed < maxSpeed * .9f)    //If the Unit Isn't going at max speed
+                    {
+                        speed += acceleration;  //add speed
+                    }
+
+                    else
+                    {
+                        speed = maxSpeed * .9f;
+                    }
                 }
-
-                else
-                {
-                    speed = maxSpeed * .9f;
-                }
-
-                AvoidOthers();
-
                 break;
 
             case Behavior.Cautious:
                 dist = target.transform.position - gameObject.transform.position;
                 gameObject.transform.forward = dist.normalized;
 
-                if (speed < maxSpeed * .75f)    //If the Unit Isn't going at max speed
+                if (!AvoidOthers() && !TakeTurnsSlow())
                 {
-                    speed += acceleration;  //add speed
+                    if (speed < maxSpeed * .75f)    //If the Unit Isn't going at max speed
+                    {
+                        speed += acceleration;  //add speed
+                    }
+
+                    else
+                    {
+                        speed = maxSpeed * .75f;
+                    }
                 }
-
-                else
-                {
-                    speed = maxSpeed * .75f;
-                }
-
-                AvoidOthers();
-
                 break;
 
             case Behavior.Reckless:
@@ -105,7 +105,7 @@ public class AI_Movement : MonoBehaviour {
         }
     }
 
-    void AvoidOthers()
+    bool AvoidOthers()
     {
         foreach(GameObject u in otherUnits)
         {
@@ -133,8 +133,21 @@ public class AI_Movement : MonoBehaviour {
         {
             Vector3 dis = (closeUnit.position - gameObject.transform.position).normalized;
 
-            if (Vector3.Dot(dis, unitTransform.forward) > 0)    //Who is ahead
-                speed -= acceleration + .15f;
+            if (Vector3.Dot(dis, unitTransform.forward) > 0 && speed > 0)    //Who is ahead
+                speed -= acceleration + .15f;   
         }
+        return false;
+    }
+
+    bool TakeTurnsSlow()
+    {
+        if (Vector3.Dot(target.forward, unitTransform.forward) > -.5f && Vector3.Dot(target.forward, unitTransform.forward) < .5f)
+        {
+            if(speed > maxSpeed * .25)
+                speed -= acceleration + .1f;
+            return true;
+        }
+
+        return false;
     }
 }

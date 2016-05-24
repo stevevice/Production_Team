@@ -337,7 +337,7 @@ MonoBehaviour:
   handling: 0
   unitBehavior: 2
   otherUnits: []
-  avoidanceDist: 0
+  avoidanceDist: 2
 --- !u!114 &11425694
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -408,7 +408,11 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: avoidanceDist
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 145128}

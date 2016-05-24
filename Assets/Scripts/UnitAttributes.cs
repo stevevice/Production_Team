@@ -78,6 +78,15 @@ public class UnitAttributes : MonoBehaviour {
             gameObject.SetActive(false);    //Destroy Game Object
         }
 
+        if(gameObject.transform.position.y < 0)
+        {
+            RaceManager RM = FindObjectOfType(typeof(RaceManager)) as RaceManager;
+            if(RM.Checkpoints.IndexOf(nextPoint) - 1 > 0)
+                gameObject.transform.position = RM.Checkpoints[RM.Checkpoints.IndexOf(nextPoint) - 1].gameObject.transform.position;
+            else
+                gameObject.transform.position = RM.Checkpoints[0].gameObject.transform.position;
+        }
+
         float timeInt = Time.time - preTime;                        //Interval of Time
         Vector3 dist = gameObject.transform.position - preVector;   //Change in position
 
