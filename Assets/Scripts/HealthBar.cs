@@ -21,6 +21,6 @@ public class HealthBar : MonoBehaviour
     void Update()
     {
         healthbar.value = Player.health;
-        Vector3.RotateTowards(;
+        transform.LookAt(Player.transform.up);
     }
 }
