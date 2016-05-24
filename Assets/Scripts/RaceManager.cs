@@ -6,7 +6,7 @@ using UnityStandardAssets.Utility;
 public class RaceManager : MonoBehaviour
 {
 
-    List<GameObject> UnitList;
+    public List<GameObject> UnitList;
     GameObject[] UnitWin;
     protected int CheckpointAmt;
     public List<Checkpoint> Checkpoints;
