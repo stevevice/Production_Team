@@ -7,18 +7,6 @@ public class Music : MonoBehaviour
 {
     private static Music _play;
 
-<<<<<<< HEAD
-    public void OnLevelWasLoaded(int level)
-    {
-        if (level >= 3)
-        {
-            GameObject.FindObjectOfType<Music>();
-            Destroy(_play.gameObject);
-        }
-    }
-
-=======
->>>>>>> refs/remotes/atouchetAIE/master
     public static Music play
     {
         get
@@ -26,7 +14,6 @@ public class Music : MonoBehaviour
             if (_play == null)
             {
                 _play = GameObject.FindObjectOfType<Music>();
-                DontDestroyOnLoad(_play.gameObject);
             }
             return _play;
         }
