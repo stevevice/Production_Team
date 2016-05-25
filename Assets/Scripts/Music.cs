@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEditor;
 using System.Collections;
 
 public class Music : MonoBehaviour
