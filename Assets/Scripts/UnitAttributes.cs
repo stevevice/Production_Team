@@ -88,21 +88,32 @@ public class UnitAttributes : MonoBehaviour
 
         if (gameObject.transform.position.y < 0)
         {
-            CheckPointHighlight cpH = gameObject.GetComponent<CheckPointHighlight>();
-            if (cpH.checkList.IndexOf(cpH.unitAt.gameObject) - 1 >= 0)
+            if(gameObject.tag == "Player")
             {
-                transform.position = cpH.checkList[cpH.checkList.IndexOf(cpH.unitAt.gameObject) - 1].transform.position;
-                transform.LookAt(cpH.checkList[cpH.checkList.IndexOf(cpH.unitAt.gameObject)].transform);
+                CheckPointHighlight cpH = gameObject.GetComponent<CheckPointHighlight>();
+                if (cpH.checkList.IndexOf(cpH.unitAt.gameObject) - 1 >= 0)
+                {
+                    transform.position = cpH.checkList[cpH.checkList.IndexOf(cpH.unitAt.gameObject) - 1].transform.position;
+                    transform.LookAt(cpH.checkList[cpH.checkList.IndexOf(cpH.unitAt.gameObject)].transform);
+                }
+
+                else
+                {
+                    transform.position = cpH.checkList[0].transform.position;
+                    transform.LookAt(cpH.checkList[cpH.checkList.IndexOf(cpH.unitAt.gameObject)].transform);
+                }
+
+
+                gameObject.GetComponent<Player_Move>().speed = 0;
             }
 
             else
             {
-                transform.position = cpH.checkList[0].transform.position;
-                transform.LookAt(cpH.checkList[cpH.checkList.IndexOf(cpH.unitAt.gameObject)].transform);
+                gameObject.transform.position = gameObject.GetComponent<WaypointProgressTracker>().progressPoint.position;
+                transform.LookAt(gameObject.GetComponent<AI_Movement>().target);
+                gameObject.GetComponent<AI_Movement>().speed = 0;
             }
-                   
-
-            gameObject.GetComponent<Player_Move>().speed = 0;
+            
             //When the race Manager Works
             //RaceManager RM = FindObjectOfType(typeof(RaceManager)) as RaceManager;
             //if(RM.Checkpoints.IndexOf(nextPoint) - 1 > 0)
