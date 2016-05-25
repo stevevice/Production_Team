@@ -8,19 +8,19 @@ public class HealthBar : MonoBehaviour
     public float currentHP;
     public Slider healthbar;
 
-    public UnitAttributes Player;
+    public UnitAttributes Unit;
     UnitAttributes AI;
 
     public void takedamage(float amount)
     {
         currentHP -= amount;
-        currentHP = Player.health;
+        currentHP = Unit.health;
         healthbar.value = currentHP;
     }
 
     void Update()
     {
-        healthbar.value = Player.health;
-        transform.LookAt(Player.transform.up);
+        healthbar.value = Unit.health;
+        transform.LookAt(GameObject.FindGameObjectWithTag("Player").transform.up);
     }
 }

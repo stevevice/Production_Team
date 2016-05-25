@@ -12,13 +12,13 @@ public class AI_Movement : MonoBehaviour {
     }
         
     public float maxSpeed;                          //The speed the Unit can not go past
-    [SerializeField] private float speed;           //Current speed of the Unit
+    public float speed;                             //Current speed of the Unit
     [SerializeField] private float acceleration;    //How much speed is added when able to accelerate.
     [SerializeField] private float handling;        //How fast can the Unit turn?
     [SerializeField] private Behavior unitBehavior; //How will this Unit act
 
     WaypointProgressTracker proTracker; //To get the tracker that follows the track
-    Transform target;                   //Target for the Unit.
+    [HideInInspector] public Transform target;                   //Target for the Unit.
     Transform unitTransform;            //Transform of the Unit
     Vector3 fwd;                        //Variable for Pushing the Object towards its Z axis
     Vector3 dist;                       //Distance Between self and target.

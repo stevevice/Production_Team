@@ -7,6 +7,7 @@ public class Music : MonoBehaviour
 {
     private static Music _play;
 
+<<<<<<< HEAD
     public void OnLevelWasLoaded(int level)
     {
         if (level >= 3)
@@ -16,6 +17,8 @@ public class Music : MonoBehaviour
         }
     }
 
+=======
+>>>>>>> refs/remotes/atouchetAIE/master
     public static Music play
     {
         get
@@ -34,7 +37,7 @@ public class Music : MonoBehaviour
         if (_play == null)
         {
             _play = this;
-            DontDestroyOnLoad(this);
+            
         }
     }
 
