@@ -14,7 +14,7 @@ public class AI_Movement : MonoBehaviour {
     public float maxSpeed;                          //The speed the Unit can not go past
     public float speed;                             //Current speed of the Unit
     [SerializeField] private float acceleration;    //How much speed is added when able to accelerate.
-    [SerializeField] private float handling;        //How fast can the Unit turn?
+    private float handling;        //How fast can the Unit turn?
     [SerializeField] private Behavior unitBehavior; //How will this Unit act
 
     WaypointProgressTracker proTracker; //To get the tracker that follows the track
@@ -63,6 +63,10 @@ public class AI_Movement : MonoBehaviour {
                         speed = maxSpeed * .9f;
                     }
                 }
+
+                else
+                    if (speed > maxSpeed * .25)
+                        speed -= acceleration + .1f;
                 break;
 
             case Behavior.Cautious:
@@ -81,11 +85,32 @@ public class AI_Movement : MonoBehaviour {
                         speed = maxSpeed * .75f;
                     }
                 }
+                
+                else
+                    if (speed > maxSpeed * .25)
+                        speed -= acceleration + .1f;
                 break;
 
             case Behavior.Reckless:
                 dist = target.transform.position - gameObject.transform.position;
                 gameObject.transform.forward = dist.normalized * .8f;
+
+                if (!TakeTurnsSlow())
+                {
+                    if (speed < maxSpeed)    //If the Unit Isn't going at max speed
+                    {
+                        speed += acceleration;  //add speed
+                    }
+
+                    else
+                    {
+                        speed = maxSpeed;
+                    }
+                }
+
+                else
+                    if (speed > maxSpeed * .25)
+                        speed -= acceleration + .1f;
                 break;
         }
 
@@ -133,21 +158,17 @@ public class AI_Movement : MonoBehaviour {
         {
             Vector3 dis = (closeUnit.position - gameObject.transform.position).normalized;
 
-            if (Vector3.Dot(dis, unitTransform.forward) > 0 && speed > 0)    //Who is ahead
-                speed -= acceleration + .15f;   
+            return true;   
         }
         return false;
     }
 
     bool TakeTurnsSlow()
     {
-        if (Vector3.Dot(target.forward, unitTransform.forward) > -.5f && Vector3.Dot(target.forward, unitTransform.forward) < .5f)
+        if (Vector3.Dot(target.forward, unitTransform.forward) > -.5f && Vector3.Dot(target.forward, unitTransform.forward) < .5f)  //Target is the point the Unit is trying to go to. Target does rotate to predict path
         {
-            if(speed > maxSpeed * .25)
-                speed -= acceleration + .1f;
             return true;
         }
-
         return false;
     }
 }
