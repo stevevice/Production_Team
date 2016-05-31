@@ -14,21 +14,21 @@ public class AI_Movement : MonoBehaviour {
     public float maxSpeed;                          //The speed the Unit can not go past
     public float speed;                             //Current speed of the Unit
     [SerializeField] private float acceleration;    //How much speed is added when able to accelerate.
-    private float handling;        //How fast can the Unit turn?
+    private float handling;                         //How fast can the Unit turn?
     [SerializeField] private Behavior unitBehavior; //How will this Unit act
 
-    WaypointProgressTracker proTracker; //To get the tracker that follows the track
-    [HideInInspector] public Transform target;                   //Target for the Unit.
-    Transform unitTransform;            //Transform of the Unit
-    Vector3 fwd;                        //Variable for Pushing the Object towards its Z axis
-    Vector3 dist;                       //Distance Between self and target.
+    WaypointProgressTracker proTracker;         //To get the tracker that follows the track
+    [HideInInspector] public Transform target;  //Target for the Unit.
+    Transform unitTransform;                    //Transform of the Unit
+    Vector3 fwd;                                //Variable for Pushing the Object towards its Z axis
+    Vector3 dist;                               //Distance Between self and target.
 
     //Behavior Variables
-    [HideInInspector] public List<GameObject> otherUnits;        //All the other Units. SELF IS NOT INCLUDED IN THIS
+    [HideInInspector] public List<GameObject> otherUnits;   //All the other Units. SELF IS NOT INCLUDED IN THIS
     public float avoidanceDist;
 
     void Start () {
-        
+        //Populate all the Other Units
         foreach(UnitAttributes u in GameObject.FindObjectsOfType(typeof(UnitAttributes)))
         {
             if(u.gameObject != gameObject)
@@ -37,21 +37,21 @@ public class AI_Movement : MonoBehaviour {
             }
         }
 
-        unitTransform = gameObject.transform;
-        proTracker = gameObject.GetComponent<WaypointProgressTracker>();
-        target = proTracker.target;
-        fwd = transform.forward / 100;
+        unitTransform = gameObject.transform;   //Set transform
+        proTracker = gameObject.GetComponent<WaypointProgressTracker>();    //Get Waypoint tracker
+        target = proTracker.target;         //Set the Target
+        fwd = transform.forward / 100;  //Scale the Foreward
 	}
 	
 	void Update () {
         
-        switch (unitBehavior)
+        switch (unitBehavior)   //Switch for the Behaviors of the Units
         {
-            case Behavior.Regular:
+            case Behavior.Regular:  //If the Unit is a regular
                 dist = target.transform.position - gameObject.transform.position;
-                gameObject.transform.forward = dist.normalized * .9f;
+                gameObject.transform.forward = dist.normalized * .9f;   //Aim for about 9/10's of the way to the point
 
-                if (!AvoidOthers() && !TakeTurnsSlow())
+                if (!AvoidOthers() && !TakeTurnsSlow()) //if not takiung a turn slow or avoiding others
                 {
                     if (speed < maxSpeed * .9f)    //If the Unit Isn't going at max speed
                     {
@@ -60,20 +60,21 @@ public class AI_Movement : MonoBehaviour {
 
                     else
                     {
-                        speed = maxSpeed * .9f;
+                        speed = maxSpeed * .9f; //speed is equal to little less than max
                     }
                 }
 
+                //If Unit is taking Turn slow or avoiding others, decrease speed
                 else
                     if (speed > maxSpeed * .25)
                         speed -= acceleration + .1f;
                 break;
 
-            case Behavior.Cautious:
+            case Behavior.Cautious: //Cautious Behavior
                 dist = target.transform.position - gameObject.transform.position;
-                gameObject.transform.forward = dist.normalized;
+                gameObject.transform.forward = dist.normalized; //Look at target as much as possible
 
-                if (!AvoidOthers() && !TakeTurnsSlow())
+                if (!AvoidOthers() && !TakeTurnsSlow()) //Avoid others and take turns slow
                 {
                     if (speed < maxSpeed * .75f)    //If the Unit Isn't going at max speed
                     {
@@ -85,17 +86,17 @@ public class AI_Movement : MonoBehaviour {
                         speed = maxSpeed * .75f;
                     }
                 }
-                
+                //If taking turn slow or avoiding others, decrease speed
                 else
                     if (speed > maxSpeed * .25)
                         speed -= acceleration + .1f;
                 break;
 
-            case Behavior.Reckless:
+            case Behavior.Reckless: //Reckless Behavior
                 dist = target.transform.position - gameObject.transform.position;
                 gameObject.transform.forward = dist.normalized * .8f;
 
-                if (!TakeTurnsSlow())
+                if (!TakeTurnsSlow())   //Only takes Turns slow
                 {
                     if (speed < maxSpeed)    //If the Unit Isn't going at max speed
                     {
@@ -107,14 +108,14 @@ public class AI_Movement : MonoBehaviour {
                         speed = maxSpeed;
                     }
                 }
-
+                //If taking turn slow, decreace speed
                 else
                     if (speed > maxSpeed * .25)
                         speed -= acceleration + .1f;
                 break;
         }
 
-        MoveUnit();
+        MoveUnit(); //Moving the Unit is Universal
     }
 
     void MoveUnit()
@@ -130,9 +131,9 @@ public class AI_Movement : MonoBehaviour {
         }
     }
 
-    bool AvoidOthers()
+    bool AvoidOthers()  //Function that will decrease speed if the unit is about to crash with another
     {
-        foreach(GameObject u in otherUnits)
+        foreach(GameObject u in otherUnits) //Remove all the Units that are turned off
         {
             if(u.activeSelf == false)
             {
@@ -140,6 +141,7 @@ public class AI_Movement : MonoBehaviour {
             }
         }
 
+        //Find closest Unit
         Transform closeUnit = null;
         Vector3 minDis = new Vector3(Mathf.Infinity, Mathf.Infinity, Mathf.Infinity);
         Vector3 dist = new Vector3();
@@ -154,6 +156,7 @@ public class AI_Movement : MonoBehaviour {
             }
         }
 
+        //Compare the closest Unit to Slef
         if(closeUnit != null && (closeUnit.position - gameObject.transform.position).magnitude <= avoidanceDist)
         {
             Vector3 dis = (closeUnit.position - gameObject.transform.position).normalized;
@@ -164,7 +167,7 @@ public class AI_Movement : MonoBehaviour {
         return false;
     }
 
-    bool TakeTurnsSlow()
+    bool TakeTurnsSlow()    //Take Turnning Slowly
     {
         if (Vector3.Dot(target.forward, unitTransform.forward) > -.5f && Vector3.Dot(target.forward, unitTransform.forward) < .5f)  //Target is the point the Unit is trying to go to. Target does rotate to predict path
         {

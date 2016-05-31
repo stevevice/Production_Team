@@ -27,12 +27,12 @@ public class UnitAttributes : MonoBehaviour
 
     //Race Manager Variables
     [HideInInspector]
-    public int lap;
+    public int lap;                 //Current lap
     [HideInInspector]
-    public int checkPoints;
+    public int checkPoints;         //Checkpoint Number
     [HideInInspector]
-    public Checkpoint nextPoint;
-    public int placeValue;
+    public Checkpoint nextPoint;    //The next Checkpoint
+    public int placeValue;          //Number for sorting
 
     // Use this for initialization
     void Start()
@@ -86,10 +86,11 @@ public class UnitAttributes : MonoBehaviour
             gameObject.SetActive(false);    //Destroy Game Object
         }
 
-        if (gameObject.transform.position.y < 0)
+        if (gameObject.transform.position.y < 0)    //if Unit falls off the track
         {
-            if(gameObject.tag == "Player")
+            if(gameObject.tag == "Player")  //If they are the player
             {
+                //Set to last checkpoint
                 CheckPointHighlight cpH = gameObject.GetComponent<CheckPointHighlight>();
                 if (cpH.checkList.IndexOf(cpH.unitAt.gameObject) - 1 >= 0)
                 {
@@ -107,6 +108,7 @@ public class UnitAttributes : MonoBehaviour
                 gameObject.GetComponent<Player_Move>().speed = 0;
             }
 
+            //If AI Unit, set to position on track
             else
             {
                 gameObject.transform.position = gameObject.GetComponent<WaypointProgressTracker>().progressPoint.position;
