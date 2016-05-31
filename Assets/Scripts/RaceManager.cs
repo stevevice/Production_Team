@@ -7,7 +7,7 @@ using System.Linq;
 public class RaceManager : MonoBehaviour
 {
     public List<GameObject> UnitList;
-    GameObject[] UnitWin;
+    List<GameObject> UnitWin;
     protected int CheckpointAmt;
     public List<Checkpoint> Checkpoints;
     public int LapsNeed;
@@ -130,12 +130,10 @@ public class RaceManager : MonoBehaviour
     {
         foreach(GameObject i in UnitList)
         {
-            int AmtPlayer = 1;
-
-            if (i.GetComponent<UnitAttributes>().lap >= LapsNeed)
-            {
-                UnitWin[AmtPlayer] = i;
-            } 
+            //if (i.GetComponent<UnitAttributes>().lap >= LapsNeed)
+            //{
+            //    UnitWin[AmtPlayer] = i;
+            //} 
         }
     }
 
