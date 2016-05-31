@@ -7,8 +7,7 @@ using System.Linq;
 public class RaceManager : MonoBehaviour
 {
     public List<GameObject> UnitList;
-    GameObject[] UnitWin;
-    protected int CheckpointAmt;
+    protected List<GameObject> UnitWin;
     public List<Checkpoint> Checkpoints;
     public int LapsNeed;
     //public float TimeGameEnd;
@@ -23,7 +22,7 @@ public class RaceManager : MonoBehaviour
                 if (i.CheckPosition(j) &&  UA.nextPoint == i )
                 {
                     UA.checkPoints++;
-                    if (UA.checkPoints == CheckpointAmt)
+                    if (UA.checkPoints == Checkpoints.Count)
                     {
                         UA.lap++;
                         UA.checkPoints = 0;
@@ -130,13 +129,20 @@ public class RaceManager : MonoBehaviour
     {
         foreach(GameObject i in UnitList)
         {
-            int AmtPlayer = 1;
-
             if (i.GetComponent<UnitAttributes>().lap >= LapsNeed)
             {
-                UnitWin[AmtPlayer] = i;
-            } 
+                UnitWin.Add(i);
+            }
         }
+
+        foreach(GameObject i in UnitWin)
+        {
+            if(i.gameObject.tag.ToString() == "Player")
+            {
+
+            }
+        }
+
     }
 
     void CheckPlayersAlive()
@@ -154,13 +160,12 @@ public class RaceManager : MonoBehaviour
 	void Start ()
     {
         UnitList = new List<GameObject>();
+        UnitWin = new List<GameObject>();
         Checkpoints = new List<Checkpoint>();
-        CheckpointAmt = 0;
 
         foreach(Transform t in GameObject.Find("CheckPoints").GetComponent<WaypointCircuit>().waypointList.items)
         {
             Checkpoints.Add(t.gameObject.GetComponent<Checkpoint>());
-            CheckpointAmt++;
         }
 
 
