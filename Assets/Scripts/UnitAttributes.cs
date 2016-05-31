@@ -4,7 +4,8 @@ using Assets.Scripts;
 using UnityEngine.Events;
 using UnityStandardAssets.Utility;
 
-public class UnitAttributes : MonoBehaviour {
+public class UnitAttributes : MonoBehaviour
+{
 
     public class PlayerEvent : UnityEvent
     {
@@ -14,7 +15,9 @@ public class UnitAttributes : MonoBehaviour {
     public static PlayerEvent playerDeath;
 
     public float health;                    //How far away is the Unit from being Destroyed
+    [HideInInspector]
     public List<GameObject> weaponsList;    //List of all the Wepaons
+    [HideInInspector]
     public GameObject currentWeapon;        //Weapon Currently Using
 
     //To caculate speed
@@ -23,22 +26,26 @@ public class UnitAttributes : MonoBehaviour {
     float force;        //How much force is that object carring
 
     //Race Manager Variables
-    public int lap;
-    public int checkPoints;
-    public Checkpoint nextPoint;
-    public int placeValue;
+    [HideInInspector]
+    public int lap;                 //Current lap
+    [HideInInspector]
+    public int checkPoints;         //Checkpoint Number
+    [HideInInspector]
+    public Checkpoint nextPoint;    //The next Checkpoint
+    public int placeValue;          //Number for sorting
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
         placeValue = 0;
         //nextPoint = checkPointsList.items[0];
         preTime = 0;     //Set Pretime   
         preVector = gameObject.transform.position;  //Set Prevector
 
         int childCount = gameObject.transform.childCount;   //Get Number of children
-        for(int i = 0; i < childCount; i++)
+        for (int i = 0; i < childCount; i++)
         {
-            if(transform.GetChild(i).gameObject.tag == "Weapon")    //If a weapon
+            if (transform.GetChild(i).gameObject.tag == "Weapon")    //If a weapon
             {
                 transform.GetChild(i).gameObject.SetActive(false);  //Set acticve to false
                 weaponsList.Add(transform.GetChild(i).gameObject);  //Add weapon
@@ -50,32 +57,61 @@ public class UnitAttributes : MonoBehaviour {
             currentWeapon = weaponsList[0]; //Current weapon is the first one
             currentWeapon.SetActive(true);  //Turn on that object
         }
-        
-	}
+
+    }
 
     // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.E) && gameObject.CompareTag("Player")) //If the Player
         {
-            currentWeapon.SetActive(false);     //Set Current to false
-            if(weaponsList.IndexOf(currentWeapon) + 1 >= weaponsList.Count) //if last weapon
-            {
-                currentWeapon = weaponsList[0]; //Change to first
-            }
-
-            else
-            {
-                currentWeapon = weaponsList[weaponsList.IndexOf(currentWeapon) + 1];    //Change to next
-            }
-            currentWeapon.SetActive(true);  //Set new current weapon's active to true
+            ChangeWeapon();
         }
     }
 
-    void FixedUpdate () {
-        if(health <= 0f)    //if has no health
+    void FixedUpdate()
+    {
+        if (health <= 0f)    //if has no health
         {
             gameObject.SetActive(false);    //Destroy Game Object
+        }
+
+        if (gameObject.transform.position.y < 0)    //if Unit falls off the track
+        {
+            if(gameObject.tag == "Player")  //If they are the player
+            {
+                //Set to last checkpoint
+                CheckPointHighlight cpH = gameObject.GetComponent<CheckPointHighlight>();
+                if (cpH.checkList.IndexOf(cpH.unitAt.gameObject) - 1 >= 0)
+                {
+                    transform.position = cpH.checkList[cpH.checkList.IndexOf(cpH.unitAt.gameObject) - 1].transform.position;
+                    transform.LookAt(cpH.checkList[cpH.checkList.IndexOf(cpH.unitAt.gameObject)].transform);
+                }
+
+                else
+                {
+                    transform.position = cpH.checkList[0].transform.position;
+                    transform.LookAt(cpH.checkList[cpH.checkList.IndexOf(cpH.unitAt.gameObject)].transform);
+                }
+
+
+                gameObject.GetComponent<Player_Move>().speed = 0;
+            }
+
+            //If AI Unit, set to position on track
+            else
+            {
+                gameObject.transform.position = gameObject.GetComponent<WaypointProgressTracker>().progressPoint.position;
+                transform.LookAt(gameObject.GetComponent<AI_Movement>().target);
+                gameObject.GetComponent<AI_Movement>().speed = 0;
+            }
+            
+            //When the race Manager Works
+            //RaceManager RM = FindObjectOfType(typeof(RaceManager)) as RaceManager;
+            //if(RM.Checkpoints.IndexOf(nextPoint) - 1 > 0)
+            //    gameObject.transform.position = RM.Checkpoints[RM.Checkpoints.IndexOf(nextPoint) - 1].gameObject.transform.position;
+            //else
+            //    gameObject.transform.position = RM.Checkpoints[0].gameObject.transform.position;
         }
 
         float timeInt = Time.time - preTime;                        //Interval of Time
@@ -84,24 +120,39 @@ public class UnitAttributes : MonoBehaviour {
         force = dist.sqrMagnitude / timeInt;    //How hard the Unit will hit
         preTime = Time.time;                    //set pretime to current time
         preVector = gameObject.transform.position;  //Set preVector to current Vector
-	}
+    }
 
     void OnCollisionEnter(Collision other)
     {   //Do i collide with a weapon
-        if(other.gameObject.tag == "Weapon")
+        if (other.gameObject.tag == "Weapon")
         {
-            if (other.gameObject.transform.parent != null) {
+            if (other.gameObject.transform.parent != null)
+            {
                 float dam = other.gameObject.GetComponent<Weapons>().damage;                        //Get Damage of Weapon
                 float otherForce = other.gameObject.GetComponentInParent<UnitAttributes>().force;   //Get force it is moving at
 
                 if (Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward) <= .25f && Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward) >= -.25f)     //if other is facing the side of the Unit
+                {
                     health -= dam * otherForce;     //Apply normal dammage
+                    if(other.transform.parent.gameObject.tag == "Player")                   
+                        other.transform.parent.gameObject.GetComponent<Player_Move>().speed /= 2;
+                    else if(other.transform.parent.gameObject.tag == "Unit")
+                        other.transform.parent.gameObject.GetComponent<AI_Combat>().speed /= 2;
+                }
+                    
 
                 else if (Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward) > .25f)
                     health -= Mathf.Abs((dam * otherForce) - (force / Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward))); //Number will be positive, so take a little force off.
 
-                else if(Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward) < -.25f)
+                else if (Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward) < -.25f)
+                {
                     health -= Mathf.Abs((dam * otherForce) - (force / Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward))); //Minus because of the negative dot product, minus a negative to add
+                    if (other.transform.parent.gameObject.tag == "Player")
+                        other.transform.parent.gameObject.GetComponent<Player_Move>().speed = 0;
+                    else if (other.transform.parent.gameObject.tag == "Unit")
+                        other.transform.parent.gameObject.GetComponent<AI_Combat>().speed = 0;
+                }
+                    
             }
         }
         //Is the object a bullet and is it not my bullet
@@ -117,8 +168,21 @@ public class UnitAttributes : MonoBehaviour {
 
             else if (Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward) < -.25f)
                 health -= Mathf.Abs((otherScript.damage * otherScript.force) - (force / Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward))); //Minus because of the negative dot product, minus a negative to add
-
-            Destroy(other.gameObject);  //Destroy the bullet
         }
+    }
+
+    public void ChangeWeapon() //Way for the Unit to change weapons
+    {
+        currentWeapon.SetActive(false);     //Set Current to false
+        if (weaponsList.IndexOf(currentWeapon) + 1 >= weaponsList.Count) //if last weapon
+        {
+            currentWeapon = weaponsList[0]; //Change to first
+        }
+
+        else
+        {
+            currentWeapon = weaponsList[weaponsList.IndexOf(currentWeapon) + 1];    //Change to next
+        }
+        currentWeapon.SetActive(true);  //Set new current weapon's active to true
     }
 }

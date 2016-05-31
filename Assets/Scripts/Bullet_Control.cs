@@ -21,8 +21,8 @@ public class Bullet_Control : MonoBehaviour
         preVector = gameObject.transform.position;
         rb = GetComponent<Rigidbody>();
         timed = Time.time;
-
-	}
+        
+    }
 	
 	void Update ()
     {
@@ -39,5 +39,10 @@ public class Bullet_Control : MonoBehaviour
     {
         Force = f;
     }
-}
 
+    void OnCollisionEnter(Collision other)
+    {
+        if(other.gameObject != unitFired)
+            Destroy(gameObject);
+    }
+}
