@@ -2,10 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityStandardAssets.Utility;
+using System.Linq;
 
 public class RaceManager : MonoBehaviour
 {
-
     public List<GameObject> UnitList;
     GameObject[] UnitWin;
     protected int CheckpointAmt;
@@ -59,8 +59,6 @@ public class RaceManager : MonoBehaviour
 
     void CheckPosition()
     {
-        
-
         List<UnitPair> CheckedList = new List<UnitPair>();
         
         foreach(GameObject i in UnitList)
@@ -68,48 +66,59 @@ public class RaceManager : MonoBehaviour
             foreach (GameObject j in UnitList)
             {
                 UnitPair IJ = new UnitPair(i, j);
-                UnitAttributes A = i.GetComponent<UnitAttributes>();
-                UnitAttributes B = j.GetComponent<UnitAttributes>();
-                if ((i != j) && ((IJ.i == i && IJ.j !=j) || (IJ.i != i && IJ.j != j))) // && i and j havent checked /*ADD integer for points so i can sort*/
+                UnitPair JI = new UnitPair(j, i);
+
+                if (!CheckedList.Contains(IJ) && !CheckedList.Contains(JI) && i != j)
                 {
-                    if (A.lap > B.lap)
-                    {
-                        A.placeValue++;
-                    }
-                    else if (A.lap < B.lap)
-                    {
-                        B.placeValue++;
-                    }
-                    else
-                    {
-                        if(A.checkPoints > B.checkPoints)
+                    UnitAttributes A = i.GetComponent<UnitAttributes>();
+                    UnitAttributes B = j.GetComponent<UnitAttributes>();
+                    
+                        if (A.lap > B.lap)
                         {
                             A.placeValue++;
                         }
-                        else if (A.checkPoints < B.checkPoints)
+                        else if (A.lap < B.lap)
                         {
-                            B.placeValue++; 
+                            B.placeValue++;
                         }
                         else
                         {
-                            float ADis = (i.transform.position - A.nextPoint.transform.position).sqrMagnitude;
-                            float BDis = (j.transform.position - B.nextPoint.transform.position).sqrMagnitude;
-
-                            if (ADis > BDis)
+                            if (A.checkPoints > B.checkPoints)
                             {
                                 A.placeValue++;
                             }
-                            else if (ADis < BDis)
+                            else if (A.checkPoints < B.checkPoints)
                             {
                                 B.placeValue++;
                             }
+                            else
+                            {
+                                float ADis = (i.transform.position - A.nextPoint.transform.position).magnitude;
+                                float BDis = (j.transform.position - B.nextPoint.transform.position).magnitude;
+                                
+                                if (ADis < BDis)
+                                {
+                                    A.placeValue++;
+                                }
+
+                                else
+                                {                              
+                                    B.placeValue++;
+                                }
+                                
+                            }
                         }
-                    }
-                    CheckedList.Add(IJ);//add comparison to a list saying we went through these comparisons
+                        CheckedList.Add(IJ);//add comparison to a list saying we went through these comparisons
+                    
                 }
-                UnitList.Sort((p1, p2) => A.placeValue.CompareTo(B.placeValue));
             }
         }
+
+
+        UnitList = UnitList.OrderByDescending(x=>x.GetComponent<UnitAttributes>().placeValue).ToList();
+
+
+
         foreach (GameObject i in UnitList)
         {
             UnitAttributes Unit = i.GetComponent<UnitAttributes>();

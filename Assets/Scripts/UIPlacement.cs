@@ -12,7 +12,6 @@ public class UIPlacement : MonoBehaviour
     
     void Update()
     {
-        pos.text = position.UnitList.IndexOf(player).ToString();
-
+        pos.text = (position.UnitList.IndexOf(player) + 1).ToString();
     }
 }

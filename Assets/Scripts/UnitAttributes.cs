@@ -65,17 +65,7 @@ public class UnitAttributes : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E) && gameObject.CompareTag("Player")) //If the Player
         {
-            currentWeapon.SetActive(false);     //Set Current to false
-            if (weaponsList.IndexOf(currentWeapon) + 1 >= weaponsList.Count) //if last weapon
-            {
-                currentWeapon = weaponsList[0]; //Change to first
-            }
-
-            else
-            {
-                currentWeapon = weaponsList[weaponsList.IndexOf(currentWeapon) + 1];    //Change to next
-            }
-            currentWeapon.SetActive(true);  //Set new current weapon's active to true
+            ChangeWeapon();
         }
     }
 
@@ -146,8 +136,8 @@ public class UnitAttributes : MonoBehaviour
                     health -= dam * otherForce;     //Apply normal dammage
                     if(other.transform.parent.gameObject.tag == "Player")                   
                         other.transform.parent.gameObject.GetComponent<Player_Move>().speed /= 2;
-                    else
-                        other.transform.parent.gameObject.GetComponent<AI_Movement>().speed /= 2;
+                    else if(other.transform.parent.gameObject.tag == "Unit")
+                        other.transform.parent.gameObject.GetComponent<AI_Combat>().speed /= 2;
                 }
                     
 
@@ -159,8 +149,8 @@ public class UnitAttributes : MonoBehaviour
                     health -= Mathf.Abs((dam * otherForce) - (force / Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward))); //Minus because of the negative dot product, minus a negative to add
                     if (other.transform.parent.gameObject.tag == "Player")
                         other.transform.parent.gameObject.GetComponent<Player_Move>().speed = 0;
-                    else
-                        other.transform.parent.gameObject.GetComponent<AI_Movement>().speed = 0;
+                    else if (other.transform.parent.gameObject.tag == "Unit")
+                        other.transform.parent.gameObject.GetComponent<AI_Combat>().speed = 0;
                 }
                     
             }
@@ -179,5 +169,20 @@ public class UnitAttributes : MonoBehaviour
             else if (Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward) < -.25f)
                 health -= Mathf.Abs((otherScript.damage * otherScript.force) - (force / Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward))); //Minus because of the negative dot product, minus a negative to add
         }
+    }
+
+    public void ChangeWeapon() //Way for the Unit to change weapons
+    {
+        currentWeapon.SetActive(false);     //Set Current to false
+        if (weaponsList.IndexOf(currentWeapon) + 1 >= weaponsList.Count) //if last weapon
+        {
+            currentWeapon = weaponsList[0]; //Change to first
+        }
+
+        else
+        {
+            currentWeapon = weaponsList[weaponsList.IndexOf(currentWeapon) + 1];    //Change to next
+        }
+        currentWeapon.SetActive(true);  //Set new current weapon's active to true
     }
 }

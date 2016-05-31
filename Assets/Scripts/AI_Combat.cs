@@ -17,7 +17,15 @@ public class AI_Combat : MonoBehaviour {
     Vector3 fwd;    //Forward of the Unit scaled
 
     //AI Variables
-    GameObject target;  //Unit that will be targeted
+    public enum MethodOfAttack
+    {
+        Spear,
+        Projectile,
+        Mixed,
+    }
+    GameObject target;                  //Unit that will be targeted
+    public MethodOfAttack attackMethod; //How will the Unit Behave
+
 
     void Start () {
         FindNewTarget();    //Find a target
@@ -28,17 +36,28 @@ public class AI_Combat : MonoBehaviour {
 	}
 	
 	void Update () {
-        if (Time.time >= nextfire)      //Requirements to fire a bullet
-            FireBullet();
+        TurnUnit(); //Turn Unit
+
+        switch (attackMethod)
+        {
+            case MethodOfAttack.Spear:
+                transform.forward -= new Vector3(.1f, 0f, 0f);
+                break;
+
+            case MethodOfAttack.Projectile:
+                break;
+
+            case MethodOfAttack.Mixed:  
+                if (gameObject.GetComponent<UnitAttributes>().currentWeapon.name != "Cannon")
+                    gameObject.GetComponent<UnitAttributes>().ChangeWeapon();
+                break;
+        }
 
         if (speed >= maxSpeed)  //Applying speed
             speed = maxSpeed;
         else
             speed += acceleration;
-
-        //Behaviors go here
-
-        TurnUnit();
+ 
         MoveUnit();
 	}
 
@@ -69,7 +88,7 @@ public class AI_Combat : MonoBehaviour {
     void TurnUnit() //Function designed to turn the unit
     {
         Vector3 dist = target.transform.position - gameObject.transform.position;
-        Debug.Log(dist);
+        gameObject.transform.forward = dist.normalized;
     }
 
     void FindNewTarget()    //Function to find a new target. Based on closest Unit.
@@ -77,9 +96,11 @@ public class AI_Combat : MonoBehaviour {
         //Get all Units
         List<GameObject> viableTargets = new List<GameObject>();
         foreach (GameObject u in GameObject.FindGameObjectsWithTag("Unit"))
-            viableTargets.Add(u);
+            if(u != gameObject)
+                viableTargets.Add(u);
         foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player"))
-            viableTargets.Add(p);
+            if (p != gameObject)
+                viableTargets.Add(p);
 
         //Compare Their Distances
         float minDis = Mathf.Infinity;
