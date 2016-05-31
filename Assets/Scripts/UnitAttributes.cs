@@ -98,10 +98,10 @@ public class UnitAttributes : MonoBehaviour {
                     health -= dam * otherForce;     //Apply normal dammage
 
                 else if (Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward) > .25f)
-                    health -= (dam * otherForce) - (force / Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward)); //Number will be positive, so take a little force off.
+                    health -= Mathf.Abs((dam * otherForce) - (force / Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward))); //Number will be positive, so take a little force off.
 
                 else if(Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward) < -.25f)
-                    health -= (dam * otherForce) - (force / Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward)); //Minus because of the negative dot product, minus a negative to add
+                    health -= Mathf.Abs((dam * otherForce) - (force / Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward))); //Minus because of the negative dot product, minus a negative to add
             }
         }
         //Is the object a bullet and is it not my bullet
@@ -110,13 +110,13 @@ public class UnitAttributes : MonoBehaviour {
             Bullet_Control otherScript = other.gameObject.GetComponent<Bullet_Control>();
 
             if (Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward) <= .25f && Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward) >= -.25f)    //if other is facing the side of the Unit
-                health -= otherScript.damage * otherScript.force;   //Apply normal dammage
+                health -= Mathf.Abs(otherScript.damage * otherScript.force);   //Apply normal dammage
 
             else if (Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward) > .25f)
-                health -= (otherScript.damage * otherScript.force) - (force / Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward)); //Number will be positive, so take a little force off.
+                health -= Mathf.Abs((otherScript.damage * otherScript.force) - (force / Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward))); //Number will be positive, so take a little force off.
 
             else if (Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward) < -.25f)
-                health -= (otherScript.damage * otherScript.force) - (force / Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward)); //Minus because of the negative dot product, minus a negative to add
+                health -= Mathf.Abs((otherScript.damage * otherScript.force) - (force / Vector3.Dot(other.gameObject.transform.forward, gameObject.transform.forward))); //Minus because of the negative dot product, minus a negative to add
 
             Destroy(other.gameObject);  //Destroy the bullet
         }
