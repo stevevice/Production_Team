@@ -15,6 +15,6 @@ public class UILap : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        lapText.text = "Lap: " + Unit.lap + "/" + RM.LapsNeed;
+        lapText.text = "Lap: " + (Unit.lap + 1) + "/" + RM.LapsNeed;
 	}
 }

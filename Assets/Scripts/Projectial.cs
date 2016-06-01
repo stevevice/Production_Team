@@ -45,7 +45,6 @@ public class Projectial : MonoBehaviour, Weapons
     void FireBullet()
     {
         GameObject temp;
-        Player_Move playerMove = gameObject.transform.GetComponentInParent<Player_Move>();
         temp = Instantiate(bullet, bulletspawn.transform.position, new Quaternion()) as GameObject;
         CannonFireEvent.Invoke();
         temp.GetComponent<Bullet_Control>().unitFired = gameObject.transform.parent.gameObject;

@@ -12,6 +12,8 @@ public class RaceManager : MonoBehaviour
     public List<Checkpoint> Checkpoints;
     public int LapsNeed;
     //public float TimeGameEnd;
+    UnitAttributes player;
+    public GameObject endCamera;
 
     void CheckLap()
     {
@@ -128,13 +130,27 @@ public class RaceManager : MonoBehaviour
 
     void CheckGoal()
     {
-        //foreach(GameObject i in UnitList)
-        //{
-        //    if (i.GetComponent<UnitAttributes>().lap >= LapsNeed)
-        //    {
-        //        UnitWin[AmtPlayer] = i;
-        //    } 
-        //}
+        if(player.lap >= LapsNeed && endCamera.activeSelf != true)
+        {
+            GameObject UI = GameObject.Find("UI");
+            foreach(Transform go in UI.transform)
+            {
+                if (go.gameObject.name != "BackButton" && go.gameObject.name != "SceneSelection" && go.gameObject.name != "EventSystem")
+                    go.gameObject.SetActive(false);
+            }
+
+            player.gameObject.GetComponent<WaypointProgressTracker>().enabled = true;
+            player.gameObject.GetComponent<AI_Movement>().enabled = true;
+            player.gameObject.GetComponent<AI_Movement>().speed = player.gameObject.GetComponent<Player_Move>().speed;
+            player.gameObject.GetComponent<Player_Move>().enabled = false;
+
+            GameObject.Find("WaypointParticles").SetActive(false);
+
+            player.gameObject.transform.forward = new Vector3(0f, 0f, 1f);
+
+            player.gameObject.transform.FindChild("Camera").gameObject.SetActive(false);
+            endCamera.SetActive(true);
+        }
     }
 
     void CheckPlayersAlive()
@@ -151,6 +167,9 @@ public class RaceManager : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
+        if (endCamera.activeSelf == true)
+            endCamera.SetActive(false);
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<UnitAttributes>();
         UnitList = new List<GameObject>();
         Checkpoints = new List<Checkpoint>();
         CheckpointAmt = 0;
