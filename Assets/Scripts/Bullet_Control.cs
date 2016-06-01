@@ -32,7 +32,7 @@ public class Bullet_Control : MonoBehaviour
         if (Time.time >= timed + timea)
             Destroy(gameObject);
 
-        rb.AddForce(Force * 25);
+        rb.velocity = Force * 3;
 	}
 
     public void SetForce(Vector3 f)
@@ -40,9 +40,9 @@ public class Bullet_Control : MonoBehaviour
         Force = f;
     }
 
-    void OnCollisionEnter(Collision other)
+    void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject != unitFired)
+        if(other.gameObject != unitFired && other.gameObject.name != "Cannon")
             Destroy(gameObject);
     }
 }

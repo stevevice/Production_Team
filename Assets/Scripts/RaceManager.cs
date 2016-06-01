@@ -128,13 +128,13 @@ public class RaceManager : MonoBehaviour
 
     void CheckGoal()
     {
-        foreach(GameObject i in UnitList)
-        {
-            //if (i.GetComponent<UnitAttributes>().lap >= LapsNeed)
-            //{
-            //    UnitWin[AmtPlayer] = i;
-            //} 
-        }
+        //foreach(GameObject i in UnitList)
+        //{
+        //    if (i.GetComponent<UnitAttributes>().lap >= LapsNeed)
+        //    {
+        //        UnitWin[AmtPlayer] = i;
+        //    } 
+        //}
     }
 
     void CheckPlayersAlive()

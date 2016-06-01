@@ -149,8 +149,12 @@ public class UnitAttributes : MonoBehaviour
                     
             }
         }
-        //Is the object a bullet and is it not my bullet
-        else if (other.gameObject.CompareTag("Bullet") && other.gameObject.GetComponent<Bullet_Control>().unitFired != gameObject)
+        
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Bullet") && other.gameObject.GetComponent<Bullet_Control>().unitFired != gameObject)
         {
             Bullet_Control otherScript = other.gameObject.GetComponent<Bullet_Control>();
 
