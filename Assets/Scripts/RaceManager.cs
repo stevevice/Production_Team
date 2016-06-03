@@ -169,6 +169,7 @@ public class RaceManager : MonoBehaviour
     {
         if (endCamera.activeSelf == true)
             endCamera.SetActive(false);
+
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<UnitAttributes>();
         UnitList = new List<GameObject>();
         Checkpoints = new List<Checkpoint>();
@@ -208,5 +209,8 @@ public class RaceManager : MonoBehaviour
         CheckPosition();
     }
 
-    
+    void CreatePlayer()
+    {
+        //Will Create Player here
+    }
 }

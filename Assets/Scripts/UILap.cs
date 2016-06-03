@@ -9,7 +9,7 @@ public class UILap : MonoBehaviour {
     RaceManager RM;
 
 	void Start () {
-        Unit = GameObject.Find("Player").GetComponent<UnitAttributes>();
+        Unit = GameObject.FindGameObjectWithTag("Player").GetComponent<UnitAttributes>();
         RM = GameObject.Find("RaceManager").GetComponent<RaceManager>();
 	}
 	

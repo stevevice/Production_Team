@@ -5,8 +5,13 @@ using System.Collections;
 public class EndCameraEffects : MonoBehaviour {
     public GameObject track;
     public Text endText;
-    public GameObject player;
+    GameObject player;
     bool finished = false;
+
+    void Awake()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+    }
 
 	void Update () {
         transform.LookAt(track.transform);

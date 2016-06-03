@@ -21,7 +21,7 @@ public class HealthBar : MonoBehaviour
 
     void Start()
     {
-        Player = GameObject.Find("Player");
+        Player = GameObject.FindGameObjectWithTag("Player");
     }
 
     void Update()

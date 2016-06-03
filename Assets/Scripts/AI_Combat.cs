@@ -37,6 +37,10 @@ public class AI_Combat : MonoBehaviour {
 	}
 	
 	void Update () {
+        if (target.activeSelf == false)
+            speed = 0;
+            FindNewTarget();
+
         TurnUnit(); //Turn Unit
 
         if (speed >= maxSpeed)  //Applying speed
@@ -47,7 +51,7 @@ public class AI_Combat : MonoBehaviour {
         switch (attackMethod)
         {
             case MethodOfAttack.Spear:
-                transform.forward -= new Vector3(.1f, 0f, 0f);
+                transform.forward -= new Vector3(.2f, 0f, 0f);
                 break;
 
             case MethodOfAttack.Projectile:
@@ -106,7 +110,7 @@ public class AI_Combat : MonoBehaviour {
     void TurnUnit() //Function designed to turn the unit
     {
         Vector3 dist = target.transform.position - gameObject.transform.position;
-        gameObject.transform.forward = dist.normalized;
+        gameObject.transform.forward = dist.normalized - new Vector3(.2f, 0f, 0f); 
     }
 
     void FindNewTarget()    //Function to find a new target. Based on closest Unit.
