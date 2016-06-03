@@ -214,6 +214,9 @@ public class AI_Movement : MonoBehaviour {
             }
         }
 
+        if (closeUnit == null)
+            return false;
+
         AI_Movement closeUnitAI;
 
         closeUnitAI = closeUnit.gameObject.GetComponent<AI_Movement>();
