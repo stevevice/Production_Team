@@ -23,6 +23,7 @@ public class AI_Combat : MonoBehaviour {
         Projectile,
         Mixed,
     }
+
     GameObject target;                  //Unit that will be targeted
     public MethodOfAttack attackMethod; //How will the Unit Behave
 
@@ -38,6 +39,11 @@ public class AI_Combat : MonoBehaviour {
 	void Update () {
         TurnUnit(); //Turn Unit
 
+        if (speed >= maxSpeed)  //Applying speed
+            speed = maxSpeed;
+        else
+            speed += acceleration;
+
         switch (attackMethod)
         {
             case MethodOfAttack.Spear:
@@ -45,31 +51,43 @@ public class AI_Combat : MonoBehaviour {
                 break;
 
             case MethodOfAttack.Projectile:
-                break;
+                transform.forward += new Vector3(.1f, 0f, 0f);
+                if (gameObject.GetComponent<UnitAttributes>().currentWeapon.name != "Cannon")   //If the current weapon isnt the cannon
+                    gameObject.GetComponent<UnitAttributes>().ChangeWeapon();
+
+                Vector3 dis = (target.transform.position - gameObject.transform.position).normalized;
+
+                if (Vector3.Dot(dis, transform.forward) > .8f)    //Who is ahead
+                {
+                    FireBullet();
+                    if (speed > maxSpeed)
+                        speed -= acceleration + .1f;
+                }
+                    
+                    break;
 
             case MethodOfAttack.Mixed:  
                 if (gameObject.GetComponent<UnitAttributes>().currentWeapon.name != "Cannon")
                     gameObject.GetComponent<UnitAttributes>().ChangeWeapon();
                 break;
-        }
-
-        if (speed >= maxSpeed)  //Applying speed
-            speed = maxSpeed;
-        else
-            speed += acceleration;
+        }      
  
         MoveUnit();
 	}
 
     void FireBullet()   //So AI can fire a bullet. Will not go through the Cannon Gameobject
     {
-        GameObject temp;
-        temp = Instantiate(bullet, bulletspawn.transform.position, new Quaternion()) as GameObject; //Make Bullet
-        cannonFire.Play();  //Play Cannon firew Sound
-        temp.GetComponent<Bullet_Control>().unitFired = gameObject;                 //Set the unit that fired the bullet
-        temp.GetComponent<Bullet_Control>().SetForce(transform.forward * speed);    //Give Bullet force greater than the Unit     
+        if(Time.time >= nextfire)
+        {
+            GameObject temp;
+            temp = Instantiate(bullet, bulletspawn.transform.position, new Quaternion()) as GameObject; //Make Bullet
+            cannonFire.Play();  //Play Cannon fire Sound
+            temp.GetComponent<Bullet_Control>().unitFired = gameObject;                 //Set the unit that fired the bullet
+            temp.GetComponent<Bullet_Control>().SetForce(transform.forward * speed);    //Give Bullet force greater than the Unit     
 
-        nextfire = Time.time + firerate;    //Set next fire
+            nextfire = Time.time + firerate;    //Set next fire
+        }
+        
     }
 
     void MoveUnit()

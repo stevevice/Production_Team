@@ -7,7 +7,12 @@ using System.Linq;
 public class RaceManager : MonoBehaviour
 {
     public List<GameObject> UnitList;
+<<<<<<< HEAD
     protected List<GameObject> UnitWin;
+=======
+    List<GameObject> UnitWin;
+    protected int CheckpointAmt;
+>>>>>>> refs/remotes/atouchetAIE/master
     public List<Checkpoint> Checkpoints;
     public int LapsNeed;
     //public float TimeGameEnd;
@@ -129,10 +134,17 @@ public class RaceManager : MonoBehaviour
     {
         foreach(GameObject i in UnitList)
         {
+<<<<<<< HEAD
             if (i.GetComponent<UnitAttributes>().lap >= LapsNeed)
             {
                 UnitWin.Add(i);
             }
+=======
+            //if (i.GetComponent<UnitAttributes>().lap >= LapsNeed)
+            //{
+            //    UnitWin[AmtPlayer] = i;
+            //} 
+>>>>>>> refs/remotes/atouchetAIE/master
         }
 
         foreach(GameObject i in UnitWin)

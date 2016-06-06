@@ -1519,7 +1519,6 @@ MonoBehaviour:
   maxSpeed: 20
   speed: 0
   acceleration: 0.2
-  handling: 0
   unitBehavior: 2
   target: {fileID: 0}
   otherUnits: []
@@ -2000,7 +1999,6 @@ MonoBehaviour:
   maxSpeed: 30
   speed: 0
   acceleration: 0.2
-  handling: 0
   unitBehavior: 2
   target: {fileID: 0}
   otherUnits: []
@@ -2560,6 +2558,48 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AreaHit: 2
   Racers: []
+--- !u!1 &1872726069
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1872726071}
+  - 114: {fileID: 1872726070}
+  m_Layer: 0
+  m_Name: RaceManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1872726070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1872726069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a4d817ca63c3744eb5cb1db3b2d369c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UnitList: []
+  Checkpoints: []
+  LapsNeed: 3
+--- !u!4 &1872726071
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1872726069}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
 --- !u!1001 &1899065967
 Prefab:
   m_ObjectHideFlags: 0
@@ -2724,8 +2764,16 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 11420428, guid: bbc45afdc7a40b549a5d05cb8da7257f, type: 2}
+      propertyPath: position
+      value: 
+      objectReference: {fileID: 1872726070}
+    - target: {fileID: 11420428, guid: bbc45afdc7a40b549a5d05cb8da7257f, type: 2}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 563706436}
     - target: {fileID: 11430008, guid: bbc45afdc7a40b549a5d05cb8da7257f, type: 2}
-      propertyPath: Player
+      propertyPath: Unit
       value: 
       objectReference: {fileID: 563706438}
     - target: {fileID: 22484770, guid: bbc45afdc7a40b549a5d05cb8da7257f, type: 2}
@@ -2736,10 +2784,6 @@ Prefab:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 11430008, guid: bbc45afdc7a40b549a5d05cb8da7257f, type: 2}
-      propertyPath: Unit
-      value: 
-      objectReference: {fileID: 563706438}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bbc45afdc7a40b549a5d05cb8da7257f, type: 2}
   m_IsPrefabParent: 0
