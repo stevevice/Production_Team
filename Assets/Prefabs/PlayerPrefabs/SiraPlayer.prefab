@@ -42,7 +42,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 464314}
-  - 54: {fileID: 5404966}
   m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
@@ -64,6 +63,7 @@ GameObject:
   - 114: {fileID: 11482122}
   - 114: {fileID: 11434490}
   - 114: {fileID: 11446796}
+  - 54: {fileID: 5427030}
   m_Layer: 0
   m_Name: SiraPlayer
   m_TagString: Player
@@ -661,12 +661,12 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 192056}
   m_Mesh: {fileID: 4300002, guid: 1cbafddbf5f63f1459c3113c2a3bdff3, type: 3}
---- !u!54 &5404966
+--- !u!54 &5427030
 Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 120264}
+  m_GameObject: {fileID: 129408}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
@@ -1039,6 +1039,22 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_LocalPosition.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Constraints
+      value: 112
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

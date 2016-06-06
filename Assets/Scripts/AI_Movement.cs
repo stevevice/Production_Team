@@ -58,12 +58,12 @@ public class AI_Movement : MonoBehaviour {
 	}
 	
 	void Update () {
-        if(!GoAroundUnits())
+        if (!GoAroundUnits())
         {
             dist = target.transform.position - gameObject.transform.position;
             gameObject.transform.forward = dist.normalized;
         }
-        
+
 
         switch (unitBehavior)   //Switch for the Behaviors of the Units
         {
@@ -221,14 +221,14 @@ public class AI_Movement : MonoBehaviour {
 
         closeUnitAI = closeUnit.gameObject.GetComponent<AI_Movement>();
 
-   
-        if(closeUnitAI.maxSpeed < maxSpeed && closeUnitAI.speed <= speed - 2 && minDis.magnitude <= avoidanceDist)
+
+        if (closeUnitAI.maxSpeed < maxSpeed && closeUnitAI.speed <= speed - 2 && minDis.magnitude <= avoidanceDist)
         {
             if (Vector3.Dot(minDis, unitTransform.forward) > -1f && minDis.magnitude <= avoidanceDist)    //Who is ahead
             {
                 transform.forward = closeUnitAI.gameObject.transform.forward - closeUnitAI.gameObject.transform.right;
                 return true;
-            }    
+            }
         }
         return false;
     }

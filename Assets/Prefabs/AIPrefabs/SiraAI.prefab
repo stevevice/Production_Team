@@ -125,9 +125,10 @@ GameObject:
   - 114: {fileID: 11410426}
   - 114: {fileID: 11479890}
   - 114: {fileID: 11404684}
+  - 54: {fileID: 5423058}
   m_Layer: 0
   m_Name: SiraAI
-  m_TagString: Player
+  m_TagString: Unit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -158,7 +159,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 456646}
-  - 54: {fileID: 5406070}
   m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
@@ -318,7 +318,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 151474}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.348736, y: 0, z: -2.1319666}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 456646}
@@ -516,12 +516,12 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 111926}
   m_Mesh: {fileID: 4300004, guid: 1cbafddbf5f63f1459c3113c2a3bdff3, type: 3}
---- !u!54 &5406070
+--- !u!54 &5423058
 Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 164380}
+  m_GameObject: {fileID: 151474}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
@@ -541,8 +541,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.1649573, y: 1.1462092, z: 2.0327406}
-  m_Center: {x: -0.016408265, y: 0.58466744, z: -0.022917032}
+  m_Size: {x: 1.1649573, y: 1.0759501, z: 2.0327406}
+  m_Center: {x: -0.016408205, y: 0.619797, z: -0.022916794}
 --- !u!114 &11404684
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -560,7 +560,7 @@ MonoBehaviour:
   unitBehavior: 2
   target: {fileID: 0}
   otherUnits: []
-  avoidanceDist: 2
+  avoidanceDist: 2.75
 --- !u!114 &11410426
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -778,7 +778,6 @@ Canvas:
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -877,7 +876,27 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_TagString
+      value: Unit
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: avoidanceDist
+      value: 2.75
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 151474}

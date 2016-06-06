@@ -114,10 +114,6 @@ public class UnitAttributes : MonoBehaviour
                     transform.position = cpH.checkList[0].transform.position;
                     transform.LookAt(cpH.checkList[cpH.checkList.IndexOf(cpH.unitAt.gameObject)].transform);
                 }
-
-
-                gameObject.GetComponent<AI_Movement>().speed = 0;
-                gameObject.GetComponent<Rigidbody>().velocity = new Vector3();
             }
 
             //If AI Unit, set to position on track
@@ -128,6 +124,9 @@ public class UnitAttributes : MonoBehaviour
                 gameObject.GetComponent<AI_Movement>().speed = 0;
                 gameObject.GetComponent<Rigidbody>().velocity = new Vector3();
             }
+
+            gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+            gameObject.transform.rotation = new Quaternion(0, 0, 0, 0);
             
         }
 

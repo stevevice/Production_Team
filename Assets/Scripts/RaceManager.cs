@@ -130,7 +130,7 @@ public class RaceManager : MonoBehaviour
 
     void CheckGoal()
     {
-        if(player.lap >= LapsNeed && endCamera.activeSelf != true)
+        if((player.lap >= LapsNeed || UnitList.Count == 1) && endCamera.activeSelf != true)
         {
             GameObject UI = GameObject.Find("UI");
             foreach(Transform go in UI.transform)
