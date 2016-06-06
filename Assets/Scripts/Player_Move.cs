@@ -32,6 +32,11 @@ public class Player_Move : MonoBehaviour
             {
                 speed += acceleration;  //add speed
             }
+
+            else if(speed > maxSpeed)
+            {
+                speed = maxSpeed;
+            }
         }
 
         else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))

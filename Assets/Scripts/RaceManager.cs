@@ -15,6 +15,7 @@ public class RaceManager : MonoBehaviour
     //public float TimeGameEnd;
     UnitAttributes player;
     public GameObject endCamera;
+    bool started = false;
 
     void CheckLap()
     {
@@ -201,16 +202,37 @@ public class RaceManager : MonoBehaviour
         foreach (GameObject i in UnitList)
         {
             i.GetComponent<UnitAttributes>().nextPoint = Checkpoints[0];
+            i.transform.LookAt(new Vector3(Checkpoints[0].transform.position.x, i.transform.position.y, Checkpoints[0].transform.position.z));
         }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(Time.time >= 3 && started == false)
+        {
+            StartRace();
+        }
+
         CheckPlayersAlive();
         CheckLap();
         CheckGoal();
         CheckPosition();
     }
 
+    void StartRace()
+    {
+        foreach(GameObject go in UnitList)
+        {
+            if (go.CompareTag("Player"))
+            {
+                go.GetComponent<Player_Move>().enabled = true;
+            }
+
+            else if (go.CompareTag("Unit"))
+            {
+                go.GetComponent<AI_Movement>().enabled = true;
+            }
+        }
+    }
 }
