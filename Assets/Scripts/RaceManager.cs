@@ -212,13 +212,5 @@ public class RaceManager : MonoBehaviour
         CheckGoal();
         CheckPosition();
     }
-<<<<<<< HEAD
-}
-=======
 
-    void CreatePlayer()
-    {
-        //Will Create Player here
-    }
 }
->>>>>>> 5099a6eba1730e3f436acf1777644baf846c3ed9
