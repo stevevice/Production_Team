@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityStandardAssets.Utility;
 using System.Linq;
 
@@ -141,6 +142,7 @@ public class RaceManager : MonoBehaviour
 
             player.gameObject.GetComponent<WaypointProgressTracker>().enabled = true;
             player.gameObject.GetComponent<AI_Movement>().enabled = true;
+            player.gameObject.transform.position = new Vector3(Checkpoints[0].transform.position.x, player.gameObject.transform.position.y, Checkpoints[0].transform.position.z);
             player.gameObject.GetComponent<AI_Movement>().speed = player.gameObject.GetComponent<Player_Move>().speed;
             player.gameObject.GetComponent<Player_Move>().enabled = false;
 
@@ -188,10 +190,12 @@ public class RaceManager : MonoBehaviour
         foreach (GameObject i in Units)
         {
             UnitList.Add(i);
+            i.GetComponent<AI_Movement>().enabled = false;
         }
         foreach (GameObject j in Player)
         {
             UnitList.Add(j);
+            j.GetComponent<Player_Move>().enabled = false;
         }
 
         foreach(GameObject i in UnitList)
@@ -207,10 +211,5 @@ public class RaceManager : MonoBehaviour
         CheckLap();
         CheckGoal();      
         CheckPosition();
-    }
-
-    void CreatePlayer()
-    {
-        //Will Create Player here
     }
 }

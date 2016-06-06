@@ -591,10 +591,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b82b5358b57528e4cb3cbdf2d6468571, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 55
+  maxSpeed: 53
   speed: 0
-  acceleration: 0.2
-  unitBehavior: 2
+  acceleration: 0.3
+  unitBehavior: 1
   target: {fileID: 0}
   otherUnits: []
   avoidanceDist: 5
@@ -904,6 +904,18 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: avoidanceDist
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: maxSpeed
+      value: 53
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: acceleration
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: unitBehavior
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
