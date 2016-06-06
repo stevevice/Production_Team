@@ -94,7 +94,7 @@ MonoBehaviour:
   damage: 0.5
   unitFired: {fileID: 0}
   force: 0
-  timea: 0.25
+  timea: 0.6
 --- !u!135 &13512414
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -120,7 +120,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: timea
-      value: 0.25
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: damage

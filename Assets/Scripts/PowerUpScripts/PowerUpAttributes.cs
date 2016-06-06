@@ -11,7 +11,7 @@ public class PowerUpAttributes : MonoBehaviour
     public float NewSpeed = 75;
     float OldAcceleration;
     float NewAcceleration = 1f;
-    float TimeLeft = 10.0f;
+    public float TimeLeft = 10.0f;
 
     void SpeedBoost()
     {
