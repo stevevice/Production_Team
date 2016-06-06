@@ -263,7 +263,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 417478580}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1431499078}
@@ -271,7 +271,7 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 165.6, y: 0}
+  m_AnchoredPosition: {x: 234, y: 0}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &417478582
@@ -452,7 +452,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -28.5, y: -0.0000030994415}
-  m_SizeDelta: {x: 343.1, y: 183}
+  m_SizeDelta: {x: 350, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1100594936
 MonoBehaviour:
@@ -488,24 +488,26 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: 'Movement:
 
-    w = forward
+    w or up arrow = forward
 
-    s = Backward
+    s or down arrow = Backward
 
-    a = turn left
+    a or left arrow = turn left
 
-    d = turn right
+    d or right arrow = turn right
 
 
     Weapon:
 
-    num 1 = select Spear
+    e = switch weapons
 
-    num 2 = select Shield
+    If you have the Cannon on, press space to fire.
 
-    num 3 = select Projectial
 
-    e = Use Pickup'
+    Tips:
+
+    If you miss a checkpoint, falling off will set you to the last checkpoint you
+    hit.'
 --- !u!222 &1100594937
 CanvasRenderer:
   m_ObjectHideFlags: 0

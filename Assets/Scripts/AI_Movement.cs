@@ -41,26 +41,43 @@ public class AI_Movement : MonoBehaviour {
         proTracker = gameObject.GetComponent<WaypointProgressTracker>();    //Get Waypoint tracker
         target = proTracker.target;         //Set the Target
         fwd = transform.forward / 100;  //Scale the Foreward
+
+        switch (unitBehavior)
+        {
+            case Behavior.Regular:  //Regular Behavior Speed Set
+                maxSpeed = maxSpeed * .9f;
+                break;
+
+            case Behavior.Cautious: //Cautious Behavior Speed Set
+                maxSpeed = maxSpeed * .75f;    
+                break;
+
+            case Behavior.Reckless: //Reckless Behavior Speed Set
+                break;
+        }
 	}
 	
 	void Update () {
-        
+        if (!GoAroundUnits())
+        {
+            dist = target.transform.position - gameObject.transform.position;
+            gameObject.transform.forward = dist.normalized;
+        }
+
+
         switch (unitBehavior)   //Switch for the Behaviors of the Units
         {
             case Behavior.Regular:  //If the Unit is a regular
-                dist = target.transform.position - gameObject.transform.position;
-                gameObject.transform.forward = dist.normalized * .9f;   //Aim for about 9/10's of the way to the point
-
                 if (!AvoidOthers() && !TakeTurnsSlow()) //if not takiung a turn slow or avoiding others
                 {
-                    if (speed < maxSpeed * .9f)    //If the Unit Isn't going at max speed
+                    if (speed < maxSpeed)    //If the Unit Isn't going at max speed
                     {
                         speed += acceleration;  //add speed
                     }
 
                     else
                     {
-                        speed = maxSpeed * .9f; //speed is equal to little less than max
+                        speed = maxSpeed; //speed is equal to little less than max
                     }
                 }
 
@@ -71,19 +88,16 @@ public class AI_Movement : MonoBehaviour {
                 break;
 
             case Behavior.Cautious: //Cautious Behavior
-                dist = target.transform.position - gameObject.transform.position;
-                gameObject.transform.forward = dist.normalized; //Look at target as much as possible
-
                 if (!AvoidOthers() && !TakeTurnsSlow()) //Avoid others and take turns slow
                 {
-                    if (speed < maxSpeed * .75f)    //If the Unit Isn't going at max speed
+                    if (speed < maxSpeed)    //If the Unit Isn't going at max speed
                     {
                         speed += acceleration;  //add speed
                     }
 
                     else
                     {
-                        speed = maxSpeed * .75f;
+                        speed = maxSpeed;
                     }
                 }
                 //If taking turn slow or avoiding others, decrease speed
@@ -93,9 +107,6 @@ public class AI_Movement : MonoBehaviour {
                 break;
 
             case Behavior.Reckless: //Reckless Behavior
-                dist = target.transform.position - gameObject.transform.position;
-                gameObject.transform.forward = dist.normalized * .8f;
-
                 if (!TakeTurnsSlow())   //Only takes Turns slow
                 {
                     if (speed < maxSpeed)    //If the Unit Isn't going at max speed
@@ -115,6 +126,7 @@ public class AI_Movement : MonoBehaviour {
                 break;
         }
 
+        
         MoveUnit(); //Moving the Unit is Universal
     }
 
@@ -174,6 +186,50 @@ public class AI_Movement : MonoBehaviour {
             return true;
         }
 
+        return false;
+    }
+
+    bool GoAroundUnits()
+    {
+        foreach (GameObject u in otherUnits) //Remove all the Units that are turned off
+        {
+            if (u.activeSelf == false)
+            {
+                otherUnits.Remove(u);
+            }
+        }
+
+        //Find closest Unit
+        Transform closeUnit = null;
+        Vector3 minDis = new Vector3(Mathf.Infinity, Mathf.Infinity, Mathf.Infinity);
+        Vector3 dist = new Vector3();
+
+        foreach (GameObject u in otherUnits)
+        {
+            dist = u.transform.position - gameObject.transform.position;
+            if (dist.sqrMagnitude < minDis.sqrMagnitude)
+            {
+                minDis = dist;
+                closeUnit = u.transform;
+            }
+        }
+
+        if (closeUnit == null)
+            return false;
+
+        AI_Movement closeUnitAI;
+
+        closeUnitAI = closeUnit.gameObject.GetComponent<AI_Movement>();
+
+
+        if (closeUnitAI.maxSpeed < maxSpeed && closeUnitAI.speed <= speed - 2 && minDis.magnitude <= avoidanceDist)
+        {
+            if (Vector3.Dot(minDis, unitTransform.forward) > -1f && minDis.magnitude <= avoidanceDist)    //Who is ahead
+            {
+                transform.forward = closeUnitAI.gameObject.transform.forward - closeUnitAI.gameObject.transform.right;
+                return true;
+            }
+        }
         return false;
     }
 }

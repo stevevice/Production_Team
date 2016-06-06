@@ -24,7 +24,6 @@ public class CheckPointHighlight : MonoBehaviour
 
     void LateUpdate()
     {
-
         if (unitAt.CheckPosition(gameObject))
         {
             if (checkList.IndexOf(unitAt.gameObject) + 1 >= checkList.Count)

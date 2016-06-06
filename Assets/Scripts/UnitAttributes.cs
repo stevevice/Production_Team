@@ -78,7 +78,7 @@ public class UnitAttributes : MonoBehaviour
 
         if (gameObject.transform.position.y < 0)    //if Unit falls off the track
         {
-            if(gameObject.tag == "Player")  //If they are the player
+            if(gameObject.tag == "Player" && gameObject.GetComponent<Player_Move>().enabled == true)  //If they are the player
             {
                 //Set to last checkpoint
                 CheckPointHighlight cpH = gameObject.GetComponent<CheckPointHighlight>();
@@ -96,6 +96,24 @@ public class UnitAttributes : MonoBehaviour
 
 
                 gameObject.GetComponent<Player_Move>().speed = 0;
+                gameObject.GetComponent<Rigidbody>().velocity = new Vector3();
+            }
+
+            else if(gameObject.tag == "Player" && gameObject.GetComponent<Player_Move>().enabled == false)
+            {
+                //Set to last checkpoint
+                CheckPointHighlight cpH = gameObject.GetComponent<CheckPointHighlight>();
+                if (cpH.checkList.IndexOf(cpH.unitAt.gameObject) - 1 >= 0)
+                {
+                    transform.position = cpH.checkList[cpH.checkList.IndexOf(cpH.unitAt.gameObject) - 1].transform.position;
+                    transform.LookAt(cpH.checkList[cpH.checkList.IndexOf(cpH.unitAt.gameObject)].transform);
+                }
+
+                else
+                {
+                    transform.position = cpH.checkList[0].transform.position;
+                    transform.LookAt(cpH.checkList[cpH.checkList.IndexOf(cpH.unitAt.gameObject)].transform);
+                }
             }
 
             //If AI Unit, set to position on track
@@ -104,7 +122,11 @@ public class UnitAttributes : MonoBehaviour
                 gameObject.transform.position = gameObject.GetComponent<WaypointProgressTracker>().progressPoint.position;
                 transform.LookAt(gameObject.GetComponent<AI_Movement>().target);
                 gameObject.GetComponent<AI_Movement>().speed = 0;
+                gameObject.GetComponent<Rigidbody>().velocity = new Vector3();
             }
+
+            gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+            gameObject.transform.rotation = new Quaternion(0, 0, 0, 0);
             
         }
 
@@ -149,8 +171,12 @@ public class UnitAttributes : MonoBehaviour
                     
             }
         }
-        //Is the object a bullet and is it not my bullet
-        else if (other.gameObject.CompareTag("Bullet") && other.gameObject.GetComponent<Bullet_Control>().unitFired != gameObject)
+        
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Bullet") && other.gameObject.GetComponent<Bullet_Control>().unitFired != gameObject)
         {
             Bullet_Control otherScript = other.gameObject.GetComponent<Bullet_Control>();
 
