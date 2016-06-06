@@ -38,19 +38,29 @@ public class PowerUpAction : MonoBehaviour
             HovCurrent.y = gameObject.transform.position.y;
         }
 
-        gameObject.transform.Rotate(new Vector3( 0, 45, 0) * Time.deltaTime);
+        gameObject.transform.Rotate(new Vector3(0, 45, 0) * Time.deltaTime);
     }
 
     void OnTriggerEnter(Collider other)
     {
+        PowerUpAttributes Racer = new PowerUpAttributes();
         Debug.Log("Collision");
-        if (other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Unit"))
+        if ((Racer.CompareTag("Player") || Racer.CompareTag("Unit")) && gameObject.CompareTag("HealthBoostPU") && Racer.SpeedBoostPU == false)
         {
             gameObject.SetActive(false);
             //Do Stuff
             ///way to change variables in other scripts
             ///other.gameObject.GetComponent<BasicMove>().AvePowerUp = true;
+            Racer.HealthIncPU = true;
         }
+        else if ((Racer.CompareTag("Player") || Racer.CompareTag("Unit")) && gameObject.CompareTag("SpeedBoostPU") && Racer.HealthIncPU == false)
+        {
+            gameObject.SetActive(false);
+            Racer.SpeedBoostPU = true;
+        }
+
+
     }
 }
+
 
