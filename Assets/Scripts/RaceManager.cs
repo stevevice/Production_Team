@@ -206,16 +206,13 @@ public class RaceManager : MonoBehaviour
             i.GetComponent<UnitAttributes>().nextPoint = Checkpoints[0];
             i.transform.LookAt(new Vector3(Checkpoints[0].transform.position.x, i.transform.position.y, Checkpoints[0].transform.position.z));
         }
+
+        Utilities.Wait(3, this, StartRace);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Time.time >= start + 3 && started == false)
-        {
-            StartRace();
-        }
-
         CheckPlayersAlive();
         CheckLap();
         CheckGoal();
@@ -224,7 +221,7 @@ public class RaceManager : MonoBehaviour
 
     void StartRace()
     {
-        foreach(GameObject go in UnitList)
+        foreach (GameObject go in UnitList)
         {
             if (go.CompareTag("Player"))
             {

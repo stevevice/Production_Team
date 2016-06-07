@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityStandardAssets.Utility;
 using System;
+using System.Collections;
 
 public class AI_Movement : MonoBehaviour {
 
@@ -226,7 +227,20 @@ public class AI_Movement : MonoBehaviour {
 public static class Utilities
 {
     public delegate bool Conditional<T>(T a);
-     
+
+    public delegate void VoidFunction();
+
+    public static void Wait(float time, MonoBehaviour go, VoidFunction function)
+    {     
+        go.StartCoroutine(WaitFunction(time, function));
+    }
+
+    public static IEnumerator WaitFunction(float time, VoidFunction function)
+    {
+        yield return new WaitForSeconds(time);
+        function();
+    }
+
     public static void RemoveAt<T>(List<T> list, Conditional<T> conditional)
     {
         T[] tempList = new T[list.Count];
@@ -241,9 +255,7 @@ public static class Utilities
     public static bool IsActive(GameObject obj)
     {
         if(obj.activeSelf == false)
-        {
             return true;
-        }
 
         return false;
 
