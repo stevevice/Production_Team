@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityStandardAssets.Utility;
 using System.Linq;
 
@@ -14,6 +15,8 @@ public class RaceManager : MonoBehaviour
     //public float TimeGameEnd;
     UnitAttributes player;
     public GameObject endCamera;
+    bool started = false;
+    float start;
 
     void CheckLap()
     {
@@ -141,6 +144,7 @@ public class RaceManager : MonoBehaviour
 
             player.gameObject.GetComponent<WaypointProgressTracker>().enabled = true;
             player.gameObject.GetComponent<AI_Movement>().enabled = true;
+            player.gameObject.transform.position = new Vector3(Checkpoints[0].transform.position.x, player.gameObject.transform.position.y, Checkpoints[0].transform.position.z);
             player.gameObject.GetComponent<AI_Movement>().speed = player.gameObject.GetComponent<Player_Move>().speed;
             player.gameObject.GetComponent<Player_Move>().enabled = false;
 
@@ -167,6 +171,7 @@ public class RaceManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        start = Time.time;
         if (endCamera.activeSelf == true)
             endCamera.SetActive(false);
 
@@ -188,29 +193,48 @@ public class RaceManager : MonoBehaviour
         foreach (GameObject i in Units)
         {
             UnitList.Add(i);
+            i.GetComponent<AI_Movement>().enabled = false;
         }
         foreach (GameObject j in Player)
         {
             UnitList.Add(j);
+            j.GetComponent<Player_Move>().enabled = false;
         }
 
         foreach (GameObject i in UnitList)
         {
             i.GetComponent<UnitAttributes>().nextPoint = Checkpoints[0];
+            i.transform.LookAt(new Vector3(Checkpoints[0].transform.position.x, i.transform.position.y, Checkpoints[0].transform.position.z));
         }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(Time.time >= start + 3 && started == false)
+        {
+            StartRace();
+        }
+
         CheckPlayersAlive();
         CheckLap();
         CheckGoal();
         CheckPosition();
     }
 
-    void CreatePlayer()
+    void StartRace()
     {
-        //Will Create Player here
+        foreach(GameObject go in UnitList)
+        {
+            if (go.CompareTag("Player"))
+            {
+                go.GetComponent<Player_Move>().enabled = true;
+            }
+
+            else if (go.CompareTag("Unit"))
+            {
+                go.GetComponent<AI_Movement>().enabled = true;
+            }
+        }
     }
 }

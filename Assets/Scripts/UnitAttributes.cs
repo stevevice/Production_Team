@@ -97,6 +97,7 @@ public class UnitAttributes : MonoBehaviour
 
                 gameObject.GetComponent<Player_Move>().speed = 0;
                 gameObject.GetComponent<Rigidbody>().velocity = new Vector3();
+                
             }
 
             else if(gameObject.tag == "Player" && gameObject.GetComponent<Player_Move>().enabled == false)
@@ -127,7 +128,8 @@ public class UnitAttributes : MonoBehaviour
 
             gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
             gameObject.transform.rotation = new Quaternion(0, 0, 0, 0);
-            
+            transform.LookAt(nextPoint.transform);
+
         }
 
         float timeInt = Time.time - preTime;                        //Interval of Time

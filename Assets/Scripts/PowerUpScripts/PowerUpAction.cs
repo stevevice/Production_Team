@@ -3,11 +3,11 @@ using System.Collections;
 
 public class PowerUpAction : MonoBehaviour
 {
-    public bool GoDown = false;
+    bool GoDown = false;
     public float speed = .25f;
-    public float HovMin = 1f;
-    public float HovMax = 1.5f;
-    public Vector3 HovCurrent;
+    float HovMin = 1f;
+    float HovMax = 1.5f;
+    Vector3 HovCurrent;
 
     void Start()
     {
@@ -17,7 +17,6 @@ public class PowerUpAction : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         if (HovCurrent.y >= HovMax)
         {
             GoDown = true;
@@ -44,13 +43,9 @@ public class PowerUpAction : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         PowerUpAttributes Racer = new PowerUpAttributes();
-        Debug.Log("Collision");
         if ((Racer.CompareTag("Player") || Racer.CompareTag("Unit")) && gameObject.CompareTag("HealthBoostPU") && Racer.SpeedBoostPU == false)
         {
             gameObject.SetActive(false);
-            //Do Stuff
-            ///way to change variables in other scripts
-            ///other.gameObject.GetComponent<BasicMove>().AvePowerUp = true;
             Racer.HealthIncPU = true;
         }
         else if ((Racer.CompareTag("Player") || Racer.CompareTag("Unit")) && gameObject.CompareTag("SpeedBoostPU") && Racer.HealthIncPU == false)

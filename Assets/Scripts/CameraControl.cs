@@ -13,7 +13,7 @@ public class CameraControl : MonoBehaviour {
 
     public void OnLevelWasLoaded(int level)
     {
-        if (level >= 3)
+        if (level >= 4)
         {
             GameObject.FindObjectOfType<Music>();
             _play.gameObject.SetActive(false);
