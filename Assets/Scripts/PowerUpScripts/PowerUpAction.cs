@@ -8,6 +8,8 @@ public class PowerUpAction : MonoBehaviour
     float HovMin = 1f;
     float HovMax = 1.5f;
     Vector3 HovCurrent;
+    public float TimeTil;
+    public bool Checked = false;
 
     void Start()
     {
@@ -23,7 +25,7 @@ public class PowerUpAction : MonoBehaviour
         }
         else if (HovCurrent.y <= HovMin)
         {
-            GoDown = false;
+            GoDown = false; 
         }
 
         if (gameObject.transform.position.y <= HovMax && GoDown == false)
@@ -42,13 +44,13 @@ public class PowerUpAction : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        PowerUpAttributes Racer = new PowerUpAttributes();
-        if ((Racer.CompareTag("Player") || Racer.CompareTag("Unit")) && gameObject.CompareTag("HealthBoostPU") && Racer.SpeedBoostPU == false)
+        PowerUpAttributes Racer = other.GetComponent<PowerUpAttributes>();
+        if ((Racer.gameObject.CompareTag("Player") || Racer.gameObject.CompareTag("Unit")) && gameObject.CompareTag("HealthBoostPU") && Racer.SpeedBoostPU == false)
         {
             gameObject.SetActive(false);
             Racer.HealthIncPU = true;
         }
-        else if ((Racer.CompareTag("Player") || Racer.CompareTag("Unit")) && gameObject.CompareTag("SpeedBoostPU") && Racer.HealthIncPU == false)
+        else if ((Racer.gameObject.CompareTag("Player") || Racer.gameObject.CompareTag("Unit")) && gameObject.CompareTag("SpeedBoostPU") && Racer.HealthIncPU == false)
         {
             gameObject.SetActive(false);
             Racer.SpeedBoostPU = true;
