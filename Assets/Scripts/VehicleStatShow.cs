@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 public class VehicleStatShow : MonoBehaviour {
 
     public List<GameObject> buttonList;
-    public Text stats;
+    public List<Text> stats;
 
 	void Start () {
         foreach(Transform t in transform)
@@ -32,13 +32,34 @@ public class VehicleStatShow : MonoBehaviour {
                     if (tran.gameObject.name == objectsHit[0].gameObject.transform.parent.gameObject.name)
                     {
                         tran.gameObject.SetActive(true);
-                        tran.gameObject.GetComponent<UnitAttributes>();
-                        tran.gameObject.GetComponent<Player_Move>();
-                        //stats.text = ();
+                        Player_Move unitMove = tran.gameObject.GetComponent<Player_Move>();
+                        foreach(Text t in stats)
+                        {
+                            switch (t.gameObject.name)
+                            {
+                                case "TopSpeed":
+                                    t.text = "Top Speed: " + unitMove.maxSpeed.ToString();
+                                    break;
+
+                                case "Acceleration":
+                                    t.text = "Acceleration: " + unitMove.acceleration.ToString();
+                                    break;
+
+                                case "Handling":
+                                    t.text = "Handling: " + unitMove.handling.ToString();
+                                    break;
+
+                                default:
+                                    break;
+                            }
+                        }
+                        tran.gameObject.transform.position = tran.gameObject.GetComponent<KeepInBounds>().origin;
+                        unitMove.speed = 0;
+                        tran.rotation = new Quaternion(0, 0, 0, 0);
                     }
 
                     else
-                        tran.gameObject.SetActive(false);
+                        tran.gameObject.SetActive(false);                    
                 }
                 
             }
