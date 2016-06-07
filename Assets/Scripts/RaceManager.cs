@@ -9,6 +9,7 @@ public class RaceManager : MonoBehaviour
 {
     public List<GameObject> UnitList;
     List<GameObject> UnitWin;
+
     protected int CheckpointAmt;
     public List<Checkpoint> Checkpoints;
     public int LapsNeed;
@@ -159,13 +160,12 @@ public class RaceManager : MonoBehaviour
 
     void CheckPlayersAlive()
     {
-        foreach (GameObject i in UnitList)
+        Utilities.RemoveAt(UnitList, delegate (GameObject go)
         {
-            if (i.GetComponent<UnitAttributes>().health <= 0)
-            {
-                UnitList.Remove(i);
-            }
-        }
+            if (go.GetComponent<UnitAttributes>().health <= 0)
+                return true;
+            return false;
+        });
     }
 
     // Use this for initialization
