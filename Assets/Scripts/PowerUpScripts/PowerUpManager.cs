@@ -33,7 +33,7 @@ public class PowerUpManager : MonoBehaviour
         {
             PowerUpAction PU = i.GetComponent<PowerUpAction>();
 
-            if(PU.Checked == true && PU.TimeTil >= Time.time)
+            if(PU.Checked == true && PU.TimeTil <= Time.time)
             {
                 i.SetActive(true);
                 PU.Checked = false;
