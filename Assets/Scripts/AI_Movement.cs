@@ -216,7 +216,7 @@ public class AI_Movement : MonoBehaviour {
         {
             if (Vector3.Dot(minDis, unitTransform.forward) > -1f && minDis.magnitude <= avoidanceDist)    //Who is ahead
             {
-                transform.forward = closeUnitAI.gameObject.transform.forward - closeUnitAI.gameObject.transform.right;
+                target.position = closeUnitAI.gameObject.transform.position - closeUnitAI.gameObject.transform.right;
                 return true;
             }
         }
