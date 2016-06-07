@@ -591,7 +591,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b82b5358b57528e4cb3cbdf2d6468571, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 53
+  maxSpeed: 50
   speed: 0
   acceleration: 0.3
   unitBehavior: 1
@@ -732,6 +732,7 @@ MonoBehaviour:
   checkPoints: 0
   nextPoint: {fileID: 0}
   placeValue: 0
+  display: 0
 --- !u!114 &11464320
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -907,7 +908,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: maxSpeed
-      value: 53
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: acceleration

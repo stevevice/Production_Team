@@ -9,14 +9,13 @@ public class RaceManager : MonoBehaviour
 {
     public List<GameObject> UnitList;
     List<GameObject> UnitWin;
+
     protected int CheckpointAmt;
     public List<Checkpoint> Checkpoints;
     public int LapsNeed;
     //public float TimeGameEnd;
     UnitAttributes player;
     public GameObject endCamera;
-    bool started = false;
-    float start;
 
     void CheckLap()
     {
@@ -159,19 +158,17 @@ public class RaceManager : MonoBehaviour
 
     void CheckPlayersAlive()
     {
-        foreach (GameObject i in UnitList)
+        Utilities.RemoveAt(UnitList, delegate (GameObject go)
         {
-            if (i.GetComponent<UnitAttributes>().health <= 0)
-            {
-                UnitList.Remove(i);
-            }
-        }
+            if (go.GetComponent<UnitAttributes>().health <= 0)
+                return true;
+            return false;
+        });
     }
 
     // Use this for initialization
     void Start()
     {
-        start = Time.time;
         if (endCamera.activeSelf == true)
             endCamera.SetActive(false);
 
@@ -206,16 +203,13 @@ public class RaceManager : MonoBehaviour
             i.GetComponent<UnitAttributes>().nextPoint = Checkpoints[0];
             i.transform.LookAt(new Vector3(Checkpoints[0].transform.position.x, i.transform.position.y, Checkpoints[0].transform.position.z));
         }
+
+        Utilities.Wait(3, this, StartRace);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Time.time >= start + 3 && started == false)
-        {
-            StartRace();
-        }
-
         CheckPlayersAlive();
         CheckLap();
         CheckGoal();
@@ -224,7 +218,7 @@ public class RaceManager : MonoBehaviour
 
     void StartRace()
     {
-        foreach(GameObject go in UnitList)
+        foreach (GameObject go in UnitList)
         {
             if (go.CompareTag("Player"))
             {

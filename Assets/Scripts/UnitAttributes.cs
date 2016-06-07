@@ -33,6 +33,7 @@ public class UnitAttributes : MonoBehaviour
     [HideInInspector]
     public Checkpoint nextPoint;    //The next Checkpoint
     public int placeValue;          //Number for sorting
+    public bool display;
 
     // Use this for initialization
     void Start()
@@ -42,22 +43,24 @@ public class UnitAttributes : MonoBehaviour
         preTime = 0;     //Set Pretime   
         preVector = gameObject.transform.position;  //Set Prevector
 
-        int childCount = gameObject.transform.childCount;   //Get Number of children
-        for (int i = 0; i < childCount; i++)
+        if (display == false)
         {
-            if (transform.GetChild(i).gameObject.tag == "Weapon")    //If a weapon
+            int childCount = gameObject.transform.childCount;   //Get Number of children
+            for (int i = 0; i < childCount; i++)
             {
-                transform.GetChild(i).gameObject.SetActive(false);  //Set acticve to false
-                weaponsList.Add(transform.GetChild(i).gameObject);  //Add weapon
+                if (transform.GetChild(i).gameObject.tag == "Weapon")    //If a weapon
+                {
+                    transform.GetChild(i).gameObject.SetActive(false);  //Set acticve to false
+                    weaponsList.Add(transform.GetChild(i).gameObject);  //Add weapon
+                }
+            }
+
+            if (childCount > 0) //if we have Weapons
+            {
+                currentWeapon = weaponsList[0]; //Current weapon is the first one
+                currentWeapon.SetActive(true);  //Turn on that object
             }
         }
-
-        if (childCount > 0) //if we have Weapons
-        {
-            currentWeapon = weaponsList[0]; //Current weapon is the first one
-            currentWeapon.SetActive(true);  //Turn on that object
-        }
-
     }
 
     // Update is called once per frame

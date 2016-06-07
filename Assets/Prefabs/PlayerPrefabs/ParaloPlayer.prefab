@@ -1079,6 +1079,7 @@ MonoBehaviour:
   checkPoints: 0
   nextPoint: {fileID: 0}
   placeValue: 0
+  display: 0
 --- !u!114 &11483558
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1107,9 +1108,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0
-  maxSpeed: 55
+  maxSpeed: 53
   acceleration: 0.3
-  handling: 55
+  handling: 40
 --- !u!124 &12413046
 Behaviour:
   m_ObjectHideFlags: 1
@@ -1158,7 +1159,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: handling
-      value: 55
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: SpeedBoostPU

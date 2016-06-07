@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using UnityStandardAssets.Utility;
+using System;
+using System.Collections;
 
 public class AI_Movement : MonoBehaviour {
 
@@ -145,13 +147,7 @@ public class AI_Movement : MonoBehaviour {
 
     bool AvoidOthers()  //Function that will decrease speed if the unit is about to crash with another
     {
-        foreach(GameObject u in otherUnits) //Remove all the Units that are turned off
-        {
-            if(u.activeSelf == false)
-            {
-                otherUnits.Remove(u);
-            }
-        }
+        Utilities.RemoveAt(otherUnits, Utilities.IsActive);
 
         //Find closest Unit
         Transform closeUnit = null;
@@ -191,13 +187,7 @@ public class AI_Movement : MonoBehaviour {
 
     bool GoAroundUnits()
     {
-        foreach (GameObject u in otherUnits) //Remove all the Units that are turned off
-        {
-            if (u.activeSelf == false)
-            {
-                otherUnits.Remove(u);
-            }
-        }
+        Utilities.RemoveAt(otherUnits, Utilities.IsActive);
 
         //Find closest Unit
         Transform closeUnit = null;
@@ -226,10 +216,52 @@ public class AI_Movement : MonoBehaviour {
         {
             if (Vector3.Dot(minDis, unitTransform.forward) > -1f && minDis.magnitude <= avoidanceDist)    //Who is ahead
             {
-                transform.forward = closeUnitAI.gameObject.transform.forward - closeUnitAI.gameObject.transform.right;
+                target.position = closeUnitAI.gameObject.transform.position - closeUnitAI.gameObject.transform.right;
                 return true;
             }
         }
         return false;
+    }
+}
+
+public static class Utilities
+{
+    public delegate bool Conditional<T>(T a);
+
+    public delegate void VoidFunction();
+
+    public static void Wait(float time, MonoBehaviour go, VoidFunction function)
+    {     
+        go.StartCoroutine(WaitFunction(time, function));
+    }
+
+    public static IEnumerator WaitFunction(float time, VoidFunction function)
+    {
+        yield return new WaitForSeconds(time);
+        function();
+    }
+
+    public static void RemoveAt<T>(List<T> list, Conditional<T> conditional)
+    {
+        T[] tempList = new T[list.Count];
+        list.CopyTo(tempList);
+        foreach(T ob in tempList)
+        {
+            if (conditional(ob))
+                list.Remove(ob);
+        }
+    }
+
+    public static bool IsActive(GameObject obj)
+    {
+        if(obj.activeSelf == false)
+            return true;
+
+        return false;
+
+        //RemoveAt(new List<GameObject>(), delegate (GameObject ob)
+        //{
+        //    return false;
+        //});
     }
 }
