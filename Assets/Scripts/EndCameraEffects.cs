@@ -5,13 +5,11 @@ using System.Collections;
 public class EndCameraEffects : MonoBehaviour {
     public GameObject track;
     public Text endText;
-    GameObject player;
     bool finished = false;
     int placeVal;
 
     void Awake()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
         RaceManager RM = GameObject.Find("RaceManager").GetComponent<RaceManager>();
         placeVal = (RM.UnitList.IndexOf(RM.player.gameObject) + 1);
     }
@@ -21,9 +19,7 @@ public class EndCameraEffects : MonoBehaviour {
         transform.RotateAround(track.transform.position, track.transform.up, Time.deltaTime * 30);
 
         if(finished == false)
-        {
-            
-            
+        {          
             if (placeVal != 1)
             {
                 endText.text = "You are number " + placeVal.ToString() + ". Better luck next time.";

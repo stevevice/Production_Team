@@ -97,5 +97,20 @@ public class PowerUpAttributes : MonoBehaviour
                 SpeedReset();
             } 
         }
+
+        if(gameObject.tag == "Player")
+        {
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                if(SpeedBoostPU)
+                {
+                    SpeedBoost();
+                }
+                else if(HealthIncPU)
+                {
+                    HealthBoost();
+                }
+            }
+        }
     }
 }

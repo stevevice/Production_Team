@@ -48,6 +48,7 @@ public class Projectial : MonoBehaviour, Weapons
         temp = Instantiate(bullet, bulletspawn.transform.position, new Quaternion()) as GameObject;
         CannonFireEvent.Invoke();
         temp.GetComponent<Bullet_Control>().unitFired = gameObject.transform.parent.gameObject;
+        temp.transform.rotation = gameObject.transform.rotation;
         temp.GetComponent<Bullet_Control>().SetForce(transform.forward * 55f);
 
         nextfire = Time.time + firerate;

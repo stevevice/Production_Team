@@ -17,6 +17,7 @@ GameObject:
   - 114: {fileID: 11411296}
   - 114: {fileID: 11405912}
   - 114: {fileID: 11495254}
+  - 114: {fileID: 11481992}
   m_Layer: 0
   m_Name: BasicPlayer
   m_TagString: Player
@@ -658,6 +659,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _clips:
   - {fileID: 8300000, guid: 525a23a9f90e28349b63b0e32dd99522, type: 3}
+--- !u!114 &11481992
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 128886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd01e28685d7fc94e896ac2c0ff0b9b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedBoostPU: 0
+  HealthIncPU: 0
+  HealthInc: 25
+  NewSpeed: 75
+  TimeLeft: 10
 --- !u!114 &11490538
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -676,6 +693,7 @@ MonoBehaviour:
   checkPoints: 0
   nextPoint: {fileID: 0}
   placeValue: 0
+  display: 0
 --- !u!114 &11495254
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -574,8 +574,8 @@ Camera:
   m_GameObject: {fileID: 180546}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0, g: 0.38888884, b: 1, a: 0.019607844}
+  m_ClearFlags: 3
+  m_BackGroundColor: {r: 0, g: 0.22875813, b: 0.58823526, a: 0.019607844}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -1095,7 +1095,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_damage: 0
-  bullet: {fileID: 198672, guid: 2de3e07a66013b74096d3e516ea2182d, type: 2}
+  bullet: {fileID: 182772, guid: 9c4606696fb78214faa96559d06e822c, type: 2}
   bulletspawn: {fileID: 473576}
   firerate: 1
 --- !u!114 &11480974
@@ -1245,6 +1245,26 @@ Prefab:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_BackGroundColor.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_BackGroundColor.g
+      value: 0.22875813
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_BackGroundColor.b
+      value: 0.58823526
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_ClearFlags
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: bullet
+      value: 
+      objectReference: {fileID: 182772, guid: 9c4606696fb78214faa96559d06e822c, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 118882}
