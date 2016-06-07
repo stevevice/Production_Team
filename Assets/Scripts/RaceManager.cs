@@ -16,8 +16,6 @@ public class RaceManager : MonoBehaviour
     //public float TimeGameEnd;
     UnitAttributes player;
     public GameObject endCamera;
-    bool started = false;
-    float start;
 
     void CheckLap()
     {
@@ -171,7 +169,6 @@ public class RaceManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        start = Time.time;
         if (endCamera.activeSelf == true)
             endCamera.SetActive(false);
 
