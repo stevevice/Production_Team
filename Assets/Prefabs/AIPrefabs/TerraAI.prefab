@@ -47,6 +47,7 @@ GameObject:
   - 114: {fileID: 11436686}
   - 114: {fileID: 11472708}
   - 54: {fileID: 5466132}
+  - 114: {fileID: 11477422}
   m_Layer: 0
   m_Name: TerraAI
   m_TagString: Unit
@@ -635,13 +636,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b82b5358b57528e4cb3cbdf2d6468571, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 48
+  maxSpeed: 40
   speed: 0
-  acceleration: 0.2
+  acceleration: 7
   unitBehavior: 0
   target: {fileID: 0}
   otherUnits: []
   avoidanceDist: 5
+--- !u!114 &11477422
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 124306}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd01e28685d7fc94e896ac2c0ff0b9b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedBoostPU: 0
+  HealthIncPU: 0
+  HealthInc: 25
+  NewSpeed: 75
+  TimeLeft: 10
 --- !u!114 &11478188
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -724,6 +741,7 @@ MonoBehaviour:
   checkPoints: 0
   nextPoint: {fileID: 0}
   placeValue: 0
+  display: 0
 --- !u!114 &11489100
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -891,7 +909,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_TagString
@@ -907,11 +925,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: maxSpeed
-      value: 48
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: unitBehavior
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: acceleration
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

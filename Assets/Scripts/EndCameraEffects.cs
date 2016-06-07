@@ -7,10 +7,13 @@ public class EndCameraEffects : MonoBehaviour {
     public Text endText;
     GameObject player;
     bool finished = false;
+    int placeVal;
 
     void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        RaceManager RM = GameObject.Find("RaceManager").GetComponent<RaceManager>();
+        placeVal = (RM.UnitList.IndexOf(RM.player.gameObject) + 1);
     }
 
 	void Update () {
@@ -19,12 +22,11 @@ public class EndCameraEffects : MonoBehaviour {
 
         if(finished == false)
         {
-            RaceManager RM = GameObject.Find("RaceManager").GetComponent<RaceManager>();
-            int placeVal = (RM.UnitList.IndexOf(player) + 1);
-
+            
+            
             if (placeVal != 1)
             {
-                endText.text = "You are number " + placeVal + ". Better luck next time.";
+                endText.text = "You are number " + placeVal.ToString() + ". Better luck next time.";
             }
 
             else

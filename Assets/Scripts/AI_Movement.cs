@@ -28,6 +28,7 @@ public class AI_Movement : MonoBehaviour {
     //Behavior Variables
     [HideInInspector] public List<GameObject> otherUnits;   //All the other Units. SELF IS NOT INCLUDED IN THIS
     public float avoidanceDist;
+    PowerUpAttributes powAtt;
 
     void Start () {
         //Populate all the Other Units
@@ -43,6 +44,7 @@ public class AI_Movement : MonoBehaviour {
         proTracker = gameObject.GetComponent<WaypointProgressTracker>();    //Get Waypoint tracker
         target = proTracker.target;         //Set the Target
         fwd = transform.forward / 100;  //Scale the Foreward
+        powAtt = gameObject.GetComponent<PowerUpAttributes>();
 
         switch (unitBehavior)
         {
@@ -74,7 +76,7 @@ public class AI_Movement : MonoBehaviour {
                 {
                     if (speed < maxSpeed)    //If the Unit Isn't going at max speed
                     {
-                        speed += acceleration;  //add speed
+                        speed += acceleration * Time.deltaTime;  //add speed
                     }
 
                     else
@@ -86,7 +88,7 @@ public class AI_Movement : MonoBehaviour {
                 //If Unit is taking Turn slow or avoiding others, decrease speed
                 else
                     if (speed > maxSpeed * .25)
-                        speed -= acceleration + .1f;
+                        speed -= (acceleration + .1f) * Time.deltaTime;
                 break;
 
             case Behavior.Cautious: //Cautious Behavior
@@ -94,7 +96,7 @@ public class AI_Movement : MonoBehaviour {
                 {
                     if (speed < maxSpeed)    //If the Unit Isn't going at max speed
                     {
-                        speed += acceleration;  //add speed
+                        speed += acceleration * Time.deltaTime;  //add speed
                     }
 
                     else
@@ -105,7 +107,7 @@ public class AI_Movement : MonoBehaviour {
                 //If taking turn slow or avoiding others, decrease speed
                 else
                     if (speed > maxSpeed * .25)
-                        speed -= acceleration + .1f;
+                        speed -= (acceleration + .1f) * Time.deltaTime;
                 break;
 
             case Behavior.Reckless: //Reckless Behavior
@@ -113,7 +115,7 @@ public class AI_Movement : MonoBehaviour {
                 {
                     if (speed < maxSpeed)    //If the Unit Isn't going at max speed
                     {
-                        speed += acceleration;  //add speed
+                        speed += acceleration * Time.deltaTime;  //add speed
                     }
 
                     else
@@ -124,7 +126,7 @@ public class AI_Movement : MonoBehaviour {
                 //If taking turn slow, decreace speed
                 else
                     if (speed > maxSpeed * .25)
-                        speed -= acceleration + .1f;
+                        speed -= (acceleration + .1f) * Time.deltaTime;
                 break;
         }
 
@@ -221,6 +223,14 @@ public class AI_Movement : MonoBehaviour {
             }
         }
         return false;
+    }
+
+    void CheckHealth()
+    {
+        if(gameObject.GetComponent<UnitAttributes>().health <= 25f )
+        {
+
+        }
     }
 }
 

@@ -14,7 +14,7 @@ public class RaceManager : MonoBehaviour
     public List<Checkpoint> Checkpoints;
     public int LapsNeed;
     //public float TimeGameEnd;
-    UnitAttributes player;
+    public UnitAttributes player;
     public GameObject endCamera;
 
     void CheckLap()
