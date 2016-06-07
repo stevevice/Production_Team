@@ -126,6 +126,7 @@ GameObject:
   - 114: {fileID: 11479890}
   - 114: {fileID: 11404684}
   - 54: {fileID: 5423058}
+  - 114: {fileID: 11408538}
   m_Layer: 0
   m_Name: SiraAI
   m_TagString: Unit
@@ -554,13 +555,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b82b5358b57528e4cb3cbdf2d6468571, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 45
+  maxSpeed: 39
   speed: 0
-  acceleration: 0.1
+  acceleration: 6.9
   unitBehavior: 2
   target: {fileID: 0}
   otherUnits: []
   avoidanceDist: 2.75
+--- !u!114 &11408538
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 151474}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd01e28685d7fc94e896ac2c0ff0b9b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedBoostPU: 0
+  HealthIncPU: 0
+  HealthInc: 25
+  NewSpeed: 75
+  TimeLeft: 10
 --- !u!114 &11410426
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -579,6 +596,7 @@ MonoBehaviour:
   checkPoints: 0
   nextPoint: {fileID: 0}
   placeValue: 0
+  display: 0
 --- !u!114 &11419860
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -899,11 +917,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: maxSpeed
-      value: 45
+      value: 39
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: acceleration
-      value: 0.1
+      value: 6.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
