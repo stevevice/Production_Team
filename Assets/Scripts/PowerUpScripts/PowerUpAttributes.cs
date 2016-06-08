@@ -21,6 +21,7 @@ public class PowerUpAttributes : MonoBehaviour
             Player_Move Racer = gameObject.GetComponent<Player_Move>();
             Racer.maxSpeed = ((NewSpeed * .01f) * OldSpeed) + OldSpeed;
             Racer.acceleration = ((NewAcceleration * .01f) * OldAcceleration) + Racer.acceleration;
+            Racer.speed = Racer.maxSpeed;
             SpeedBoostActive = true;
         }
         else if(gameObject.CompareTag("Unit"))
@@ -28,6 +29,7 @@ public class PowerUpAttributes : MonoBehaviour
             AI_Movement Racer = gameObject.GetComponent<AI_Movement>();
             Racer.maxSpeed = ((NewSpeed * .01f) * OldSpeed) + OldSpeed;
             Racer.acceleration = ((NewAcceleration * .01f) * OldAcceleration) + Racer.acceleration;
+            Racer.speed = Racer.maxSpeed;
             SpeedBoostActive = true;
         }
         SpeedBoostPU = false;

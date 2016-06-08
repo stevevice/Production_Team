@@ -29,6 +29,7 @@ public class AI_Movement : MonoBehaviour {
     [HideInInspector] public List<GameObject> otherUnits;   //All the other Units. SELF IS NOT INCLUDED IN THIS
     public float avoidanceDist;
     PowerUpAttributes powAtt;
+    RaceManager RM;
 
     void Start () {
         //Populate all the Other Units
@@ -45,6 +46,7 @@ public class AI_Movement : MonoBehaviour {
         target = proTracker.target;         //Set the Target
         fwd = transform.forward / 100;  //Scale the Foreward
         powAtt = gameObject.GetComponent<PowerUpAttributes>();
+        RM = FindObjectOfType<RaceManager>();
 
         switch (unitBehavior)
         {
@@ -130,7 +132,8 @@ public class AI_Movement : MonoBehaviour {
                 break;
         }
 
-        
+        CheckHealth();
+        CheckPosforBoost();
         MoveUnit(); //Moving the Unit is Universal
     }
 
@@ -227,9 +230,17 @@ public class AI_Movement : MonoBehaviour {
 
     void CheckHealth()
     {
-        if(gameObject.GetComponent<UnitAttributes>().health <= 25f )
+        if(gameObject.GetComponent<UnitAttributes>().health <= 25f && powAtt.HealthIncPU == true)
         {
+            powAtt.HealthBoost();
+        }
+    }
 
+    void CheckPosforBoost()
+    {
+        if(RM.UnitList.IndexOf(gameObject) <= 2 && powAtt.SpeedBoostPU == true)
+        {
+            powAtt.SpeedBoost();
         }
     }
 }

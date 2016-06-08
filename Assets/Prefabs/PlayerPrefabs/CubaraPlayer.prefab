@@ -1067,7 +1067,7 @@ MonoBehaviour:
   HealthIncPU: 0
   HealthInc: 25
   NewSpeed: 75
-  TimeLeft: 10
+  TimeLeft: 3
 --- !u!114 &11437496
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1147,7 +1147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 739a0fd603382954b930dd6d824de225, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_damage: 3
+  m_damage: 4
 --- !u!124 &12484842
 Behaviour:
   m_ObjectHideFlags: 1
@@ -1253,6 +1253,14 @@ Prefab:
       propertyPath: bullet
       value: 
       objectReference: {fileID: 182772, guid: 9c4606696fb78214faa96559d06e822c, type: 2}
+    - target: {fileID: 0}
+      propertyPath: m_damage
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: TimeLeft
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 161082}

@@ -91,7 +91,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee3add1b5985a1f4ea8e71c887d0a5ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 0.5
+  damage: 1
   unitFired: {fileID: 0}
   force: 0
   timea: 0.6
@@ -117,6 +117,10 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: damage
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

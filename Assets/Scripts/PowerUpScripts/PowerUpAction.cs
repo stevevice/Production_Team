@@ -44,19 +44,24 @@ public class PowerUpAction : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        PowerUpAttributes Racer = other.gameObject.GetComponent<PowerUpAttributes>();
+        PowerUpAttributes Racer = null;
+        if (other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Unit"))
+        {
+            Racer = other.gameObject.GetComponent<PowerUpAttributes>();
+        }
+            
 
-        if ((Racer.CompareTag("Player") || Racer.CompareTag("Unit")) && gameObject.CompareTag("HealthBoostPU") && Racer.SpeedBoostPU == false)
+        if (Racer != null && gameObject.CompareTag("HealthBoostPU") && Racer.SpeedBoostPU == false)
         {
             gameObject.SetActive(false);
             Racer.HealthIncPU = true;
         }
-        else if ((Racer.CompareTag("Player") || Racer.CompareTag("Unit")) && gameObject.CompareTag("SpeedBoostPU") && Racer.HealthIncPU == false)
+
+        else if (Racer != null && gameObject.CompareTag("SpeedBoostPU") && Racer.HealthIncPU == false)
         {
             gameObject.SetActive(false);
             Racer.SpeedBoostPU = true;
         }
-
 
     }
 }
