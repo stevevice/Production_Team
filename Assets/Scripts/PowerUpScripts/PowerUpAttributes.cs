@@ -12,7 +12,8 @@ public class PowerUpAttributes : MonoBehaviour
     public float NewSpeed = 75;
     float OldAcceleration;
     float NewAcceleration = 1f;
-    public float TimeLeft = 10.0f;
+    float originalTime;
+    public float TimeLeft;
 
     public void SpeedBoost()
     {
@@ -51,7 +52,7 @@ public class PowerUpAttributes : MonoBehaviour
             Racer.acceleration = OldAcceleration;
             SpeedBoostActive = false;
         }
-        TimeLeft = 10.0f;
+        TimeLeft = originalTime;
     }
 
     public void HealthBoost()
@@ -73,6 +74,7 @@ public class PowerUpAttributes : MonoBehaviour
 	void Start ()
     {
         OrigHealth = gameObject.GetComponent<UnitAttributes>().health;
+        originalTime = TimeLeft;
 
         if (gameObject.CompareTag("Player"))
         {

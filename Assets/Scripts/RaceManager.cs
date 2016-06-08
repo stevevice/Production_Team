@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System;
 using UnityStandardAssets.Utility;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class RaceManager : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class RaceManager : MonoBehaviour
     //public float TimeGameEnd;
     public UnitAttributes player;
     public GameObject endCamera;
+    public float waitTime;
 
     void CheckLap()
     {
@@ -150,6 +152,7 @@ public class RaceManager : MonoBehaviour
             GameObject.Find("WaypointParticles").SetActive(false);
 
             player.gameObject.transform.forward = new Vector3(0f, 0f, 1f);
+            player.gameObject.GetComponent<UnitAttributes>().enabled = false;
 
             player.gameObject.transform.FindChild("Camera").gameObject.SetActive(false);
             endCamera.SetActive(true);
@@ -169,10 +172,15 @@ public class RaceManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        if (endCamera.activeSelf == true)
-            endCamera.SetActive(false);
+        if (SceneManager.GetActiveScene().name != "Start_Menu")
+            if (endCamera.activeSelf == true)
+                endCamera.SetActive(false);
 
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<UnitAttributes>();
+        else if (SceneManager.GetActiveScene().name == "Start_Menu")
+            endCamera = new GameObject();
+
+        if(GameObject.FindGameObjectWithTag("Player") == true)
+            player = GameObject.FindGameObjectWithTag("Player").GetComponent<UnitAttributes>();
         UnitList = new List<GameObject>();
         Checkpoints = new List<Checkpoint>();
         CheckpointAmt = 0;
@@ -191,11 +199,13 @@ public class RaceManager : MonoBehaviour
         {
             UnitList.Add(i);
             i.GetComponent<AI_Movement>().enabled = false;
+            i.GetComponent<UnitAttributes>().enabled = false;
         }
         foreach (GameObject j in Player)
         {
             UnitList.Add(j);
             j.GetComponent<Player_Move>().enabled = false;
+            j.GetComponent<UnitAttributes>().enabled = false;
         }
 
         foreach (GameObject i in UnitList)
@@ -204,7 +214,7 @@ public class RaceManager : MonoBehaviour
             i.transform.LookAt(new Vector3(Checkpoints[0].transform.position.x, i.transform.position.y, Checkpoints[0].transform.position.z));
         }
 
-        Utilities.Wait(3, this, StartRace);
+        Utilities.Wait(waitTime, this, StartRace);
     }
 
     // Update is called once per frame
@@ -212,7 +222,8 @@ public class RaceManager : MonoBehaviour
     {
         CheckPlayersAlive();
         CheckLap();
-        CheckGoal();
+        if(SceneManager.GetActiveScene().name != "Start_Menu")
+            CheckGoal();
         CheckPosition();
     }
 
@@ -223,11 +234,13 @@ public class RaceManager : MonoBehaviour
             if (go.CompareTag("Player"))
             {
                 go.GetComponent<Player_Move>().enabled = true;
+                go.GetComponent<UnitAttributes>().enabled = true;
             }
 
             else if (go.CompareTag("Unit"))
             {
                 go.GetComponent<AI_Movement>().enabled = true;
+                go.GetComponent<UnitAttributes>().enabled = true;
             }
         }
     }

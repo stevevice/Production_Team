@@ -581,6 +581,7 @@ MonoBehaviour:
   target: {fileID: 0}
   otherUnits: []
   avoidanceDist: 5
+  checkStats: 1
 --- !u!114 &11436678
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -930,6 +931,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: acceleration
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: checkStats
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

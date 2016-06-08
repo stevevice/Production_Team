@@ -877,7 +877,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 32
   m_CollisionDetection: 0
 --- !u!54 &5445980
 Rigidbody:
@@ -1060,7 +1060,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 739a0fd603382954b930dd6d824de225, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_damage: 4
+  m_damage: 3
 --- !u!114 &11434490
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1098,6 +1098,7 @@ MonoBehaviour:
   target: {fileID: 0}
   otherUnits: []
   avoidanceDist: 2.75
+  checkStats: 0
 --- !u!114 &11482122
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1227,7 +1228,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Constraints
-      value: 112
+      value: 32
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: maxSpeed
@@ -1267,7 +1268,7 @@ Prefab:
       objectReference: {fileID: 182772, guid: 9c4606696fb78214faa96559d06e822c, type: 2}
     - target: {fileID: 0}
       propertyPath: m_damage
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: TimeLeft

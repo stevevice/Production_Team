@@ -4095,6 +4095,7 @@ MonoBehaviour:
   LapsNeed: 3
   player: {fileID: 0}
   endCamera: {fileID: 1415025313}
+  waitTime: 5
 --- !u!4 &1872726071
 Transform:
   m_ObjectHideFlags: 0

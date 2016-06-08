@@ -593,12 +593,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxSpeed: 45
-  speed: 9
+  speed: 0
   acceleration: 9
   unitBehavior: 2
   target: {fileID: 0}
   otherUnits: []
   avoidanceDist: 5
+  checkStats: 1
 --- !u!114 &11413394
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -937,7 +938,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: speed
-      value: 9
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: checkStats
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
