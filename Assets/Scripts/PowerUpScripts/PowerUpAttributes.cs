@@ -12,7 +12,8 @@ public class PowerUpAttributes : MonoBehaviour
     public float NewSpeed = 75;
     float OldAcceleration;
     float NewAcceleration = 1f;
-    public float TimeLeft = 10.0f;
+    float originalTime;
+    public float TimeLeft;
 
     public void SpeedBoost()
     {
@@ -21,6 +22,7 @@ public class PowerUpAttributes : MonoBehaviour
             Player_Move Racer = gameObject.GetComponent<Player_Move>();
             Racer.maxSpeed = ((NewSpeed * .01f) * OldSpeed) + OldSpeed;
             Racer.acceleration = ((NewAcceleration * .01f) * OldAcceleration) + Racer.acceleration;
+            Racer.speed = Racer.maxSpeed;
             SpeedBoostActive = true;
         }
         else if(gameObject.CompareTag("Unit"))
@@ -28,6 +30,7 @@ public class PowerUpAttributes : MonoBehaviour
             AI_Movement Racer = gameObject.GetComponent<AI_Movement>();
             Racer.maxSpeed = ((NewSpeed * .01f) * OldSpeed) + OldSpeed;
             Racer.acceleration = ((NewAcceleration * .01f) * OldAcceleration) + Racer.acceleration;
+            Racer.speed = Racer.maxSpeed;
             SpeedBoostActive = true;
         }
         SpeedBoostPU = false;
@@ -49,7 +52,7 @@ public class PowerUpAttributes : MonoBehaviour
             Racer.acceleration = OldAcceleration;
             SpeedBoostActive = false;
         }
-        TimeLeft = 10.0f;
+        TimeLeft = originalTime;
     }
 
     public void HealthBoost()
@@ -71,6 +74,7 @@ public class PowerUpAttributes : MonoBehaviour
 	void Start ()
     {
         OrigHealth = gameObject.GetComponent<UnitAttributes>().health;
+        originalTime = TimeLeft;
 
         if (gameObject.CompareTag("Player"))
         {
@@ -96,6 +100,21 @@ public class PowerUpAttributes : MonoBehaviour
             {
                 SpeedReset();
             } 
+        }
+
+        if(gameObject.tag == "Player")
+        {
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                if(SpeedBoostPU)
+                {
+                    SpeedBoost();
+                }
+                else if(HealthIncPU)
+                {
+                    HealthBoost();
+                }
+            }
         }
     }
 }

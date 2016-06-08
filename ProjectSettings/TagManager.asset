@@ -5,9 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - Bullet
-  - PickUp
   - Weapon
   - UI
+  - Unit
+  - SpeedBoostPU
+  - HealthBoostPU
   layers:
   - Default
   - TransparentFX

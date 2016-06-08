@@ -581,6 +581,7 @@ MonoBehaviour:
   target: {fileID: 0}
   otherUnits: []
   avoidanceDist: 5
+  checkStats: 1
 --- !u!114 &11436678
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -651,7 +652,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 150410}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dd01e28685d7fc94e896ac2c0ff0b9b0, type: 3}
   m_Name: 
@@ -909,7 +910,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_TagString
@@ -930,6 +931,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: acceleration
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: checkStats
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

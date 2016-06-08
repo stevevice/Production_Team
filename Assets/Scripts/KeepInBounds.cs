@@ -7,8 +7,6 @@ public class KeepInBounds : MonoBehaviour {
     public Vector3 origin;
     Renderer unit;
 
-    public bool res;
-
 	// Use this for initialization
 	void Start () {
         unit = gameObject.transform.FindChild("Model").transform.FindChild(gameObject.name).GetComponent<Renderer>();

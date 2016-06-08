@@ -29,6 +29,8 @@ public class AI_Movement : MonoBehaviour {
     [HideInInspector] public List<GameObject> otherUnits;   //All the other Units. SELF IS NOT INCLUDED IN THIS
     public float avoidanceDist;
     PowerUpAttributes powAtt;
+    RaceManager RM;
+    public bool checkStats;
 
     void Start () {
         //Populate all the Other Units
@@ -45,6 +47,7 @@ public class AI_Movement : MonoBehaviour {
         target = proTracker.target;         //Set the Target
         fwd = transform.forward / 100;  //Scale the Foreward
         powAtt = gameObject.GetComponent<PowerUpAttributes>();
+        RM = FindObjectOfType<RaceManager>();
 
         switch (unitBehavior)
         {
@@ -130,7 +133,11 @@ public class AI_Movement : MonoBehaviour {
                 break;
         }
 
-        
+        if(checkStats == true)
+        {
+            CheckHealth();
+            CheckPosforBoost();
+        }
         MoveUnit(); //Moving the Unit is Universal
     }
 
@@ -227,9 +234,17 @@ public class AI_Movement : MonoBehaviour {
 
     void CheckHealth()
     {
-        if(gameObject.GetComponent<UnitAttributes>().health <= 25f )
+        if(gameObject.GetComponent<UnitAttributes>().health <= 25f && powAtt.HealthIncPU == true)
         {
+            Utilities.Wait(2, this, powAtt.HealthBoost);
+        }
+    }
 
+    void CheckPosforBoost()
+    {
+        if(RM.UnitList.IndexOf(gameObject) >= 1 && powAtt.SpeedBoostPU == true)
+        {
+            powAtt.SpeedBoost();
         }
     }
 }
@@ -242,10 +257,10 @@ public static class Utilities
 
     public static void Wait(float time, MonoBehaviour go, VoidFunction function)
     {     
-        go.StartCoroutine(WaitFunction(time, function));
+        go.StartCoroutine(Wait(time, function));
     }
 
-    public static IEnumerator WaitFunction(float time, VoidFunction function)
+    public static IEnumerator Wait(float time, VoidFunction function)
     {
         yield return new WaitForSeconds(time);
         function();

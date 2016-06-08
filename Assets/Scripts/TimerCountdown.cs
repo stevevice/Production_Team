@@ -6,18 +6,20 @@ public class TimerCountdown : MonoBehaviour {
 
     public Text countDown;
     float startTime;
+    float waitTime;
 
     void Awake()
     {
+        waitTime = FindObjectOfType<RaceManager>().waitTime;
         startTime = Time.time;
     }
 	
 	// Update is called once per frame
 	void Update () {
-        if (Time.time <= (startTime + 3))
-            countDown.text = Mathf.CeilToInt((startTime + 3) - Time.time).ToString();
+        if (Time.time <= (startTime + waitTime))
+            countDown.text = Mathf.CeilToInt((startTime + waitTime) - Time.time).ToString();
 
-        else if (Time.time <= startTime + 5)
+        else if (Time.time <= startTime + (waitTime + 2))
             countDown.text = "GO!!!";
 
         else

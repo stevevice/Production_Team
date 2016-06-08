@@ -77,7 +77,7 @@ Camera:
   m_GameObject: {fileID: 142362}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 3
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0.019607844}
   m_NormalizedViewPortRect:
     serializedVersion: 2
@@ -274,7 +274,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   track: {fileID: 0}
   endText: {fileID: 11420536}
-  player: {fileID: 0}
 --- !u!124 &12410368
 Behaviour:
   m_ObjectHideFlags: 1
@@ -363,6 +362,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_ClearFlags
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
