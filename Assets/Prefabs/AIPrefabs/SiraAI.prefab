@@ -578,7 +578,7 @@ MonoBehaviour:
   HealthIncPU: 0
   HealthInc: 25
   NewSpeed: 75
-  TimeLeft: 10
+  TimeLeft: 3
 --- !u!114 &11410426
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -593,6 +593,7 @@ MonoBehaviour:
   health: 100
   weaponsList: []
   currentWeapon: {fileID: 0}
+  deathParticles: {fileID: 105038, guid: aece2dc5f1dd0d74fbae1282fb322854, type: 2}
   lap: 0
   checkPoints: 0
   nextPoint: {fileID: 0}
@@ -935,6 +936,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Constraints
       value: 112
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: deathParticles
+      value: 
+      objectReference: {fileID: 105038, guid: aece2dc5f1dd0d74fbae1282fb322854, type: 2}
+    - target: {fileID: 0}
+      propertyPath: TimeLeft
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
