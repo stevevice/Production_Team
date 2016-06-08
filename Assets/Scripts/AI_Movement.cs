@@ -158,7 +158,8 @@ public class AI_Movement : MonoBehaviour {
         {
             Vector3 dis = (closeUnit.position - gameObject.transform.position).normalized;
 
-            return true;   
+            if (Vector3.Dot(dis, unitTransform.forward) > 0 && speed > 0)    //Who is ahead
+                return true;  
         }
         return false;
     }
@@ -169,6 +170,7 @@ public class AI_Movement : MonoBehaviour {
         {
             return true;
         }
+
         return false;
     }
 }
