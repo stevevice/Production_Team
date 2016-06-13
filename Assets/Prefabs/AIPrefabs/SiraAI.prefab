@@ -557,7 +557,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpeed: 39
   speed: 0
-  acceleration: 6.9
+  acceleration: 8
   unitBehavior: 2
   target: {fileID: 0}
   otherUnits: []
@@ -923,7 +923,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: acceleration
-      value: 6.9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Enabled

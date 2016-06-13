@@ -1020,7 +1020,7 @@ MonoBehaviour:
   speed: 0
   maxSpeed: 50
   acceleration: 9
-  handling: 60
+  handling: 50
 --- !u!114 &11416850
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1267,6 +1267,10 @@ Prefab:
       propertyPath: deathParticles
       value: 
       objectReference: {fileID: 154914, guid: 267d8fb288be01e4183413298730b233, type: 2}
+    - target: {fileID: 0}
+      propertyPath: handling
+      value: 50
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 161082}

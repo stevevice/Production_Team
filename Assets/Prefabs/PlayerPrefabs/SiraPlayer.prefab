@@ -1032,7 +1032,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0
   maxSpeed: 45
-  acceleration: 6.9
+  acceleration: 8
   handling: 70
 --- !u!114 &11421922
 MonoBehaviour:
@@ -1093,7 +1093,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpeed: 45
   speed: 0
-  acceleration: 6.9
+  acceleration: 8
   unitBehavior: 2
   target: {fileID: 0}
   otherUnits: []
@@ -1245,7 +1245,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: acceleration
-      value: 6.9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_BackGroundColor.r
