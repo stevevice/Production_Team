@@ -13,7 +13,6 @@ public class Music : MonoBehaviour
             if (_play == null)
             {
                 _play = GameObject.FindObjectOfType<Music>();
-                DontDestroyOnLoad(_play.gameObject);
             }
             return _play;
         }

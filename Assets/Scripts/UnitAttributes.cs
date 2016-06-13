@@ -19,6 +19,7 @@ public class UnitAttributes : MonoBehaviour
     public List<GameObject> weaponsList;    //List of all the Wepaons
     [HideInInspector]
     public GameObject currentWeapon;        //Weapon Currently Using
+    public GameObject deathParticles;
 
     //To caculate speed
     float preTime;      //Previous time
@@ -77,6 +78,7 @@ public class UnitAttributes : MonoBehaviour
         if (health <= 0f)    //if has no health
         {
             gameObject.SetActive(false);    //Destroy Game Object
+            Instantiate(deathParticles, transform.position, new Quaternion());
         }
 
         if (gameObject.transform.position.y < 0)    //if Unit falls off the track
@@ -131,6 +133,7 @@ public class UnitAttributes : MonoBehaviour
 
             gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
             gameObject.transform.rotation = new Quaternion(0, 0, 0, 0);
+            gameObject.GetComponent<Rigidbody>().velocity = new Vector3();
             transform.LookAt(nextPoint.transform);
 
         }

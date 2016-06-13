@@ -7,20 +7,19 @@ public class Shield : MonoBehaviour, Weapons
 {
     private int m_damage = 0;
 
-    public int health = 5;
+    public int health = 3;
 
     public int damage
     {
         get { return m_damage; }
     }
-
-    public bool shield = true;
+    
     
     void Update ()
     {
-        if (health == 0)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            shield = false;
+            transform.RotateAround(transform.parent.position, transform.up, 90);
         }
 	}
 }

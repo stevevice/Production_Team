@@ -6,14 +6,19 @@ using UnityEngine.EventSystems;
 public class VehicleStatShow : MonoBehaviour {
 
     public List<GameObject> buttonList;
-    public List<Text> stats;
+    public List<Canvas> stats;
 
 	void Start () {
         foreach(Transform t in transform)
         {
             t.gameObject.SetActive(false);
         }
-	}
+
+        foreach (Canvas c in stats)
+        {
+            c.gameObject.SetActive(false);
+        }
+    }
 
 	// Update is called once per frame
 	void Update () {
@@ -33,26 +38,40 @@ public class VehicleStatShow : MonoBehaviour {
                     {
                         tran.gameObject.SetActive(true);
                         Player_Move unitMove = tran.gameObject.GetComponent<Player_Move>();
-                        foreach(Text t in stats)
+
+                        GameObject canvas = null;
+                        foreach(Canvas c in stats)
                         {
-                            switch (t.gameObject.name)
+                            c.gameObject.SetActive(false);
+                            if(c.gameObject.name == tran.gameObject.name)
+                            {
+                                canvas = c.gameObject;
+                                canvas.SetActive(true);
+                            }
+                        }
+
+                        //Set Stats
+                        foreach(Transform child in canvas.transform)
+                        {
+                            switch (child.gameObject.name)
                             {
                                 case "TopSpeed":
-                                    t.text = "Top Speed: " + unitMove.maxSpeed.ToString();
-                                    break;
-
-                                case "Acceleration":
-                                    t.text = "Acceleration: " + unitMove.acceleration.ToString();
+                                    child.GetComponentInChildren<Slider>().value = unitMove.maxSpeed;
                                     break;
 
                                 case "Handling":
-                                    t.text = "Handling: " + unitMove.handling.ToString();
+                                    child.GetComponentInChildren<Slider>().value = unitMove.handling;
+                                    break;
+
+                                case "Acceleration":
+                                    child.GetComponentInChildren<Slider>().value = unitMove.acceleration;
                                     break;
 
                                 default:
                                     break;
                             }
                         }
+                        
                         tran.gameObject.transform.position = tran.gameObject.GetComponent<KeepInBounds>().origin;
                         unitMove.speed = 0;
                         tran.rotation = new Quaternion(0, 0, 0, 0);
