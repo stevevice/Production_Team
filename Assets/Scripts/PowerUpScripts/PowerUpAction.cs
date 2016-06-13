@@ -3,54 +3,67 @@ using System.Collections;
 
 public class PowerUpAction : MonoBehaviour
 {
-    public bool GoDown = false;
+    bool GoDown = false;
     public float speed = .25f;
-    public float HovMin = 1f;
-    public float HovMax = 1.5f;
-    public Vector3 HovCurrent;
+    Vector3 HovCurrent;
+    float HovMin;
+    float HovMax;
+    public float TimeTil;
+    public bool Checked = false;
 
     void Start()
     {
         HovCurrent = gameObject.transform.position;
+        HovMin = HovCurrent.y;
+        HovMax = HovCurrent.y + 1f;
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        if (HovCurrent.y >= HovMax)
+        if (gameObject.transform.position.y >= HovMax)
         {
             GoDown = true;
         }
-        else if (HovCurrent.y <= HovMin)
+        else if (gameObject.transform.position.y <= HovMin)
         {
-            GoDown = false;
+            GoDown = false; 
         }
 
         if (gameObject.transform.position.y <= HovMax && GoDown == false)
         {
-            gameObject.transform.Translate(Vector3.up * Time.deltaTime * speed);
-            HovCurrent = gameObject.transform.position;
+            gameObject.transform.Translate(Vector3.up * Time.deltaTime * speed);          
         }
         else if (gameObject.transform.position.y >= HovMin && GoDown == true)
         {
             gameObject.transform.Translate(Vector3.down * Time.deltaTime * speed);
-            HovCurrent.y = gameObject.transform.position.y;
         }
 
-        gameObject.transform.Rotate(new Vector3( 0, 45, 0) * Time.deltaTime);
+        gameObject.transform.Rotate(new Vector3(0, 45, 0) * Time.deltaTime);
     }
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Collision");
+        PowerUpAttributes Racer = null;
         if (other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Unit"))
         {
-            gameObject.SetActive(false);
-            //Do Stuff
-            ///way to change variables in other scripts
-            ///other.gameObject.GetComponent<BasicMove>().AvePowerUp = true;
+            Racer = other.gameObject.GetComponent<PowerUpAttributes>();
         }
+            
+
+        if (Racer != null && gameObject.CompareTag("HealthBoostPU") && Racer.SpeedBoostPU == false)
+        {
+            gameObject.SetActive(false);
+            Racer.HealthIncPU = true;
+        }
+
+        else if (Racer != null && gameObject.CompareTag("SpeedBoostPU") && Racer.HealthIncPU == false)
+        {
+            gameObject.SetActive(false);
+            Racer.SpeedBoostPU = true;
+        }
+
     }
 }
+
 

@@ -8,11 +8,15 @@ public class UIPlacement : MonoBehaviour
 
     public RaceManager position;
 
-    public GameObject player;
+    GameObject player;
+
+    void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+    }
     
     void Update()
     {
-        pos.text = position.UnitList.IndexOf(player).ToString();
-
+        pos.text = (position.UnitList.IndexOf(player) + 1).ToString();
     }
 }

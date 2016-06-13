@@ -30,7 +30,12 @@ public class Player_Move : MonoBehaviour
         {
             if (speed < maxSpeed)    //If the Unit Isn't going at max speed
             {
-                speed += acceleration;  //add speed
+                speed += acceleration * Time.deltaTime;  //add speed
+            }
+
+            else if(speed > maxSpeed)
+            {
+                speed = maxSpeed;
             }
         }
 
@@ -38,7 +43,7 @@ public class Player_Move : MonoBehaviour
         {
             if (speed > -maxSpeed / 4)    //If the Unit Isn't going at max speed
             {
-                speed -= acceleration;  //add speed
+                speed -= acceleration * Time.deltaTime;  //add speed
             }
         }
 

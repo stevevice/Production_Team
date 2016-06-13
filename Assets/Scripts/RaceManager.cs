@@ -1,26 +1,32 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityStandardAssets.Utility;
+using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class RaceManager : MonoBehaviour
 {
-
     public List<GameObject> UnitList;
-    GameObject[] UnitWin;
+    List<GameObject> UnitWin;
+
     protected int CheckpointAmt;
     public List<Checkpoint> Checkpoints;
     public int LapsNeed;
     //public float TimeGameEnd;
+    public UnitAttributes player;
+    public GameObject endCamera;
+    public float waitTime;
 
     void CheckLap()
     {
         foreach (Checkpoint i in Checkpoints)
         {
-            foreach(GameObject j in UnitList)
+            foreach (GameObject j in UnitList)
             {
                 UnitAttributes UA = j.GetComponent<UnitAttributes>();
-                if (i.CheckPosition(j) &&  UA.nextPoint == i )
+                if (i.CheckPosition(j) && UA.nextPoint == i)
                 {
                     UA.checkPoints++;
                     if (UA.checkPoints == CheckpointAmt)
@@ -59,19 +65,20 @@ public class RaceManager : MonoBehaviour
 
     void CheckPosition()
     {
-        
-
         List<UnitPair> CheckedList = new List<UnitPair>();
-        
-        foreach(GameObject i in UnitList)
+
+        foreach (GameObject i in UnitList)
         {
             foreach (GameObject j in UnitList)
             {
                 UnitPair IJ = new UnitPair(i, j);
-                UnitAttributes A = i.GetComponent<UnitAttributes>();
-                UnitAttributes B = j.GetComponent<UnitAttributes>();
-                if ((i != j) && ((IJ.i == i && IJ.j !=j) || (IJ.i != i && IJ.j != j))) // && i and j havent checked /*ADD integer for points so i can sort*/
+                UnitPair JI = new UnitPair(j, i);
+
+                if (!CheckedList.Contains(IJ) && !CheckedList.Contains(JI) && i != j)
                 {
+                    UnitAttributes A = i.GetComponent<UnitAttributes>();
+                    UnitAttributes B = j.GetComponent<UnitAttributes>();
+
                     if (A.lap > B.lap)
                     {
                         A.placeValue++;
@@ -82,34 +89,42 @@ public class RaceManager : MonoBehaviour
                     }
                     else
                     {
-                        if(A.checkPoints > B.checkPoints)
+                        if (A.checkPoints > B.checkPoints)
                         {
                             A.placeValue++;
                         }
                         else if (A.checkPoints < B.checkPoints)
                         {
-                            B.placeValue++; 
+                            B.placeValue++;
                         }
                         else
                         {
-                            float ADis = (i.transform.position - A.nextPoint.transform.position).sqrMagnitude;
-                            float BDis = (j.transform.position - B.nextPoint.transform.position).sqrMagnitude;
+                            float ADis = (i.transform.position - A.nextPoint.transform.position).magnitude;
+                            float BDis = (j.transform.position - B.nextPoint.transform.position).magnitude;
 
-                            if (ADis > BDis)
+                            if (ADis < BDis)
                             {
                                 A.placeValue++;
                             }
-                            else if (ADis < BDis)
+
+                            else
                             {
                                 B.placeValue++;
                             }
+
                         }
                     }
                     CheckedList.Add(IJ);//add comparison to a list saying we went through these comparisons
+
                 }
-                UnitList.Sort((p1, p2) => A.placeValue.CompareTo(B.placeValue));
             }
         }
+
+
+        UnitList = UnitList.OrderByDescending(x => x.GetComponent<UnitAttributes>().placeValue).ToList();
+
+
+
         foreach (GameObject i in UnitList)
         {
             UnitAttributes Unit = i.GetComponent<UnitAttributes>();
@@ -119,36 +134,58 @@ public class RaceManager : MonoBehaviour
 
     void CheckGoal()
     {
-        foreach(GameObject i in UnitList)
+        if ((player.lap >= LapsNeed || UnitList.Count == 1) && endCamera.activeSelf != true)
         {
-            int AmtPlayer = 1;
-
-            if (i.GetComponent<UnitAttributes>().lap >= LapsNeed)
+            GameObject UI = GameObject.Find("UI");
+            foreach (Transform go in UI.transform)
             {
-                UnitWin[AmtPlayer] = i;
-            } 
+                if (go.gameObject.name != "BackButton" && go.gameObject.name != "SceneSelection" && go.gameObject.name != "EventSystem")
+                    go.gameObject.SetActive(false);
+            }
+
+            player.gameObject.GetComponent<WaypointProgressTracker>().enabled = true;
+            player.gameObject.GetComponent<AI_Movement>().enabled = true;
+            player.gameObject.transform.position = new Vector3(Checkpoints[0].transform.position.x, player.gameObject.transform.position.y, Checkpoints[0].transform.position.z);
+            player.gameObject.GetComponent<AI_Movement>().speed = player.gameObject.GetComponent<Player_Move>().speed;
+            player.gameObject.GetComponent<Player_Move>().enabled = false;
+
+            GameObject.Find("WaypointParticles").SetActive(false);
+
+            player.gameObject.transform.forward = new Vector3(0f, 0f, 1f);
+            player.gameObject.GetComponent<UnitAttributes>().enabled = false;
+
+            player.gameObject.transform.FindChild("Camera").gameObject.SetActive(false);
+            endCamera.SetActive(true);
         }
     }
 
     void CheckPlayersAlive()
     {
-        foreach(GameObject i in UnitList)
+        Utilities.RemoveAt(UnitList, delegate (GameObject go)
         {
-            if(i.GetComponent<UnitAttributes>().health <= 0)
-            {
-                UnitList.Remove(i);
-            }
-        }
+            if (go.GetComponent<UnitAttributes>().health <= 0)
+                return true;
+            return false;
+        });
     }
 
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start()
     {
+        if (SceneManager.GetActiveScene().name != "Start_Menu")
+            if (endCamera.activeSelf == true)
+                endCamera.SetActive(false);
+
+        else if (SceneManager.GetActiveScene().name == "Start_Menu")
+            endCamera = new GameObject();
+
+        if(GameObject.FindGameObjectWithTag("Player") == true)
+            player = GameObject.FindGameObjectWithTag("Player").GetComponent<UnitAttributes>();
         UnitList = new List<GameObject>();
         Checkpoints = new List<Checkpoint>();
         CheckpointAmt = 0;
 
-        foreach(Transform t in GameObject.Find("CheckPoints").GetComponent<WaypointCircuit>().waypointList.items)
+        foreach (Transform t in GameObject.Find("CheckPoints").GetComponent<WaypointCircuit>().waypointList.items)
         {
             Checkpoints.Add(t.gameObject.GetComponent<Checkpoint>());
             CheckpointAmt++;
@@ -161,26 +198,50 @@ public class RaceManager : MonoBehaviour
         foreach (GameObject i in Units)
         {
             UnitList.Add(i);
+            i.GetComponent<AI_Movement>().enabled = false;
+            i.GetComponent<UnitAttributes>().enabled = false;
         }
         foreach (GameObject j in Player)
         {
             UnitList.Add(j);
+            j.GetComponent<Player_Move>().enabled = false;
+            j.GetComponent<UnitAttributes>().enabled = false;
         }
 
-        foreach(GameObject i in UnitList)
+        foreach (GameObject i in UnitList)
         {
-            i.GetComponent<UnitAttributes>().nextPoint = Checkpoints [0];
+            i.GetComponent<UnitAttributes>().nextPoint = Checkpoints[0];
+            i.transform.LookAt(new Vector3(Checkpoints[0].transform.position.x, i.transform.position.y, Checkpoints[0].transform.position.z));
         }
+
+        Utilities.Wait(waitTime, this, StartRace);
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    // Update is called once per frame
+    void Update()
     {
-        CheckLap();
-        CheckGoal();
         CheckPlayersAlive();
+        CheckLap();
+        if(SceneManager.GetActiveScene().name != "Start_Menu")
+            CheckGoal();
         CheckPosition();
     }
 
-    
+    void StartRace()
+    {
+        foreach (GameObject go in UnitList)
+        {
+            if (go.CompareTag("Player"))
+            {
+                go.GetComponent<Player_Move>().enabled = true;
+                go.GetComponent<UnitAttributes>().enabled = true;
+            }
+
+            else if (go.CompareTag("Unit"))
+            {
+                go.GetComponent<AI_Movement>().enabled = true;
+                go.GetComponent<UnitAttributes>().enabled = true;
+            }
+        }
+    }
 }
