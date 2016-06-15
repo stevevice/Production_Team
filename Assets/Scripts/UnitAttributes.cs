@@ -6,14 +6,6 @@ using UnityStandardAssets.Utility;
 
 public class UnitAttributes : MonoBehaviour
 {
-
-    public class PlayerEvent : UnityEvent
-    {
-
-    }
-
-    public static PlayerEvent playerDeath;
-
     public float health;                    //How far away is the Unit from being Destroyed
     [HideInInspector]
     public List<GameObject> weaponsList;    //List of all the Wepaons
